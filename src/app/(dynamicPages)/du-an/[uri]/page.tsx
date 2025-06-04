@@ -22,10 +22,11 @@ interface Params {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   try {
     const { uri } = await params;
-    const res = await getSingleProject(uri);
+    const projectUri = `/project/${uri}/`;
+    const res = await getSingleProject(projectUri);
 
     if (!res) {
-      throw new Error(`Post not found for uri: ${uri}`);
+      throw new Error(`Post not found for uri: ${projectUri}`);
     }
 
     const imageUrl = res?.project?.featuredImage?.node?.sourceUrl || '';
@@ -33,8 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
     return {
       title: res?.project?.title,
-      description: res?.project?.excerpt,
-      openGraph: {
+      description: res?.project?.excerpt,      openGraph: {
         title: res?.project?.title,
         description: res?.project?.excerpt,
         url: `${BASE_URL}/du-an/${uri}`,
@@ -55,7 +55,20 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export async function generateStaticParams(): Promise<{ uri: string }[]> {
   try {
     const res = await getAllProjects();
-    return res?.projects?.nodes?.map((item) => ({ uri: item.uri })) || [];
+    
+    // Properly format and clean URIs to ensure they work correctly
+    return res?.projects?.nodes?.map((item) => {
+      let cleanUri = item.uri || '';
+      
+      // Remove project prefix and trailing slashes for route parameters
+      cleanUri = cleanUri.replace(/^\/project\//, '').replace(/\/$/, '');
+      
+      console.log('Cleaned URI for route:', cleanUri);
+      
+      return { 
+        uri: cleanUri 
+      };
+    }) || [];
   } catch (error) {
     console.error('Error generating static params in du-an:', error);
     return [];
@@ -65,13 +78,16 @@ export async function generateStaticParams(): Promise<{ uri: string }[]> {
 // Main page component
 export default async function SingleProjectPage({ params }: { params: Promise<Params> }) {
   try {
+    // Format the URI by adding necessary prefix for WordPress API
     const { uri } = await params;
-    const res = await getSingleProject(uri);
+    const projectUri = `/project/${uri}/`;
+    console.log('URI of project:', projectUri);
+    
+    const res = await getSingleProject(projectUri);
     const project = res?.project;
-    console.log('URI of project:', uri);
 
     if (!project || !project.slug) {
-      console.error(`Error: Post is null or missing slug for uri: ${uri}`);
+      console.error(`Error: Post is null or missing slug for uri: ${projectUri}`);
       throw new Error('Post not found or invalid');
     }
 
