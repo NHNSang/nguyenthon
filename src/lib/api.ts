@@ -80,6 +80,27 @@ query projects {
 
 
 export async function getSingleProject(uri: string): Promise<SingleProject> {
+  // Decode URI if encoded and clean up formatting
+  let cleanUri = uri;
+  try {
+    // Handle encoded URI formats
+    if (cleanUri.includes('%2F')) {
+      cleanUri = decodeURIComponent(cleanUri);
+    }
+    
+    // Ensure the URI has proper format for WordPress API
+    if (!cleanUri.startsWith('/')) {
+      cleanUri = '/' + cleanUri;
+    }
+    if (!cleanUri.endsWith('/')) {
+      cleanUri = cleanUri + '/';
+    }
+    
+    console.log('Formatted URI for API request:', cleanUri);
+  } catch (error) {
+    console.error('Error processing URI:', error);
+  }
+
   const data = await FetchAPI(`
   query singleProject($id: ID = "new-espace-citoyen-des-confluents-transforms-former-industrial-site-into-sustainable-urban-renewal-model", $idType: ProjectIdType = URI) {
   project(id: $id, idType: $idType) {
@@ -117,7 +138,7 @@ export async function getSingleProject(uri: string): Promise<SingleProject> {
 }
     `, {
     variables: {
-      id: uri
+      id: cleanUri
     }
   })
 
