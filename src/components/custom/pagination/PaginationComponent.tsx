@@ -36,7 +36,7 @@ const PaginationArrow: React.FC<PaginationArrowProps> = ({
     return (
         <Button
             onClick={() => router.push(href)}
-            className={` mx-5 bg-primary text-neutral-100 hover:underline  rounded-md p-2 ${disabledClassName}`}
+            className={` h-12 bg-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/50 rounded-full px-6 text-neutral-100 group flex flex-row items-center justify-center duration-500 ${disabledClassName}`}
             aria-disabled={isDisabled}
             disabled={isDisabled}
         >
@@ -61,7 +61,7 @@ const PaginationComponent = ({ pageCount,lengthOfPosts }: Readonly<PaginationPro
     
 
     return (
-        <section className=" my-10">
+        <section className=" py-10">
             <Pagination>
                 <PaginationContent>
                     <PaginationItem className="">

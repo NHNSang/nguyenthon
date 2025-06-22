@@ -6,7 +6,7 @@ interface CounterProps {
     duration?: number; // Thời gian chạy số (ms)
 }
 
-const Counter: React.FC<CounterProps> = ({ from = 0, to, duration = 2000 }) => {
+const Counter: React.FC<CounterProps> = ({ from = 0, to, duration = 1000 }) => {
     const [value, setValue] = useState<number>(from);
 
     useEffect(() => {
@@ -45,9 +45,9 @@ const NumberCounter: React.FC<NumberCounterProps> = ({
 }) => {
     return (
         <div
-            className='cursor-pointer hover:shadow-secondary/20 hover:shadow-md hover:border-2 duration-500 bg-neutral-100 text-secondary  text-xl font-[700] p-8 flex flex-col gap-3 items-center justify-center text-center shadow-xl'>
-            <p className='uppercase text-primary '>{title}</p>
-            <Counter  from={from} to={to} duration={3000} />
+            className='cursor-pointer hover:shadow-secondary/20 hover:shadow-md hover:border-2 duration-500 bg-[#F1EDE6] text-gray-600 text-lg  p-8 flex flex-col gap-3 items-center justify-center text-center shadow-xl'>
+            <p className=' text-black font-light '>{title}</p>
+            <Counter  from={from} to={to} duration={5000}  />
         </div>
     )
 }

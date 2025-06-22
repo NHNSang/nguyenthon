@@ -1,40 +1,22 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { X, ChevronDown, Contact, MenuIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import Logo from "./logo"
-import MainBtn from "../buttons/main-btn"
-import DownloadBrochures from "../buttons/download-brochures"
-import { useRouter, usePathname } from "next/navigation"
-import { motion, AnimatePresence, useAnimation } from "framer-motion"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { X, ChevronDown, Contact, MenuIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Logo from "./logo";
+import MainBtn from "../buttons/main-btn";
+import DownloadBrochures from "../buttons/download-brochures";
+import { useRouter, usePathname } from "next/navigation";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 
-
-const sanPham = [
-  { title: "Biệt thự villa", href: "/sanpham/biet-thu-villa" },
-  { title: "Căn hộ khách sạn", href: "/sanpham/can-ho-khach-san" },
-  { title: "Nhà hàng & Cafe", href: "/sanpham/nha-hang-cafe" },
-  { title: "Nhà phố", href: "/sanpham/nha-pho" },
-  { title: "Văn phòng", href: "/sanpham/van-phong" },
-]
-export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const router = useRouter()
-  const pathname = usePathname()
-    const [isOpen, setIsOpen] = useState(false)
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const handleMouseEnter = () => {
-    setIsOpen(true)
-  }
-
-  const handleMouseLeave = () => {
-    setIsOpen(false)
-  }
+type NavbarProps = {
+  textColor: string;
+};
+export default function Navbar({ textColor }: NavbarProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Smooth scroll effect with Framer Motion
   useEffect(() => {
@@ -49,7 +31,7 @@ export default function Navbar() {
           document.body.style.scrollBehavior = "auto";
           window.scrollTo({
             top: currentScrollY,
-            behavior: "smooth"
+            behavior: "smooth",
           });
           lastScrollY = currentScrollY;
           ticking = false;
@@ -67,9 +49,12 @@ export default function Navbar() {
 
   const handleClick = () => {
     if (typeof window !== "undefined") {
-      window.open("https://www.facebook.com/nguyenthongjpconstruction/", "_blank")
+      window.open(
+        "https://www.facebook.com/nguyenthongjpconstruction/",
+        "_blank"
+      );
     }
-  }
+  };
 
   const menuVariants = {
     hidden: {
@@ -88,47 +73,37 @@ export default function Navbar() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
   return (
-    <nav className="bg-white px-6 md:px-10 sticky top-0 z-50 h-[50px] lg:h-[65px]">
+    <nav className="container mx-auto bg-transparent px-6 md:px-10 sticky top-0 z-50 h-[50px] lg:h-[65px]">
       <div className="flex justify-between items-center h-[65px]">
         {/* logo */}
         <Logo />
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center space-x-20">
           <NavItem href="/" label="Trang chủ" active={pathname === "/"} />
-        
-          <div className="relative inline-block" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            {/* Service Button */}
-            <button
-              onClick={toggleDropdown}
-              className="flex items-center  text-xl font-calibri hover:text-primary font-medium transition-colors"
-            >
-              Sản phẩm
-              <ChevronDown size={16} className={`ml-1 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-            </button>
-
-            {/* Dropdown Menu */}
-            {isOpen && (
-              <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                {sanPham.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.title}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-            <NavItem href="/du-an" label="Các dịch vụ" active={pathname.startsWith("/du-an")} />
+          <NavItem
+            href="/he-thong"
+            label="Hệ thống"
+            active={pathname.startsWith("/he-thong")}
+          />
+          <NavItem
+            href="/du-an"
+            label="Mẫu nhà đẹp"
+            active={pathname.startsWith("/du-an")}
+          />
           {/* <NavItem href="/showcase" label="Showcase" active={pathname.startsWith("/showcase")} /> */}
-          <NavItem href="/blog" label="Tin tức" active={pathname.startsWith("/blog")} />
+          <NavItem
+            href="/blog"
+            label="Cẩm nang"
+            active={pathname.startsWith("/blog")}
+          />
+          <NavItem
+            href="/tuyen-dung"
+            label="Tuyển dụng"
+            active={pathname.startsWith("/tuyen-dung")}
+          />
           {/* <NavItem href="/blog" label="Liên hệ" active={pathname.startsWith("/blog")} /> */}
           {/* <NavItem href="/sanpham" label="Sản phẩm" active={pathname.startsWith("/sanpham")} /> */}
         </div>
@@ -137,7 +112,11 @@ export default function Navbar() {
         {/* <div className="hidden lg:flex items-center space-x-2"> */}
         <div className="hidden lg:flex items-center mr-5">
           {/* <DownloadBrochures /> */}
-          <MainBtn text="Liên hệ" icon={<Contact className="w-5 h-5" />} href="/lien-he" />
+          <MainBtn
+            text="Đăng ký ngay"
+            icon={<Contact className="w-5 h-5" />}
+            href="/lien-he"
+          />
         </div>
 
         {/* Mobile menu button */}
@@ -215,30 +194,53 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </nav>
-  )
+  );
 }
 
-function NavItem({ href, label, hasDropdown = false, active = false }: { href: string; label: string; hasDropdown?: boolean; active?: boolean }) {
+function NavItem({
+  href,
+  label,
+  hasDropdown = false,
+  active = false,
+}: {
+  href: string;
+  label: string;
+  hasDropdown?: boolean;
+  active?: boolean;
+}) {
   return (
     <Link
       href={href}
       className={`relative text-xl font-calibri,flex items-center transition-colors duration-200 ${
-        active ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full" : "text-black hover:text-primary"
+        active
+          ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
+          : "text-black hover:text-primary"
       }`}
     >
       {label}
       {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
     </Link>
-  )
+  );
 }
 
-function MobileNavItem({ href, label, hasDropdown = false }: { href: string; label: string; hasDropdown?: boolean }) {
+function MobileNavItem({
+  href,
+  label,
+  hasDropdown = false,
+}: {
+  href: string;
+  label: string;
+  hasDropdown?: boolean;
+}) {
   return (
     <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-      <Link href={href} className="text-black hover:text-gray-600 py-2 font-medium flex items-center justify-between">
+      <Link
+        href={href}
+        className="text-black hover:text-gray-600 py-2 font-medium flex items-center justify-between"
+      >
         {label}
         {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
       </Link>
     </motion.div>
-  )
+  );
 }

@@ -22,15 +22,15 @@ const TableOfContent: React.FC<TableOfContentProps> = ({
         defaultValue='toc'
         type='single' 
         collapsible 
-        className='w-full p-5 bg-primary/10 rounded-md  '>
+        className='w-full p-5 bg-[#F5F5F3] rounded-md  '>
             <AccordionItem value='toc'>
                 <AccordionTrigger >
-                   <span className='font-semibold text-lg'>
+                   <span className='font-semibold text-black text-lg'>
                     Nội dung bài viết
                     </span> 
                 </AccordionTrigger>
                 <AccordionContent>
-                    <nav className='p-4 border-l-4 border-gray-300'>
+                    <nav className='p-4 border-l-4 border-gray-300 '>
                         {/* <h3 className='font-semibold'>Mục lục</h3> */}
                         <ul className='mt-2 space-y-1'>
                             {headings.map((heading => (
@@ -40,7 +40,7 @@ const TableOfContent: React.FC<TableOfContentProps> = ({
                                 >
                                     <Link
                                         href={`#${heading.id}`}
-                                        className='text-neutral-700 hover:underline text-base'
+                                        className='text-neutral-600 hover:underline text-base 0'
                                     >
                                         {heading.text}
                                     </Link>

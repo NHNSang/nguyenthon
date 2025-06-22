@@ -15,11 +15,11 @@ interface LastestBlogPostProps {
 const LastestBlogPost:React.FC<LastestBlogPostProps> = ({posts}) => {
     const lastestPost = posts[0]
     return (
-        <section className="py-16">
+        <section className="">
             <div className="container">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
 
-                    <div className="relative h-[220px] md:h-[400px] rounded-xl overflow-hidden">
+                    <div className="relative h-[220px] md:h-[400px] rounded-tl-2xl rounded-bl-2xl overflow-hidden shadow-2xl">
                         <Image
                             src={lastestPost.node.featuredImage?.node?.sourceUrl || ""}
                             alt="Featured blog post"
@@ -27,22 +27,22 @@ const LastestBlogPost:React.FC<LastestBlogPostProps> = ({posts}) => {
                             className="object-cover"
                         />
                     </div>
-                    <div className='max-w-2xl'>
-                        <span className="inline-block px-3 py-1 bg-primary-foreground text-neutral-100 text-sm font-medium rounded-md mb-4">
+                    <div className='max-w-2xl bg-[#F5F5F3] h-full p-4 rounded-tr-2xl rounded-br-2xl shadow-2xl'>
+                        {/* <span className="inline-block px-3 py-1 bg-[#D5B78F] uppercase font-[300px]  text-sm rounded-md mb-4">
                             Bài viết mới
-                        </span>
-                        <h2 className="text-3xl font-bold mb-4">{lastestPost.node.title}</h2>
+                        </span> */}
+                        <h2 className="text-3xl  mb-4 mt-4 font-[600px]">{lastestPost.node.title}</h2>
                         <div dangerouslySetInnerHTML={{ __html: lastestPost.node.excerpt || ""}} 
-                        className="text-gray-600 mb-6"/>
+                        className=" mb-6"/>
                         
                         <div className="flex items-center gap-4 mb-6">
                             <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4 text-gray-400" />
+                                <Calendar className="h-4 w-4 text-gray-600" />
                                 <Date dateString={lastestPost.node.date} />
                             </div>
                             <div className="flex items-center gap-2">
-                                <User className="h-4 w-4 text-gray-400" />
-                                <span className="text-sm text-gray-500">
+                                <User className="h-4 w-4 text-gray-600" />
+                                <span className="text-sm text-gray-600">
                                     {lastestPost.node.author.node.name}
                                 </span>
                             </div>

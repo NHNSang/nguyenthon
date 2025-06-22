@@ -104,7 +104,7 @@ export default function TestimonialsSection() {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-2 bg-white relative overflow-hidden"
+      className="py-10  relative overflow-hidden bg-[#F5F5F5] "
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={sectionVariants}
@@ -123,17 +123,17 @@ export default function TestimonialsSection() {
         </div>
       </div> */}
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 ">
         <div className="max-w-5xl mx-auto">
           <motion.div
             ref={titleRef}
             initial="hidden"
             animate={isTitleInView ? "visible" : "hidden"}
             variants={titleVariants}
-            className="mb-16"
+            className="mb-10"
           >
-            <h2 className="text-4xl md:text-5xl font-light text-center">
-              <span className="text-gray-400">Khách hàng nói về</span>
+            <h2 className="text-4xl md:text-3xl font-light  text-center">
+              <span className="text-black">Khách hàng nói về</span>
               <span className="text-neutral-800 font-medium ml-2 relative">
                 Nguyên Thống JP
                 <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-[#d5b78f]"></span>
@@ -147,7 +147,7 @@ export default function TestimonialsSection() {
               initial="hidden"
               animate="visible"
               variants={testimonialVariants}
-              className="bg-[#f8f8f6] p-10 md:p-16 rounded-none shadow-lg relative overflow-hidden"
+              className="bg-[#F1EDE6] p-10 md:p-16 rounded-none shadow-lg relative overflow-hidden"
             >
               {/* Decorative elements */}
               <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-[#d5b78f] opacity-50"></div>
@@ -163,7 +163,7 @@ export default function TestimonialsSection() {
                 </div>
               </div>
 
-              <blockquote className="text-lg md:text-2xl text-center mb-10 font-light leading-relaxed text-neutral-700 max-w-3xl mx-auto">
+              <blockquote className="text-lg md:text-xl text-center mb-10 font-light leading-relaxed text-gray-600  max-w-3xl mx-auto">
                 "{currentTestimonial.text}"
               </blockquote>
 
