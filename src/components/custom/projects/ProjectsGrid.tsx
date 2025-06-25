@@ -40,7 +40,6 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   const portfoliosByCategory = projects?.filter(
     (project) => project?.projectFields?.projectCategory[0] === seletedcategory
   );
-
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -104,30 +103,36 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
         >
           <div className="flex flex-row justify-center items-center gap-4 min-w-max px-4 py-1">
             <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: "#d5b78f" }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={` bg-[#F5F5F3] border border-primary  px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 
+              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300
                 ${
                   seletedcategory === "Tất cả"
-                    ? " font-bold shadow-md"
-                    : "text-gray-600 bg-primary"
+                  ? "bg-white text-black border border-primary font-bold shadow-md" 
+                  : "bg-primary text-white"
                 }`}
-              onClick={() => setSeletedCategory("Tất cả")}
+              onClick={() => {
+                console.log("Đang click vào: Tất cả");
+                setSeletedCategory("Tất cả");
+              }}
             >
               Tất cả dự án
             </motion.button>
             {projectCategoryArray.map((projectCategory) => (
               <motion.button
                 key={projectCategory.slug}
-                whileHover={{ scale: 1.05, backgroundColor: "#d5b78f" }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`bg-primary px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-sm
+                className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-sm
                   ${
                     seletedcategory === projectCategory.name
-                      ? "bg-primary-foreground text-white font-bold shadow-md"
-                      : " text-white "
+                    ? "bg-white text-black border border-primary font-bold shadow-md"
+                    : "bg-primary text-white"
                   }`}
-                onClick={() => setSeletedCategory(projectCategory.name)}
+                onClick={() => {
+                  console.log("Đang click vào:", projectCategory.name);
+                  setSeletedCategory(projectCategory.name);
+                }}
               >
                 {projectCategory.name}
               </motion.button>

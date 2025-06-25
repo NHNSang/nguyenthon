@@ -24,10 +24,16 @@ const archievementArr = [
 
 const NumberOfAchievements = () => {
   return (
-    <div className=" bg-[#F5F5F5] w-full py-10">
-      <h2 className="text-center text-3xl md:text-4xl font-light leading-10 mb-5">
+    <div className=" bg-[#F5F5F5] w-full py-10 h-[400px] flex flex-col justify-center items-center">
+      <motion.h2 
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="text-center text-3xl md:text-4xl font-light leading-10 mb-5"
+      >
         Tại sao chọn chúng tôi
-      </h2>
+      </motion.h2>
 
       <motion.div
         whileInView={{ opacity: 1, translateX: 0 }}

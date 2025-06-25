@@ -13,6 +13,17 @@ import { motion, AnimatePresence, useAnimation } from "framer-motion";
 type NavbarProps = {
   textColor: string;
 };
+
+// mobile menu
+const navbarItems = [
+  { href: "/", label: "Trang Chủ" },
+  { href: "/gioi-thieu-chung", label: "Giới thiệu chung" },
+  { href: "/du-an", label: "Mẫu nhà đẹp" },
+  { href: "/blog", label: "Cẩm nang" },
+  { href: "/lien-he", label: "Liên hệ" },
+  { href: "/tuyen-dung", label: "Tuyển dụng" },
+
+]
 export default function Navbar({ textColor }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -76,50 +87,23 @@ export default function Navbar({ textColor }: NavbarProps) {
   };
 
   return (
-    <nav className="container mx-auto bg-transparent px-6 md:px-10 sticky top-0 z-50 h-[50px] lg:h-[65px]">
+    <nav className="container mx-auto bg-transparent px-6 md:px-10 sticky top-0 z-50 h-[70px] lg:h-[65px] overflow-hidden">
       <div className="flex justify-between items-center h-[65px]">
         {/* logo */}
         <Logo />
-        {/* Desktop Navigation */}
+        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center space-x-20">
-          <NavItem href="/" label="Trang chủ" active={pathname === "/"} />
-          <NavItem
-            href="/he-thong"
-            label="Hệ thống"
-            active={pathname.startsWith("/he-thong")}
-          />
-          <NavItem
-            href="/du-an"
-            label="Mẫu nhà đẹp"
-            active={pathname.startsWith("/du-an")}
-          />
-          {/* <NavItem href="/showcase" label="Showcase" active={pathname.startsWith("/showcase")} /> */}
-          <NavItem
-            href="/blog"
-            label="Cẩm nang"
-            active={pathname.startsWith("/blog")}
-          />
-          <NavItem
-            href="/tuyen-dung"
-            label="Tuyển dụng"
-            active={pathname.startsWith("/tuyen-dung")}
-          />
-          {/* <NavItem href="/blog" label="Liên hệ" active={pathname.startsWith("/blog")} /> */}
-          {/* <NavItem href="/sanpham" label="Sản phẩm" active={pathname.startsWith("/sanpham")} /> */}
+          {navbarItems.map((item, index) => (
+            <NavItem
+              key={index}
+              href={item.href}
+              label={item.label}
+              active={pathname === item.href}
+              hasDropdown={false}
+            />
+          ))}
         </div>
-
-        {/* CTA Buttons */}
-        {/* <div className="hidden lg:flex items-center space-x-2"> */}
-        <div className="hidden lg:flex items-center mr-5">
-          {/* <DownloadBrochures /> */}
-          <MainBtn
-            text="Đăng ký ngay"
-            icon={<Contact className="w-5 h-5" />}
-            href="/lien-he"
-          />
-        </div>
-
-        {/* Mobile menu button */}
+          {/* Mobile menu */}
         <motion.button
           className="lg:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -134,7 +118,7 @@ export default function Navbar({ textColor }: NavbarProps) {
                 initial={{ opacity: 0, rotate: -90 }}
                 animate={{ opacity: 1, rotate: 0 }}
                 exit={{ opacity: 0, rotate: 90 }}
-                transition={{ duration: 0.5, delay: 2 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
               >
                 <X className="h-6 w-6" />
               </motion.div>
@@ -151,6 +135,18 @@ export default function Navbar({ textColor }: NavbarProps) {
             )}
           </AnimatePresence>
         </motion.button>
+
+        {/* CTA Buttons */}
+        <div className="hidden lg:flex items-center mr-5">
+          {/* <DownloadBrochures /> */}
+          <MainBtn
+            text="Đăng ký ngay"
+            icon={<Contact className="w-5 h-5" />}
+            href="/lien-he"
+          />
+        </div>
+
+      
       </div>
 
       {/* Mobile Navigation */}
@@ -170,11 +166,15 @@ export default function Navbar({ textColor }: NavbarProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <MobileNavItem href="/" label="Về Nguyên Thống JP" />
-              <MobileNavItem href="/du-an" label="Các dự án thiết kế" />
-              <MobileNavItem href="/blog" label="Kiến thức & Tin tức" />
-              <MobileNavItem href="/lien-he" label="Liên hệ" />
+              {navbarItems.map((item, index) => (
+                <MobileNavItem
+                  key={index}
+                  href={item.href}
+                  label={item.label}
 
+                  hasDropdown={false}
+                />
+              ))}
               <div className="pt-4 flex flex-col space-y-3 mt-auto">
                 <Button
                   onClick={() => handleClick()}
@@ -211,11 +211,10 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`relative text-xl font-calibri,flex items-center transition-colors duration-200 ${
-        active
+      className={`relative text-xl font-calibri,flex items-center transition-colors duration-200 ${active
           ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
           : "text-black hover:text-primary"
-      }`}
+        }`}
     >
       {label}
       {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
@@ -227,16 +226,23 @@ function MobileNavItem({
   href,
   label,
   hasDropdown = false,
+  active = false,
 }: {
   href: string;
   label: string;
   hasDropdown?: boolean;
+  active?: boolean;
 }) {
   return (
     <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
       <Link
         href={href}
-        className="text-black hover:text-gray-600 py-2 font-medium flex items-center justify-between"
+        className={`text-black hover:text-gray-600 py-2 font-medium flex items-center justify-between
+          ${active
+            ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
+            : "text-black hover:text-primary"}
+          `}
+
       >
         {label}
         {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}

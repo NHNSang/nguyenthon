@@ -1,34 +1,11 @@
 import Loading from "@/app/loading";
-import BackgroundForBreadcrumb from "@/components/custom/BackgroundForBreadcrumb";
 import PaginationComponent from "@/components/custom/pagination/PaginationComponent";
-import { Button } from "@/components/ui/button";
 import { getAllPosts, getPostsForBlogHub } from "@/lib/api";
 import { DEFAULT_COMPANY_NAME } from "@/lib/constants";
-import { ArrowRight, MousePointerClick } from "lucide-react";
-import HeroBlogPosts from "@/components/custom/blog-posts/hero-blog-posts";
 import LastestBlogPost from "@/components/custom/blog-posts/lastest-blog-post";
-import BlogPosts from "@/components/custom/blog-posts/blog-posts";
+import BlogCard from "@/components/custom/blog-posts/blog-card";
 import { Suspense } from "react";
-import NewslettersLight from "@/components/custom/newsletters/newsletters-light";
 import type { Metadata } from "next";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ArrowUpRight, CirclePlus, Link, Plus, User } from "lucide-react";
-import Image from "next/image";
-import { PageInfo, PostsData } from "@/types/typeForWordpressData";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Date from "@/components/custom/Date";
-import MainBtn from "@/components/custom/buttons/main-btn";
-import { motion } from "framer-motion";
-import Title from "@/components/custom/title";
 
 // Define the expected shape of resolved searchParams
 type SearchParams = {
@@ -57,26 +34,21 @@ const BlogpostPage = async ({ searchParams }: SearchParamsProps) => {
   const resolvedSearchParams = (await searchParams) as SearchParams | undefined;
 
   const currentPage = Number(resolvedSearchParams?.page || 1);
-  const amountOfPostPerPage = 6;
+  const amountOfPostPerPage = 10;
   const res = await getPostsForBlogHub(amountOfPostPerPage, currentPage);
 
   const filteredPostsByPagination = res?.posts?.edges ?? [];
   const pageCount = res?.posts?.pageInfo.offsetPagination?.total ?? 0;
 
   const { posts } = await fetchAllPosts();
-  console.log("filteredPostsByPagination", filteredPostsByPagination);
+  // console.log("filteredPostsByPagination", filteredPostsByPagination);
 
   return (
     <div className="bg-[#F1EDE6] pt-[140px]">
       <Suspense fallback={<Loading />}>
-        {/* <BackgroundForBreadcrumb titleForPage="Trang blog và tin tức kiến trúc" /> */}
         <main className="flex-1">
-          {/* Hero Section */}
-          {/* <HeroBlogPosts initialPosts={posts} /> */}
-
           {/* Bai viet moi */}
           <LastestBlogPost posts={posts} />
-
           {/* Blog Posts */}
           {filteredPostsByPagination && (
             <section id="posts-body-section" className=" bg-[#F1EDE6] ">
@@ -87,76 +59,9 @@ const BlogpostPage = async ({ searchParams }: SearchParamsProps) => {
                   </h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {filteredPostsByPagination?.map((post) => (
-                    <Card
-                      key={post?.node?.slug}
-                      className="border-none hover:shadow-xl transition-shadow cursor-pointer bg-[#F5F5F3] rounded-t-2xl shadow-2xl"
-                    >
-                      <div className="relative h-60 w-full overflow-hidden rounded-t-2xl">
-                        <Image
-                          src={`${post?.node?.featuredImage?.node?.sourceUrl}`}
-                          alt={post?.node?.featuredImage?.node?.altText || ""}
-                          fill
-                          className="object-cover filter brightness-90 hover:scale-110 transition-all duration-300 ease-in-out"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1 bg-primary-foreground text-neutral-100  text-xs font-medium rounded-full">
-                            {post?.node?.categories?.nodes[0]?.name ||
-                              "Chưa phân loại"}
-                          </span>
-                        </div>
-                      </div>
-                      <CardHeader className="">
-                        <CardTitle className="text-xl line-clamp-2  ">
-                          {post?.node?.title}
-                        </CardTitle>
-                        <CardDescription className="flex items-center gap-4 mt-2">
-                          <Date dateString={post?.node?.date} />
-                          <span className="text-sm text-gray-500">
-                            {post?.node.customPost?.readtime || 5} phút đọc
-                          </span>
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div
-                          className="text-gray-600 line-clamp-2 "
-                          dangerouslySetInnerHTML={{
-                            __html: post?.node?.excerpt || "",
-                          }}
-                        />
-                      </CardContent>
-                      <CardFooter className="flex justify-between items-center m-3">
-                        <div className="flex items-center gap-4">
-                          <div className="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">
-                            {/* <User className="h-6 w-6 text-gray-500" /> */}
-                            <Avatar>
-                              <AvatarImage
-                                className="rounded-full"
-                                src={
-                                  post?.node.author?.node?.avatar?.url ||
-                                  "https://secure.gravatar.com/avatar/6485eab7a6566369f68f8b9f195655be59c77be8194aea4ff431d44031341af1?s=96&d=mm&r=g"
-                                }
-                                alt={post?.node.author?.node?.name}
-                              />
-                              <AvatarFallback>
-                                {post?.node.author?.node?.name}
-                              </AvatarFallback>
-                            </Avatar>
-                          </div>
-                          <div>
-                            <p className="font-medium text-base text-neutral-700">
-                              {post?.node.author?.node?.name || "Đang cập nhật"}
-                            </p>
-                          </div>
-                        </div>
-                        <MainBtn
-                          text="Xem chi tiết"
-                          icon={<ArrowUpRight className="h-6 w-6" />}
-                          href={`/blog/${post?.node?.slug}`}
-                        />
-                      </CardFooter>
-                    </Card>
+                    <BlogCard key={post?.node?.slug} post={post} />
                   ))}
                 </div>
               </div>

@@ -13,7 +13,7 @@ const carouselSlides = [
     id: 1,
     image:
       "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/494738081_2448967692124256_2050038420089772221_n.jpg",
-    title: "Kiến Tạo Không Gian – Nâng Tầm Giá Trị Sống",
+    title: "Kiến Tạo Không Gian - Nâng Tầm Giá Trị Sống",
     description:
       "Chúng tôi đồng hành cùng bạn trong hành trình xây dựng tổ ấm bền vững và tinh tế",
     titleAnimation: "fadeInUp",
@@ -26,7 +26,7 @@ const carouselSlides = [
       "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/494183796_2448964915457867_6537993737425744723_n.jpg",
     title: "Thiết Kế - Thi Công Trọn Gói ",
     description:
-      "Từ ý tưởng đến thực tế – tất cả đều được thực hiện chỉ trong một quy trình khép kín, minh bạch.",
+      "Từ ý tưởng đến thực tế - tất cả đều được thực hiện chỉ trong một quy trình khép kín, minh bạch.",
     titleAnimation: "slideInLeft",
     descriptionAnimation: "fadeInDown",
     buttonAnimation: "flipInX",
@@ -35,7 +35,7 @@ const carouselSlides = [
     id: 3,
     image:
       "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/494086837_2449583722062653_8773621874885749778_n.jpg",
-    title: "Vững Kỹ Thuật – Bền Công Trình",
+    title: "Vững Kỹ Thuật - Bền Công Trình",
     description:
       "Chúng tôi đặt chất lượng lên hàng đầu, cam kết thi công đúng tiêu chuẩn, đúng tiến độ",
     titleAnimation: "rotateIn",
