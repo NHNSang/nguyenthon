@@ -1,48 +1,55 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { FaPhone, FaClock, FaEnvelope, FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa'
-import Link from 'next/link'
+import { motion } from "framer-motion";
+import {
+  FaPhone,
+  FaClock,
+  FaEnvelope,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+} from "react-icons/fa";
+import Link from "next/link";
 
 type SecondaryHeaderProps = {
   textColor: string;
-}
-const SecondaryHeader = ({textColor }: SecondaryHeaderProps) => {
+};
+const SecondaryHeader = ({ textColor }: SecondaryHeaderProps) => {
   const contactInfo = [
     {
       icon: <FaPhone className="text-primary" />,
       text: "(+84)0912842727",
-      link: "tel:+840912842727"
+      link: "tel:+840912842727",
     },
     {
       icon: <FaEnvelope className="text-primary" />,
       text: "info@nguyenthongjp.com",
-      link: "mailto:info@nguyenthongjp.com"
+      link: "mailto:info@nguyenthongjp.com",
     },
     // {
     //   icon: <FaClock className="text-primary" />,
     //   text: "Thứ 2 - Chủ nhật: 8:00 - 18:00",
     //   link: null
     // }
-  ]
+  ];
 
   const socialLinks = [
     {
       icon: <FaFacebook />,
       link: "https://facebook.com/nguyenthongjp",
-      label: "Facebook"
+      label: "Facebook",
     },
     {
       icon: <FaInstagram />,
       link: "https://instagram.com/nguyenthongjp",
-      label: "Instagram"
+      label: "Instagram",
     },
     {
       icon: <FaLinkedin />,
       link: "https://linkedin.com/company/nguyenthongjp",
-      label: "LinkedIn"
-    }
-  ]
+      label: "LinkedIn",
+    },
+  ];
 
   return (
     <div className=" hidden md:block bg-transparent border-b border-gray-100">
@@ -67,10 +74,16 @@ const SecondaryHeader = ({textColor }: SecondaryHeaderProps) => {
               //     <span className="text-sm">{item.text}</span>
               //   )}
               // </motion.div>
-              <div key={index} className={`flex items-center gap-2 ${textColor}  hover:text-primary `}>
+              <div
+                key={index}
+                className={`flex items-center gap-2 ${textColor}  hover:text-primary `}
+              >
                 {item.icon}
                 {item.link ? (
-                  <Link href={item.link} className="text-base hover:text-primary transition-colors">
+                  <Link
+                    href={item.link}
+                    className="text-base hover:text-primary transition-colors"
+                  >
                     {item.text}
                   </Link>
                 ) : (
@@ -96,8 +109,16 @@ const SecondaryHeader = ({textColor }: SecondaryHeaderProps) => {
               // >
               //   <span className="text-lg">{social.icon}</span>
               // </motion.a>
-              <div key={index} className=" hover:text-primary transition-colors">
-                <Link href={social.link} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+              <div
+                key={index}
+                className=" hover:text-primary transition-colors"
+              >
+                <Link
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                >
                   <span className={`text-xl ${textColor}`}>{social.icon}</span>
                 </Link>
               </div>
@@ -106,7 +127,7 @@ const SecondaryHeader = ({textColor }: SecondaryHeaderProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SecondaryHeader
+export default SecondaryHeader;

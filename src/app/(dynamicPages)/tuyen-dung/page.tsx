@@ -458,12 +458,11 @@ export default function RecruitmentPage() {
                 key={dept}
                 onClick={() => setFilterDepartment(dept)}
                 className={cn(
-                  "mb-2 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-sm",
+                  "px-6 py-3 rounded-full text-sm font-medium transition-all duration-300",
                   filterDepartment === dept
-                    ? " h-12  hover:bg-primary/90 hover:shadow-lg hover:scale-105 rounded-full px-6 bg-white text-black duration-500"
-                    : "h-12  hover:bg-primary/90 hover:shadow-lg hover:scale-105 rounded-full px-6 bg-[#D5B78F] text-white duration-500"
+                    ? " bg-white text-black border border-primary font-bold shadow-md"
+                    : "bg-primary text-white"
                 )}
-                size="sm"
               >
                 {dept === "all" ? "Tất cả" : dept}
               </Button>
@@ -602,9 +601,18 @@ export default function RecruitmentPage() {
                       Ứng Tuyển Ngay
                     </Button> */}
 
-                    <Link href="/tuyen-dung-id" className="w-full">
+                    {/* <Link href="/tuyen-dung-id" className="w-full">
                       <Button className="px-4 bg-[#D5B78F]  text-white rounded-full w-full hover:scale-105  duration-500">
                         Xem Chi Tiết
+                      </Button>
+                    </Link> */}
+                    <Link
+                      href="https://zalo.me/0123456789"
+                      target="_blank"
+                      className="w-full"
+                    >
+                      <Button className="px-4 bg-[#D5B78F] text-white rounded-full w-full hover:scale-105 duration-500">
+                        Liên hệ với chúng tôi 
                       </Button>
                     </Link>
                   </div>
@@ -653,7 +661,7 @@ export default function RecruitmentPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
                 <TrendingUp className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-black ">
@@ -666,7 +674,7 @@ export default function RecruitmentPage() {
             </div>
 
             <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
                 <DollarSign className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-black ">
@@ -679,7 +687,7 @@ export default function RecruitmentPage() {
             </div>
 
             <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-black ">
@@ -692,7 +700,7 @@ export default function RecruitmentPage() {
             </div>
 
             <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
                 <Coffee className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-black ">
@@ -705,7 +713,7 @@ export default function RecruitmentPage() {
             </div>
 
             <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
                 <Car className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-black ">
@@ -718,7 +726,7 @@ export default function RecruitmentPage() {
             </div>
 
             <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-black ">

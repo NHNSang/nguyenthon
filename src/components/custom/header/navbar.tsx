@@ -17,13 +17,12 @@ type NavbarProps = {
 // mobile menu
 const navbarItems = [
   { href: "/", label: "Trang Chủ" },
-  { href: "/gioi-thieu-chung", label: "Giới thiệu chung" },
+  // { href: "/gioi-thieu-chung", label: "Giới thiệu chung" },
   { href: "/du-an", label: "Mẫu nhà đẹp" },
   { href: "/blog", label: "Cẩm nang" },
   { href: "/lien-he", label: "Liên hệ" },
   { href: "/tuyen-dung", label: "Tuyển dụng" },
-
-]
+];
 export default function Navbar({ textColor }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -103,7 +102,7 @@ export default function Navbar({ textColor }: NavbarProps) {
             />
           ))}
         </div>
-          {/* Mobile menu */}
+        {/* Mobile menu */}
         <motion.button
           className="lg:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -145,8 +144,6 @@ export default function Navbar({ textColor }: NavbarProps) {
             href="/lien-he"
           />
         </div>
-
-      
       </div>
 
       {/* Mobile Navigation */}
@@ -171,7 +168,6 @@ export default function Navbar({ textColor }: NavbarProps) {
                   key={index}
                   href={item.href}
                   label={item.label}
-
                   hasDropdown={false}
                 />
               ))}
@@ -211,10 +207,11 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`relative text-xl font-calibri,flex items-center transition-colors duration-200 ${active
+      className={`relative text-xl font-calibri,flex items-center transition-colors duration-200 ${
+        active
           ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
           : "text-black hover:text-primary"
-        }`}
+      }`}
     >
       {label}
       {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
@@ -238,11 +235,12 @@ function MobileNavItem({
       <Link
         href={href}
         className={`text-black hover:text-gray-600 py-2 font-medium flex items-center justify-between
-          ${active
-            ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
-            : "text-black hover:text-primary"}
+          ${
+            active
+              ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
+              : "text-black hover:text-primary"
+          }
           `}
-
       >
         {label}
         {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
