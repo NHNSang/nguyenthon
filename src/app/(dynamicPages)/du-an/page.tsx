@@ -12,10 +12,10 @@ export default async function ProjectsPage() {
     const projects = await fetchProjects();
     const projectsCategoryArray = await fetchProjectCategories();
     return (
-        <main>
-            <Container>
+        <main className="pt-[120px] bg-[#F1EDE6]">
+            {/* <Container>
                 <BreadcrumbComponent />
-            </Container>
+            </Container> */}
             <Suspense fallback={<Loading />}>
                 <ProjectsGrid
                     projectsArray={projects}

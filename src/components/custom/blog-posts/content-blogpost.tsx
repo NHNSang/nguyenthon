@@ -39,12 +39,12 @@ const ContentBlogPostProps: React.FC<ContentBlogPostProps> = ({ post, updateHtml
                 <TableOfContent headings={headings} />
             </div>
 
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-lg max-w-none mt-4">
                 <div dangerouslySetInnerHTML={{ __html: updateHtml as string | TrustedHTML || '' }} />
             </div>
 
             {/* Social Sharing */}
-            <div className="mt-12 pt-8 border-t flex flex-wrap items-center justify-between gap-4">
+            <div className="my-6  pt-8 border-t flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" className="flex items-center gap-2">
                         <Share2 className="h-4 w-4" />

@@ -19,7 +19,7 @@ interface PostsProps {
 const LatestNewsSection: React.FC<PostsProps> = ({ lastestArticles, className }) => {
   const router = useRouter()
   const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
+  const isInView = useInView(sectionRef, { once: true, amount: 0.3 })
 
   // Animation controls
   const headingControls = useAnimation()
@@ -83,20 +83,22 @@ const LatestNewsSection: React.FC<PostsProps> = ({ lastestArticles, className })
   return (
     <motion.section
       ref={sectionRef}
-      className={cn("py-12 px-4 md:px-6 lg:px-8", className)}
+      className={cn("py-8 px-4 md:px-6 lg:px-8 bg-[#F1EDE6]", className)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      <div className="container mx-auto p-0">
-        <motion.div
+      <div className="container mx-auto p-0 ">
+        {/* <motion.div
           className="flex items-center justify-center lg:justify-start mb-8"
           initial="hidden"
           animate={headingControls}
           variants={headingVariants}
         >
-          <h2 className="text-center lg:text-left text-3xl md:text-4xl font-bold text-gray-800">Bài viết mới nhất</h2>
-        </motion.div>
+          <h2 className="text-3xl md:text-4xl font-light">Bài viết mới nhất</h2>
+        </motion.div> */}
+        
+          <h2 className="text-3xl md:text-4xl font-light text-center mb-10">Bài viết mới nhất</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 h-full">
           {lastestArticles.map((item, index) => (
@@ -133,7 +135,7 @@ const LatestNewsSection: React.FC<PostsProps> = ({ lastestArticles, className })
               </div>
               <div className="px-4 pb-4 h-[25%]">
                 <motion.h3
-                  className="text-base font-bold mb-2 text-gray-800 line-clamp-2"
+                  className=" mb-2 font-light text-lg line-clamp-2 text-black"
                   initial={{ opacity: 0.8 }}
                   whileHover={{ opacity: 1 }}
                 >

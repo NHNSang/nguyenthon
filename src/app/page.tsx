@@ -14,6 +14,9 @@ import OurServices from "@/components/custom/offerServices/our-services";
 import ProjectsComponent from "@/components/custom/projects/project-component";
 import BackToTopNoClient from "@/components/custom/backToTop/BackToTopNoClient";
 import ValuesSection from "@/components/custom/why-us/values-company-section";
+import { ArchitectureCarousel } from "@/components/custom/carousel/ArchitectureCarousel";
+import CarouselSlide from "@/components/custom/carousel/carousel";
+import NumberOfAchievements from "@/components/custom/NumberOfAchievements";
 
 
 
@@ -28,17 +31,20 @@ export default async function Home() {
     <div className="bg-white relative overflow-hidden" >
       <section id='topPage'></section>
       <Suspense fallback={<Loading />}>
-        <HeroSection 
+        {/* <ArchitectureCarousel/> */}
+        <CarouselSlide/>
+        {/* <HeroSection 
         hero={components?.heroComponent}
         posts={latestArticles}
-        />
+        /> */}
         <ValuesSection valuesComponent={components?.valuesComponent} />
-        <Mediashowcase mediaShowcaseComponent={components?.mediaComponent} />
+        {/* <Mediashowcase mediaShowcaseComponent={components?.mediaComponent} /> */}
         <OurServices />
+        <NumberOfAchievements/>
+        <OurProcessSection />
         <ProjectsComponent projects={projects} />
         <TestimonialsSection />
-        <OurProcessSection />
-        <CTASection />
+        {/* <CTASection /> */}
         <LatestNewsSection lastestArticles={posts} />
         <BackToTopNoClient />
       </Suspense>

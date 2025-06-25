@@ -17,11 +17,10 @@ const config = {
   			'2xl': '1400px'
   		}
   	},
-  	extend: {  		fontFamily: {
-  			sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-  			heading: ['var(--font-quicksand)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains)', 'monospace'],
-  		},
+  	extend: {  		
+		 fontFamily: {
+        calibri: ['Calibri', 'sans-serif'],
+      },
   		colors: {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',

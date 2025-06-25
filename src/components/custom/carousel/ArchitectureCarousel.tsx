@@ -6,28 +6,28 @@ import Image from 'next/image'
 
 const images = [
   {
-    src: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Modern Office Building',
-    title: 'Văn phòng hiện đại',
-    description: 'Không gian làm việc sáng tạo và chuyên nghiệp'
+    src: 'https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/494738081_2448967692124256_2050038420089772221_n.jpg',
+    alt: 'Định vị thương hiệu',
+    title: 'Kiến Tạo Không Gian – Nâng Tầm Giá Trị Sống',
+    description: 'Chúng tôi đồng hành cùng bạn trong hành trình xây dựng tổ ấm bền vững và tinh tế'
   },
   {
-    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Team Collaboration',
-    title: 'Làm việc nhóm',
-    description: 'Môi trường làm việc năng động và sáng tạo'
+    src: 'https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/494183796_2448964915457867_6537993737425744723_n.jpg',
+    alt: 'Dịch vụ trọn gói',
+    title: 'Thiết Kế & Thi Công Trọn Gói – Tiện Lợi, Chuyên Nghiệp',
+    description: 'Từ ý tưởng đến thực tế – tất cả đều được thực hiện chỉ trong một quy trình khép kín, minh bạch.'
   },
   {
-    src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Architectural Design',
-    title: 'Thiết kế kiến trúc',
-    description: 'Sáng tạo và đột phá trong từng dự án'
+    src: 'https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/494138949_2448964928791199_2030276574775910701_n.jpg',
+    alt: 'Chất lượng & kỹ thuật',
+    title: 'Vững Kỹ Thuật – Bền Công Trình',
+    description: 'Chúng tôi đặt chất lượng lên hàng đầu, cam kết thi công đúng tiêu chuẩn, đúng tiến độ'
   },
   {
-    src: 'https://images.unsplash.com/photo-1512917774080-9991f681126a?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Modern Architecture',
-    title: 'Kiến trúc hiện đại',
-    description: 'Phong cách thiết kế độc đáo và tinh tế'
+    src: 'https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/494225417_2449347278752964_5546362461091261188_n.jpg',
+    alt: 'Uy tín & niềm tin',
+    title: 'Hàng Trăm Khách Hàng – Một Niềm Tin',
+    description: 'Chúng tôi tự hào là lựa chọn của nhiều gia chủ, doanh nghiệp và đối tác trong suốt những năm qua.'
   }
 ]
 
@@ -43,7 +43,7 @@ export function ArchitectureCarousel() {
   }
 
   return (
-    <div className="relative w-full h-[500px] overflow-hidden rounded-lg">
+    <div className="relative w-full h-[850px] overflow-hidden rounded-lg">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}

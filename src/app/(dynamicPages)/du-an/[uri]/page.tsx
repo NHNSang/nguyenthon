@@ -100,10 +100,10 @@ export default async function SingleProjectPage({ params }: { params: Promise<Pa
 
     const { headings, updateHtml } = extractHeadings(project.content as string);
     return (
-      <div className="flex flex-col min-h-screen relative">
+      <div className="flex flex-col min-h-screen relative bg-[#F1EDE6] pt-[120px]">
         <main className="flex-1">
           {/* Project Header */}
-          <section className="mt-0 md:pt-20 md:mt-0">
+          <section className="">
             <div className="container">
               <div className="w-full flex items-center justify-start space-x-4 my-5">
                 <Link
@@ -113,15 +113,15 @@ export default async function SingleProjectPage({ params }: { params: Promise<Pa
                   <ArrowLeft className="h-7 w-7" />
                   Trở về
                 </Link>
-                <span className="inline-block px-3 py-1 bg-primary-foreground text-neutral-100 text-sm font-medium rounded-sm">
+                <span className="inline-block px-3 py-1 bg-[#D0AC80] text-white text-sm rounded-sm">
                   Danh mục {project.projectFields.projectCategory[0] || 'Không xác định'}
                 </span>
               </div>
               <div className="w-full">
                 <div className="max-w-6xl line-clamp-2 my-2">
-                  <h1 className="text-xl md:text-4xl font-bold tracking-tight mb-6">{project.title}</h1>
+                  <h1 className="text-xl md:text-4xl font-bold tracking-tight mb-4">{project.title}</h1>
                 </div>
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-gray-400" />
                     <Date dateString={project.date} />
@@ -166,7 +166,7 @@ export default async function SingleProjectPage({ params }: { params: Promise<Pa
           </section>
 
           {/* Newsletter */}
-          <NewslettersLight />
+          {/* <NewslettersLight /> */}
         </main>
       </div>
     );

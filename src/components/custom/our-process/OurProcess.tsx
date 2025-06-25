@@ -101,12 +101,12 @@ export default function OurProcessSection() {
   }, [part2InView, carouselControls, textControls, buttonControls])
 
   return (
-    <section className="py-20" ref={sectionRef}>
+    <section className="py-10 bg-[#F5F5F5]"  ref={sectionRef}>
       <div className="container mx-auto px-4">
         {/* part 1 */}
-        <div className="max-w-3xl mx-auto text-center mb-16" ref={part1Ref}>
+        <div className="max-w-3xl mx-auto text-center mb-2" ref={part1Ref}>
           <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-6 text-primary-foreground"
+            className="text-3xl md:text-4xl font-light mb-8 text-black"
             initial={{ opacity: 0, y: -30 }}
             animate={part1Controls}
             variants={{
@@ -122,7 +122,7 @@ export default function OurProcessSection() {
           >
             Quy trình làm việc
           </motion.h2>
-          <div className="text-2xl text-neutral-500 -translate-y-6 overflow-hidden">
+          {/* <div className="text-2xl text-neutral-500 -translate-y-6 overflow-hidden">
             <motion.span className="inline-block" initial="hidden" animate={part1Controls}>
               {" "}
               {taglineLetters.map((letter, index) => (
@@ -131,7 +131,7 @@ export default function OurProcessSection() {
                 </motion.span>
               ))}
             </motion.span>
-          </div>
+          </div> */}
         </div>
 
         {/* part 2 */}
@@ -158,7 +158,7 @@ export default function OurProcessSection() {
               }}
               className="p-6 rounded-lg cursor-pointer"
               style={{
-                backgroundColor: activeStep === index ? "#d5b78f" : "white",
+                backgroundColor: activeStep === index ? "#d5b78f" : "#F1EDE6",
                 color: activeStep === index ? "white" : "inherit",
               }}
               onClick={() => setActiveStep(index)}
@@ -170,14 +170,14 @@ export default function OurProcessSection() {
               >
                 - {step.number}
               </motion.div>
-              <h3 className="text-xl font-medium mb-3">{step.title}</h3>
-              <p className="">{step.description}</p>
+              <h3 className="text-xl font-light mb-3">{step.title}</h3>
+              <p className="text-gray-600 text-lg font-light">{step.description}</p>
             </motion.div>
           ))}
         </div>
 
         {/* part 3 */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8" ref={part3Ref}>
+        {/* <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8" ref={part3Ref}>
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={carouselControls}
@@ -278,7 +278,7 @@ export default function OurProcessSection() {
               />
             </motion.div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   )
