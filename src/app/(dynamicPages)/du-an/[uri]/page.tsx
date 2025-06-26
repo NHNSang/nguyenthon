@@ -63,7 +63,7 @@ export async function generateStaticParams(): Promise<{ uri: string }[]> {
       // Remove project prefix and trailing slashes for route parameters
       cleanUri = cleanUri.replace(/^\/project\//, '').replace(/\/$/, '');
       
-      console.log('Cleaned URI for route:', cleanUri);
+      // console.log('Cleaned URI for route:', cleanUri);
       
       return { 
         uri: cleanUri 
@@ -81,7 +81,7 @@ export default async function SingleProjectPage({ params }: { params: Promise<Pa
     // Format the URI by adding necessary prefix for WordPress API
     const { uri } = await params;
     const projectUri = `/project/${uri}/`;
-    console.log('URI of project:', projectUri);
+    // console.log('URI of project:', projectUri);
     
     const res = await getSingleProject(projectUri);
     const project = res?.project;
