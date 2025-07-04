@@ -19,7 +19,7 @@ const config = {
   	},
   	extend: {  		
 		 fontFamily: {
-        calibri: ['Calibri', 'sans-serif'],
+        Oswald: ['Oswald', 'sans-serif'],
       },
   		colors: {
   			border: 'hsl(var(--border))',
@@ -27,6 +27,7 @@ const config = {
   			ring: 'hsl(var(--ring))',
   			// background: 'hsl(var(--background))',
 			background: '#F2F2F4',
+			
   			foreground: 'hsl(var(--foreground))',
   			primary: {
   				DEFAULT: '#d0ac80',
@@ -84,6 +85,11 @@ const config = {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
   		},
+		backgroundImage: {
+        'wp-bg': "url('https://demo031087.web30s.vn/datafiles/web30s/upload/images/1000-1100/30S-03-1087/wp-bg.png')",
+		'service-bg': "url('https://demo031087.web30s.vn/datafiles/web30s/upload/images/1000-1100/30S-03-1087/service-bg.jpg')",
+      },
+
     //   backgroundImage: {
     //     'grid-pattern-light': 'linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)',
     //     'grid-pattern-dark': 'linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',

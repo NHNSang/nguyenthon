@@ -178,32 +178,32 @@ const OurServices = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-4 h-[100vh] lg:h-[80vh] xl:h-[65vh] bg-[#f1ede6]"
+      className="py-4 h-[100vh] lg:h-[80vh] xl:h-[65vh] bg-wp-bg bg-cover bg-center bg-no-repeat "
     >
       <div className="container mx-auto px-0 my-5 h-full">
         <div className="flex flex-col justify-center items-center w-full">
           <motion.div
-            className="flex flex-col items-center justify-center lg:flex-row lg:justify-between lg:items-end max-w-xl lg:w-full lg:max-w-full mb-10"
+            className="grid grid-cols-1 lg:grid-cols-[80%_20%] w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex flex-col items-center gap-5 lg:items-start max-w-xl text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl font-light leading-10">
+            <div className="flex flex-col items-center gap-5 lg:items-start max-w-2xl text-center lg:text-left ">
+              <h1 className="text-3xl md:text-[36px] uppercase tracking-[5px] font-semibold">
                 Loại công trình thiết kế
-              </h2>
-              <p className="text-gray-600 text-lg line-clamp-3">
+              </h1>
+              <p className="text-[#5f5c5c] text-lg line-clamp-2 uppercase tracking-[1px] font-normal">
                 Với kinh nghiệm thiết kế đa dạng nhiều loại hình công trình,
                 Nguyên Thống JP có thể đáp ứng được hầu hết các loại kế hoach
                 thịết kế.
               </p>
             </div>
-            <MainBtn
-              className="w-[200px] my-10"
-              href="/du-an"
-              text="Tư vấn báo giá"
-              icon={<Currency className="w-5 h-5" />}
-            />
+              <MainBtn
+                className="w-[200px] my-10"
+                href="/du-an"
+                text="Tư vấn báo giá"
+                icon={<Currency className="w-5 h-5" />}
+              />
           </motion.div>
         </div>
 
@@ -225,7 +225,7 @@ const OurServices = () => {
               {duplicatedCategories.map((category, index) => (
                 <motion.div
                   key={index}
-                  className="flex-shrink-0 w-[300px] bg-white rounded-md group cursor-pointer shadow-xl my-5"
+                  className="flex-shrink-0 w-[300px] bg-white border border-[#e1e1e1] group cursor-pointer shadow-xl my-5"
                   variants={itemVariants}
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.2 }}
@@ -239,17 +239,17 @@ const OurServices = () => {
                       className="object-cover"
                     />
                     <motion.div
-                      className="absolute top-2 right-2 p-1 bg-[#d5b78f] rounded group-hover:translate-x-2 duration-300"
+                      className="absolute top-2 right-2 p-1 bg-white border-[#e1e1e1] group-hover:translate-x-2 duration-300"
                       transition={{ duration: 0.3 }}
                     >
-                      <ArrowRight className="h-4 w-4 text-white" />
+                      <ArrowRight className="h-4 w-4 text-black " />
                     </motion.div>
                   </div>
                   <div className="p-4">
-                    <h3 className="text-xl font-medium mb-2">
+                    <h3 className="text-lg  tracking-[2px] font-semibold mb-2 uppercase">
                       {category.name}
                     </h3>
-                    <p className="text-gray-600 text-sm line-clamp-2">
+                    <p className="text-[#5f5c5c] text-sm line-clamp-2">
                       {category.description}
                     </p>
                   </div>
