@@ -1,8 +1,7 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -322,11 +321,27 @@ function ApplicationModal({ job, isOpen, onClose }: { job: any; isOpen: boolean;
   )
 }
 
-export default function JobDetailPage({ jobId }: { jobId: string }) {
+interface PageProps {
+  params: Promise<{ slug: string }>
+}
+
+export default function JobDetailPage({ params }: PageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
+  const [jobId, setJobId] = useState<string>("")
+  const [job, setJob] = useState<any>(null)
 
-  const job = jobDetails[jobId as keyof typeof jobDetails]
+  // Sử dụng useEffect để resolve params
+  useEffect(() => {
+    const resolveParams = async () => {
+      const resolvedParams = await params
+      const slug = resolvedParams.slug
+      setJobId(slug)
+      setJob(jobDetails[slug as keyof typeof jobDetails])
+    }
+    
+    resolveParams()
+  }, [params])
 
   if (!job) {
     return (
@@ -450,7 +465,7 @@ export default function JobDetailPage({ jobId }: { jobId: string }) {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {job.responsibilities.map((responsibility, index) => (
+                  {job.responsibilities.map((responsibility: string, index: number) => (
                     <li key={index} className="flex items-start">
                       <CheckCircle size={16} className="mr-3 text-green-500 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-700">{responsibility}</span>
@@ -470,7 +485,7 @@ export default function JobDetailPage({ jobId }: { jobId: string }) {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {job.requirements.map((requirement, index) => (
+                  {job.requirements.map((requirement: string, index: number) => (
                     <li key={index} className="flex items-start">
                       <div className="w-2 h-2 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></div>
                       <span className="text-gray-700">{requirement}</span>
@@ -490,7 +505,7 @@ export default function JobDetailPage({ jobId }: { jobId: string }) {
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-3">
-                  {job.benefits.map((benefit, index) => (
+                  {job.benefits.map((benefit: string, index: number) => (
                     <div key={index} className="flex items-start">
                       <TrendingUp size={16} className="mr-3 text-green-500 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-700">{benefit}</span>
@@ -510,7 +525,7 @@ export default function JobDetailPage({ jobId }: { jobId: string }) {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {job.workingConditions.map((condition, index) => (
+                  {job.workingConditions.map((condition: string, index: number) => (
                     <li key={index} className="flex items-start">
                       <div className="w-1.5 h-1.5 bg-teal-500 rounded-full mr-3 mt-2 flex-shrink-0"></div>
                       <span className="text-gray-700">{condition}</span>
@@ -604,7 +619,7 @@ export default function JobDetailPage({ jobId }: { jobId: string }) {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {job.relatedJobs.map((relatedJobId) => {
+                  {job.relatedJobs.map((relatedJobId: number) => {
                     const relatedJob = jobDetails[relatedJobId.toString() as keyof typeof jobDetails]
                     if (!relatedJob) return null
                     return (

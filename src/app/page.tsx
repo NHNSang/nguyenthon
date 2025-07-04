@@ -1,29 +1,21 @@
 
 
 import { Suspense } from "react";
-import Loading from "./loading";
+import { getAllPosts, getAllProjects, getComponents, getLastestPosts } from "@/lib/api";
 
-import HeroSection from "@/components/custom/hero/hero";
+import Loading from "./loading";
 import TestimonialsSection from "@/components/custom/testimonials/Testimonials";
 import OurProcessSection from "@/components/custom/our-process/OurProcess";
-import CTASection from "@/components/custom/CTA/Cta";
 import LatestNewsSection from "@/components/custom/blog-posts/LatestNews";
-import { getAllPosts, getAllProjects, getComponents, getLastestPosts } from "@/lib/api";
-import Mediashowcase from "@/components/custom/social-media/MediaShowcase";
 import OurServices from "@/components/custom/offerServices/our-services";
 import ProjectsComponent from "@/components/custom/projects/project-component";
 import BackToTopNoClient from "@/components/custom/backToTop/BackToTopNoClient";
 import ValuesSection from "@/components/custom/why-us/values-company-section";
-import { ArchitectureCarousel } from "@/components/custom/carousel/ArchitectureCarousel";
 import CarouselSlide from "@/components/custom/carousel/carousel";
 import NumberOfAchievements from "@/components/custom/NumberOfAchievements";
 
-
-
-
 export default async function Home() {
   const posts = await fetchAllPosts();// lấy dữ liệu tất cả bài viết 
-  const latestArticles = await fetchLastestPosts();
   const components = await fetchComponents();
   const projects = await fetchProjects();
 
@@ -31,20 +23,13 @@ export default async function Home() {
     <div className="bg-white relative overflow-hidden" >
       <section id='topPage'></section>
       <Suspense fallback={<Loading />}>
-        {/* <ArchitectureCarousel/> */}
         <CarouselSlide/>
-        {/* <HeroSection 
-        hero={components?.heroComponent}
-        posts={latestArticles}
-        /> */}
         <ValuesSection valuesComponent={components?.valuesComponent} />
-        {/* <Mediashowcase mediaShowcaseComponent={components?.mediaComponent} /> */}
         <OurServices />
         <NumberOfAchievements/>
         <OurProcessSection />
         <ProjectsComponent projects={projects} />
         <TestimonialsSection />
-        {/* <CTASection /> */}
         <LatestNewsSection lastestArticles={posts} />
         <BackToTopNoClient />
       </Suspense>
