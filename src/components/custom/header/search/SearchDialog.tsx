@@ -13,18 +13,18 @@ const SearchDialog: React.FC<SearchFormProps> = ({
   onChange,
   defaultValue,
   onSubmit
-  
+
 
 }) => {
   return (
     <form
       onSubmit={onSubmit}
-      className="relative flex w-full mx-auto ">
+      className="relative flex w-full mx-auto">
       <label htmlFor="search" className="sr-only">
         Search
       </label>
       <Input
-        className="peer block w-full rounded-lg border-[1px] py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500  shadow-md"
+        className="bg-white rounded-none peer block w-full border-neutral-300 border-[1px] py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 "
         placeholder={placeholder}
         onChange={onChange}
         defaultValue={defaultValue}

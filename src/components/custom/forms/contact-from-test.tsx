@@ -1,17 +1,17 @@
 'use client';
+import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import React, { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { ContactSchema } from '@/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import * as z from 'zod';
 import { FormError } from './FormError';
 import { FormSuccess } from './FormSuccess';
-import { Button } from '@/components/ui/button';
-import { ContactSchema } from '@/schemas';
-import { Textarea } from '@/components/ui/textarea';
-import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
 
 interface ContactFormProps {
   labelOfForm: string;
@@ -23,12 +23,12 @@ interface ContactFormResponse {
   error?: string;
 }
 
-const ContactFormTest  = ({ labelOfForm }: ContactFormProps) => {
+const ContactFormTest = ({ labelOfForm }: ContactFormProps) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
 
-  
+
 
   const form = useForm<z.infer<typeof ContactSchema>>({
     resolver: zodResolver(ContactSchema),
@@ -102,6 +102,7 @@ const ContactFormTest  = ({ labelOfForm }: ContactFormProps) => {
                     placeholder="Họ và tên"
                     disabled={isPending}
                     {...field}
+                    value={field.value || ''} // Ensure value is always a string
                   />
                 </FormControl>
                 <FormMessage />

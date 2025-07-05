@@ -1,11 +1,11 @@
 import Loading from "@/app/loading";
+import BlogCard from "@/components/custom/blog-posts/blog-card";
+import LastestBlogPost from "@/components/custom/blog-posts/lastest-blog-post";
 import PaginationComponent from "@/components/custom/pagination/PaginationComponent";
 import { getAllPosts, getPostsForBlogHub } from "@/lib/api";
 import { DEFAULT_COMPANY_NAME } from "@/lib/constants";
-import LastestBlogPost from "@/components/custom/blog-posts/lastest-blog-post";
-import BlogCard from "@/components/custom/blog-posts/blog-card";
-import { Suspense } from "react";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 // Define the expected shape of resolved searchParams
 type SearchParams = {
@@ -16,8 +16,8 @@ type SearchParams = {
 // Define props to match Next.js expectations
 interface SearchParamsProps {
   searchParams?:
-    | Promise<{ [key: string]: string | string[] | undefined }>
-    | undefined;
+  | Promise<{ [key: string]: string | string[] | undefined }>
+  | undefined;
 }
 
 // Function to fetch all posts
@@ -41,6 +41,7 @@ const BlogpostPage = async ({ searchParams }: SearchParamsProps) => {
   const pageCount = res?.posts?.pageInfo.offsetPagination?.total ?? 0;
 
   const { posts } = await fetchAllPosts();
+  // console.log("Fetched all posts:", posts);
   // console.log("filteredPostsByPagination", filteredPostsByPagination);
 
   return (

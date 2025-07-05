@@ -1,21 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import HambugerMenu2 from "@/components/custom/header/hambugerMenu2";
+import SearchComponent from "@/components/custom/header/search/SearchComponent";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { PostsData } from "@/types/typeForWordpressData";
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { X, ChevronDown, Contact, MenuIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Logo from "./logo";
-import MainBtn from "../buttons/main-btn";
-import DownloadBrochures from "../buttons/download-brochures";
-import { useRouter, usePathname } from "next/navigation";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
-type NavbarProps = {
-  textColor: string;
-};
-
+interface NavbarProps {
+  initialPosts: PostsData['posts']['edges']
+}
 // mobile menu
-const navbarItems = [
+export const navbarItems = [
   { href: "/", label: "Trang Chủ" },
   // { href: "/gioi-thieu-chung", label: "Giới thiệu chung" },
   { href: "/du-an", label: "Mẫu nhà đẹp" },
@@ -23,11 +22,43 @@ const navbarItems = [
   { href: "/lien-he", label: "Liên hệ" },
   { href: "/tuyen-dung", label: "Tuyển dụng" },
 ];
-export default function Navbar({ textColor }: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
+const Navbar: React.FC<NavbarProps> = ({
+  initialPosts
+}) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const pathname = usePathname();
+  const navRef = useRef<HTMLDivElement>(null);
+  const { isMobile } = useWindowSize();
+  const [isFixed, setIsFixed] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navRef.current) {
+        const scrollTop = window.scrollY;
+        setScrollY(scrollTop);
+        if (scrollTop > 50) {
+          setIsFixed(true);
+        } else {
+          setIsFixed(false);
+        }
+      }
+    };
+
+    // Chạy handler một lần khi component mount để thiết lập trạng thái ban đầu
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll);
+    // Cleanup event listener khi component unmount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [])
+
+  // Hàm xử lý khi hover vào NavItem
+  const handleHover = (href: string | null) => {
+    setHoveredItem(href);
+  };
   // Smooth scroll effect with Framer Motion
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -57,194 +88,93 @@ export default function Navbar({ textColor }: NavbarProps) {
     };
   }, []);
 
-  const handleClick = () => {
-    if (typeof window !== "undefined") {
-      window.open(
-        "https://www.facebook.com/nguyenthongjpconstruction/",
-        "_blank"
-      );
-    }
-  };
-
-  const menuVariants = {
-    hidden: {
-      opacity: 0,
-      height: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeInOut",
-      },
-    },
-    visible: {
-      opacity: 1,
-      height: "auto",
-      transition: {
-        duration: 0.5,
-        ease: "easeInOut",
-      },
-    },
-  };
 
   return (
-    <nav className="container mx-auto bg-transparent px-6 md:px-10 sticky top-0 z-50 h-[70px] lg:h-[65px] overflow-hidden">
-      <div className="flex justify-between items-center h-[65px]">
-        {/* logo */}
-        <Logo />
+    <motion.nav
+      ref={navRef}
+      initial={false}
+      animate={isFixed ? "fixed" : "absolute"}
+      variants={{
+        fixed: {
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 50,
+        },
+        absolute: {
+          position: "absolute",
+          // top: isMobile ? "55px" : "90px",
+          left: 0,
+          width: "100%",
+          zIndex: 50,
+        }
+      }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={`${isFixed
+        ? "fixed top-0 left-0 w-full z-50"
+        : "absolute left-0 top-[55px] md:top-[56px] lg:top-[90px] z-50 bg-transparent"} 
+        mx-auto lg:px-0 xl:px-32 px-6 transition-all duration-300`}
+    >
+      <div className={`border-l-primary border-l-[6px] bg-[#1E1E1E] flex flex-row justify-between items-center xl:px-32 h-[60px] lg:h-[80px] ${isFixed ? "shadow-md" : ""}`}>
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center space-x-20">
+        <div className="hidden lg:flex items-center space-x-20 flex-auto">
           {navbarItems.map((item, index) => (
             <NavItem
+              onMouseEnter={() => handleHover(item.href)}
+              onMouseLeave={() => handleHover(null)}
               key={index}
               href={item.href}
               label={item.label}
               active={pathname === item.href}
               hasDropdown={false}
+              isHovered={hoveredItem === item.href}
             />
           ))}
-        </div>
-        {/* Mobile menu */}
-        <motion.button
-          className="lg:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          initial={false}
-          animate={{ rotate: isMenuOpen ? 90 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <AnimatePresence mode="wait">
-            {isMenuOpen ? (
-              <motion.div
-                key="close"
-                initial={{ opacity: 0, rotate: -90 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: 90 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-              >
-                <X className="h-6 w-6" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="menu"
-                initial={{ opacity: 0, rotate: 90 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: -90 }}
-                transition={{ duration: 0.5 }}
-              >
-                <MenuIcon className="h-10 w-10" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.button>
 
-        {/* CTA Buttons */}
-        <div className="hidden lg:flex items-center mr-5">
-          {/* <DownloadBrochures /> */}
-          <MainBtn
-            text="Đăng ký ngay"
-            icon={<Contact className="w-5 h-5" />}
-            href="/lien-he"
+        </div>
+        <div className="mx-10 lg:mx-1 flex items-center flex-row justify-between lg:justify-center gap-4 w-full lg:flex-none lg:w-[100px]">
+          <SearchComponent
+            initialPosts={initialPosts}
           />
+          <HambugerMenu2 />
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="lg:hidden fixed left-0 right-0 bg-neutral-50 px-6 z-40"
-            style={{ top: "65px" }}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={menuVariants}
-          >
-            <motion.div
-              className="flex flex-col space-y-4 py-6 min-h-[calc(100vh-65px)]"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              {navbarItems.map((item, index) => (
-                <MobileNavItem
-                  key={index}
-                  href={item.href}
-                  label={item.label}
-                  hasDropdown={false}
-                />
-              ))}
-              <div className="pt-4 flex flex-col space-y-3 mt-auto">
-                <Button
-                  onClick={() => handleClick()}
-                  className="bg-[#d5b78f] hover:bg-[#c5a77f] text-black rounded-full px-6 w-full"
-                >
-                  Kết nối facebook
-                </Button>
-                <Button
-                  onClick={() => router.push("/lien-he")}
-                  className="bg-[#d5b78f] hover:bg-[#c5a77f] text-black rounded-full px-6 w-full"
-                >
-                  Gửi yêu cầu tư vấn
-                </Button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }
+
+export default Navbar;
 
 function NavItem({
   href,
   label,
   hasDropdown = false,
   active = false,
+  isHovered = false,
+  onMouseEnter,
+  onMouseLeave
 }: {
   href: string;
   label: string;
   hasDropdown?: boolean;
   active?: boolean;
+  isHovered?: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }) {
   return (
     <Link
       href={href}
-      className={`relative text-xl font-calibri,flex items-center transition-colors duration-200 ${
-        active
-          ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
-          : "text-black hover:text-primary"
-      }`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className={` relative text-xl font-calibri flex items-center transition-colors duration-200 uppercase px-8 py-10 ${active || isHovered
+        ? " text-primary bg-neutral-800 before:absolute before:top-0 before:left-0 before:w-full before:h-[7px] before:bg-primary "
+        : "text-white hover:text-primary"
+        }`}
     >
       {label}
       {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
     </Link>
-  );
-}
-
-function MobileNavItem({
-  href,
-  label,
-  hasDropdown = false,
-  active = false,
-}: {
-  href: string;
-  label: string;
-  hasDropdown?: boolean;
-  active?: boolean;
-}) {
-  return (
-    <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-      <Link
-        href={href}
-        className={`text-black hover:text-gray-600 py-2 font-medium flex items-center justify-between
-          ${
-            active
-              ? "text-primary after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full"
-              : "text-black hover:text-primary"
-          }
-          `}
-      >
-        {label}
-        {hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
-      </Link>
-    </motion.div>
   );
 }

@@ -9,24 +9,11 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading;
-  } */
-
   body {
     @apply font-sans text-base leading-relaxed;
   }
 }
 
-/* 
-  color1: #002155
-  color2: #FF631B
-  */
 
 body {
   box-sizing: border-box;

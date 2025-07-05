@@ -1,37 +1,27 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Logo from "@/components/custom/header/logo";
+import { MapPin, PhoneIcon } from "lucide-react";
+import Link from "next/link";
 import {
-  FaPhone,
-  FaClock,
-  FaEnvelope,
   FaFacebook,
   FaInstagram,
-  FaLinkedin,
+  FaLinkedin
 } from "react-icons/fa";
-import Link from "next/link";
 
-type SecondaryHeaderProps = {
-  textColor: string;
-};
-const SecondaryHeader = ({ textColor }: SecondaryHeaderProps) => {
-  const contactInfo = [
+const SecondaryHeader = () => {
+  const informationCompany = [
     {
-      icon: <FaPhone className="text-primary" />,
-      text: "(+84)0912842727",
-      link: "tel:+840912842727",
+      icon: <MapPin className="text-primary w-10 h-10" />,
+      title: "Địa Chỉ:",
+      Content: <p>119 Lê Ấm, Quận Cẩm Lệ, TP. Đà Nẵng</p>,
     },
     {
-      icon: <FaEnvelope className="text-primary" />,
-      text: "info@nguyenthongjp.com",
-      link: "mailto:info@nguyenthongjp.com",
-    },
-    // {
-    //   icon: <FaClock className="text-primary" />,
-    //   text: "Thứ 2 - Chủ nhật: 8:00 - 18:00",
-    //   link: null
-    // }
-  ];
+      icon: <PhoneIcon className="w-10 h-10 text-primary" />,
+      title: "Hotline:",
+      Content: <Link href="tel:0905 123 456">0912842727</Link>,
+    }
+  ]
 
   const socialLinks = [
     {
@@ -52,78 +42,30 @@ const SecondaryHeader = ({ textColor }: SecondaryHeaderProps) => {
   ];
 
   return (
-    <div className=" hidden md:block bg-transparent border-b border-gray-100">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center py-3">
-          {/* Contact Information */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 mb-4 md:mb-0">
-            {contactInfo.map((item, index) => (
-              // <motion.div
-              //   key={index}
-              //   initial={{ opacity: 0, y: 20 }}
-              //   animate={{ opacity: 1, y: 0 }}
-              //   transition={{ duration: 0.5, delay: index * 0.1 }}
-              //   className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors"
-              // >
-              //   {item.icon}
-              //   {item.link ? (
-              //     <Link href={item.link} className="text-sm hover:text-primary transition-colors">
-              //       {item.text}
-              //     </Link>
-              //   ) : (
-              //     <span className="text-sm">{item.text}</span>
-              //   )}
-              // </motion.div>
-              <div
-                key={index}
-                className={`flex items-center gap-2 ${textColor}  hover:text-primary `}
-              >
-                {item.icon}
-                {item.link ? (
-                  <Link
-                    href={item.link}
-                    className="text-base hover:text-primary transition-colors"
-                  >
-                    {item.text}
-                  </Link>
-                ) : (
-                  <span className="text-sm">{item.text}</span>
-                )}
+    <div className="bg-white flex flex-row juss' lg:justify-around  items-center px-10 py-1 lg:py-5">
+      {/* logo */}
+      <Logo />
+      <div className="gap-2 items-center justify-center hidden lg:flex flex-row">
+        <div className="grid grid-cols-2 gap-12">
+          {/* address */}
+          {informationCompany.map((info, index) => (
+            <div
+              key={index}
+              className="flex flex-row items-center justify-start gap-10 cursor-pointer">
+              <div className="w-10 h-10">
+                {info.icon}
               </div>
-            ))}
-          </div>
-
-          {/* Social Media Links */}
-          <div className="flex items-center gap-4">
-            {socialLinks.map((social, index) => (
-              // <motion.a
-              //   key={index}
-              //   href={social.link}
-              //   target="_blank"
-              //   rel="noopener noreferrer"
-              //   initial={{ opacity: 0, scale: 0.8 }}
-              //   animate={{ opacity: 1, scale: 1 }}
-              //   transition={{ duration: 0.5, delay: index * 0.1 }}
-              //   className="text-gray-400 hover:text-primary transition-colors"
-              //   aria-label={social.label}
-              // >
-              //   <span className="text-lg">{social.icon}</span>
-              // </motion.a>
-              <div
-                key={index}
-                className=" hover:text-primary transition-colors"
-              >
-                <Link
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                >
-                  <span className={`text-xl ${textColor}`}>{social.icon}</span>
-                </Link>
+              <div className="flex flex-col items-start justify-start">
+                <span className="text-primary text-[16px] font-bold">
+                  {info.title}
+                </span>
+                <div
+                  className="hover:text-primary text-[16px] font-extrabold curosr-pointer">
+                  {info.Content}
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
