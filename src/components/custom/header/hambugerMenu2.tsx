@@ -34,12 +34,12 @@ const HambugerMenu2 = () => {
         {isMobile ? (
           <>
             <SheetHeader>
-              <SheetTitle className="text-3xl text-primary font-extrabold text-left border-b-white border-b-[1px] pb-2">
+              <SheetTitle className="text-2xl text-primary font-extrabold text-left border-b-white border-b-[1px] pb-2">
                 NGUYÊN THỐNG JP
               </SheetTitle>
             </SheetHeader>
             <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10">
-              <div className="flex flex-col space-y-4">
+              <div className="flex flex-col space-y-8">
                 {navbarItems.map((nav, index) => (
                   <Button
                     key={index}
@@ -49,7 +49,7 @@ const HambugerMenu2 = () => {
                   >
                     <Link
                       href={nav.href}
-                      className="text-2xl font-bold tracking-wider "
+                      className="text-xl font-bold tracking-wider "
                     >
                       {nav.label}
                     </Link>

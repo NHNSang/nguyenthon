@@ -146,7 +146,7 @@ const LatestNewsSection: React.FC<PostsProps> = ({
               </div>
               <div className="px-4 pb-4 pt-3 lg:pt-0 lg:h-[25%] border-2 border-[#e1e1e1]">
                 <motion.h3
-                  className="text-black text-base lg:px-5 px-0 lg:text-lg line-clamp-2 lg:line-clamp-2 uppercase tracking-[1px] font-semibold "
+                  className="text-black text-base px-0 lg:text-lg line-clamp-2 lg:line-clamp-2 uppercase tracking-[1px] font-semibold "
                   initial={{ opacity: 0.8 }}
                   whileHover={{ opacity: 1 }}
                 >

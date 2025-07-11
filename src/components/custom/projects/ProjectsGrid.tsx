@@ -83,14 +83,17 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="my-8  "
+          className="mt-4 lg:mt-8 mb:8 lg:mb-10  "
         >
-          <Title
+          {/* <Title
             title={title}
             islightBg={islightBg}
             subtitle={subtitle}
             text={text}
-          />
+          /> */}
+          <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-8 uppercase tracking-[5px] lg:tracking-[8px] font-semibold text-center">
+            Khám phá dự án <span className="text-primary"> nổi bật</span>
+          </h1>
         </motion.div>
 
         {/* Category List */}
@@ -101,38 +104,35 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
           viewport={{ once: true }}
           className="w-full overflow-x-scroll hiddenScrollBar mb-6 "
         >
-          <div className="flex flex-row justify-center items-center gap-4 min-w-max px-4 py-1">
+          <div className="flex flex-row justify-center items-center gap-1 min-w-max px-4 border-b border-primary">
+            {/* Nút Tất cả dự án */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300
-                ${
-                  seletedcategory === "Tất cả"
-                  ? "bg-white text-black border border-primary font-bold shadow-md" 
-                  : "bg-primary text-white"
-                }`}
-              onClick={() => {
-                console.log("Đang click vào: Tất cả");
-                setSeletedCategory("Tất cả");
-              }}
+              className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary 
+      ${
+        seletedcategory === "Tất cả"
+          ? "text-white font-semibold"
+          : "text-black bg-white border-primary"
+      }`}
+              onClick={() => setSeletedCategory("Tất cả")}
             >
               Tất cả dự án
             </motion.button>
+
+            {/* Các nút còn lại */}
             {projectCategoryArray.map((projectCategory) => (
               <motion.button
                 key={projectCategory.slug}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-sm
-                  ${
-                    seletedcategory === projectCategory.name
-                    ? "bg-white text-black border border-primary font-bold shadow-md"
-                    : "bg-primary text-white"
-                  }`}
-                onClick={() => {
-                  console.log("Đang click vào:", projectCategory.name);
-                  setSeletedCategory(projectCategory.name);
-                }}
+                className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary0 bg-primary
+        ${
+          seletedcategory === projectCategory.name
+            ? "text-white font-semibold"
+            : "text-black bg-white border-primary"
+        }`}
+                onClick={() => setSeletedCategory(projectCategory.name)}
               >
                 {projectCategory.name}
               </motion.button>
@@ -154,10 +154,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
               ? projects
               : portfoliosByCategory
             )?.map((project) => (
-              <motion.div key={project.slug} variants={item} className="group">
+              <motion.div key={project.slug} variants={item} className="group mx-5 lg:mx-0">
                 <Link
                   href={`du-an/${project.slug}`}
-                  className="bg-[#F5F5F3] block rounded-lg overflow-hidden shadow-2xl hover:shadow-xl transition-all duration-500"
+                  className="bg-[#F5F5F3] block overflow-hidden shadow-2xl hover:shadow-xl transition-all duration-500"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden group">
                     <Image
@@ -167,7 +167,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                       height={600}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
-                    <div className=" group-hover:translate-x-2 group-hover:-translate-y-2 absolute top-3 right-3 p-2 bg-amber-50 rounded-md opacity-90 transition-opacity hover:opacity-100 duration-500 z-30">
+                    <div className=" group-hover:translate-x-2 group-hover:-translate-y-2 absolute top-3 right-3 p-2 bg-amber-50 opacity-90 transition-opacity hover:opacity-100 duration-500 z-30">
                       <ArrowUpRight className="h-4 w-4 text-amber-800" />
                     </div>
 
@@ -190,8 +190,8 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                       </ul>
                     </motion.div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-base font-medium text-gray-600 group-hover:text-primary transition-colors duration-300 line-clamp-2 text-center">
+                  <div className="p-4 border border-[#e1e1e1]">
+                    <h3 className="text-base font-medium text-gray-600 group-hover:text-primary transition-colors duration-300 line-clamp-2 text-left">
                       {project.title}
                     </h3>
                   </div>

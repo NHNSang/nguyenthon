@@ -181,7 +181,7 @@ const NumberOfAchievements = () => {
         </div>
 
         {/* RIGHT: Title + Accordion */}
-        <div className="flex flex-col justify-center mr-0 lg:mr-[50px]">
+        <div className="flex flex-col justify-center mr-0 lg:mr-[50px] mb-5 lg:mb-0">
           <h1 className="text-2xl md:text-[35px] mb-2 lg:mb-6 uppercase tracking-[5px] lg:tracking-[8px] font-semibold text-center lg:text-left">
             Quy trình <span className="text-primary">làm việc</span>
           </h1>

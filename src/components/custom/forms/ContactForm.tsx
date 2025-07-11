@@ -84,15 +84,16 @@ const ContactForm = ({
   };
   return (
     <div
-      className={`${classNames}bg-[#1E1E1E] relative w-full lg:w-[10/12] h-[550px] p-5  flex flex-col justify-center`}
+      className={`${classNames}bg-[#1E1E1E] relative w-full lg:w-[10/12] h-[550px] p-5 flex flex-col`}
+      style={{ minHeight: "100%" }}
     >
       {/* <div className="absolute top-5 left-5 flex flex-row justify-center items-center gap-2 bg-[#1E1E1E] border-none  py-2 mx-auto text-white w-11/12 l">
         <h2 className="text-center font-extrabold text-3xl ">{labelOfForm}</h2>
       </div> */}
-      <h2 className="text-center font-extrabold text-3xl ">{labelOfForm}</h2>
+      <h2 className="text-left font-extrabold text-2xl ">{labelOfForm}</h2>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-between flex-1">
           {/* họ và tên */}
           <FormField
             control={form.control}
@@ -219,9 +220,9 @@ const ContactForm = ({
           <Button
             disabled={isPending}
             type="submit"
-            className="w-full border-none bg-primary py-8 px-2"
+            className="w-full border-none bg-primary py-6 mt-auto"
           >
-            <span className="tracking-wide font-extrabold text-2xl text-white ">
+            <span className="tracking-wide font-extrabold text-xl text-white ">
               GỬI NGAY
             </span>
           </Button>
