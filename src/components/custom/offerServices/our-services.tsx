@@ -188,8 +188,8 @@ const OurServices = () => {
               </h1>
               <p className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase tracking-[1px] font-normal">
                 "Với kinh nghiệm thiết kế đa dạng nhiều loại hình công trình,
-                Nguyên Thống JP có thể đáp ứng được hầu hết các loại kế hoach
-                thịết kế"
+                Nguyên Thống JP có thể đáp ứng được hầu hết các loại kế hoạch
+                thiết kế"
               </p>
             </div>
             <MainBtn

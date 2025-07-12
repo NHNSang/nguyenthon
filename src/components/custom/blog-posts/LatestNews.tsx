@@ -115,7 +115,7 @@ const LatestNewsSection: React.FC<PostsProps> = ({
               variants={cardVariants}
               // whileHover={{ y: 0, transition: { duration: 0.3 } }}
               onClick={() => router.push(`/blog/${item.node.slug}`)}
-              className="group flex flex-col cursor-pointer bg-whiteoverflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 lg:h-[380px]"
+              className="group flex flex-col cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 lg:h-[380px]"
             >
               <div className="relative overflow-hidden lg:h-[75%]">
                 <Image

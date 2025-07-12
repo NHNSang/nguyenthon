@@ -38,7 +38,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
     },
     {
       label: "Đội ngũ chuyên nghiệp",
-      description: "Kiến trúc sư tài năng, giàu sáng tạo và tận tâm trong cơ hội.",
+      description: "Kiến trúc sư tài năng, giàu sáng tạo và tận tâm trong công việc.",
     },
     {
       label: "Thiết kế cá nhân hóa",
@@ -47,7 +47,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
     },
     {
       label: "Chất lượng vượt trội",
-      description: "Sử dụng vật liệu cao cấp, bền đẹp theo thời gian, chuyên nghiệp.",
+      description: "Sử dụng vật liệu cao cấp, chất lượng, bền bỉ với thời gian.",
     },
     {
       label: "Dịch vụ trọn gói",
@@ -131,17 +131,10 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
           // chỉ xảy ra một lần, không lặp lại
         >
           <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-6 uppercase tracking-[5px] lg:tracking-[8px] font-semibold">
-            GIÁ TRỊ <span className="text-primary">CỐT LÕI</span>
+            MỤC TIÊU  <span className="text-primary">HƯỚNG ĐẾN</span>
           </h1>
-          <p className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase tracking-[1px] font-normal">
-            Trung thực – Sáng tạo – Tận tâm – Kỷ luật – Yêu thương là những giá
-            trị cốt lõi mà Nguyên Thống JP Construction gầy dựng cho đội ngũ. Vì
-            chúng tôi tin rằng, khi sở hữu những giá trị này thì chúng tôi sẽ
-            thành công trong mọi sản phẩm, dịch vụ và tự tin mang đến điều tốt
-            nhất cho khách hàng. Trung thực, tận tâm trong thương thảo, sáng tạo
-            trong mọi sản phẩm, yêu thương và coi công trình của khách hàng như
-            của chính mình. Và kỷ luật để kịp tiến độ dù trong bất cứ hoàn cảnh
-            nào.
+          <p className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase font-normal">
+            SÁNG TẠO – UY TÍN – TẬN TÂM  là những giá trị cốt lõi mà CÔNG  TY NGUYÊN THỐNG JP gầy dựng cho đội ngũ. Vì chúng tôi tin rằng, khi sở hữu những phẩm chất này thì chúng tôi sẽ thành công trong mọi sản phẩm, dịch vụ và tự tin mang đến NHỮNG điều tốt NHẤT CHO KHÁCH HÀNG
           </p>
         </motion.div>
 

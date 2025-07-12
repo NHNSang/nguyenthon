@@ -13,7 +13,7 @@ const SecondaryHeader = () => {
     {
       icon: <MapPin className="text-primary w-5 h-5" />,
       title: "Địa Chỉ:",
-      Content: <p>119 Lê Ấm, Quận Cẩm Lệ, TP. Đà Nẵng</p>,
+      Content: <p>119 Lê Ấm, Phường Hoà Xuân, TP. Đà Nẵng</p>,
     },
     {
       icon: <PhoneIcon className="w-5 h-5 text-primary" />,
@@ -43,7 +43,7 @@ const SecondaryHeader = () => {
   return (
     <>
       {isMobile ? null : (
-        <div className="bg-white px-4 lg:px-10 py-2 lg:py-3">
+        <div className="bg-white px-2 lg:px-10 py-2 lg:py-3">
           <div className="container mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             {/* Logo / Tên công ty */}
             <p className="font-oswald text-lg lg:text-2xl font-extrabold text-black max-w-xs pl-4 ">

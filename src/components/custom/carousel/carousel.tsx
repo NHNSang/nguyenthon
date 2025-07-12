@@ -12,8 +12,8 @@ const carouselSlides = [
   {
     id: 1,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/05/kienviet-tru-so-van-phong-cp-46-1745204850.jpg",
-    title: "Không Gian Sống Đẹp & Bền Vững",
+      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_4624.jpg",
+    title: "Không Gian Sống Đẹp & Tiện Nghi",
     description: "Cùng bạn xây dựng tổ ấm hoàn hảo",
     titleAnimation: "fadeInUp",
     descriptionAnimation: "slideInRight",
@@ -22,7 +22,7 @@ const carouselSlides = [
   {
     id: 2,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/05/kienviet-big-he-lo-thiet-ke-cau-truc-go-cho-bao-tang-lich-su-tu-nhien-hungary-6-1745723699.jpg",
+      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_2900.jpg",
     title: "Thiết Kế & Thi Công Trọn Gói",
     description: "Một quy trình khép kín, rõ ràng",
     titleAnimation: "slideInLeft",
@@ -32,7 +32,7 @@ const carouselSlides = [
   {
     id: 3,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/05/kienviet-la-do-coffee-kien-truc-tam-giac-phan-chieu-tren-mat-nuoc-spng-architects-1745910773.jpg ",
+      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_9044.jpg",
     title: "Vững Kỹ Thuật - Bền Công Trình",
     description: "Cam kết chất lượng và tiến độ",
     titleAnimation: "rotateIn",
@@ -42,7 +42,7 @@ const carouselSlides = [
   {
     id: 4,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/z6389588989489_5455d0c5530fc804fc6e10eddc6ddf80.jpg",
+      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/6cb7d9c34fb532308f21252ba56933f2.jpg",
     title: "Uy Tín Là Niềm Tin Của Chúng Tôi",
     description: "Được tin chọn bởi hàng ngàn khách",
     titleAnimation: "flipInY",
@@ -52,9 +52,9 @@ const carouselSlides = [
   {
     id: 5,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/04/6070_N2790_1-1536x809-1.jpg",
-    title: "Hỗ Trợ & Bảo Trì Toàn Diện",
-    description: "Luôn sẵn sàng 24/7 hỗ trợ bạn",
+      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_2857.jpg",
+    title: "TƯ VẤN - HỖ TRỢ & BẢO TRÌ 24/7 ",
+    description: "NGUYÊN THỐNG JP luôn sẵn sàng cùng bạn",
     titleAnimation: "typeWriter",
     descriptionAnimation: "fadeInScale",
     buttonAnimation: "shakeIn",
@@ -143,20 +143,11 @@ export default function MultiAnimationCarousel() {
         @keyframes flipInY {
           0% {
             opacity: 0;
-            transform: perspective(400px) rotateY(90deg);
-          }
-          40% {
-            transform: perspective(400px) rotateY(-20deg);
-          }
-          60% {
-            transform: perspective(400px) rotateY(10deg);
-          }
-          80% {
-            transform: perspective(400px) rotateY(-5deg);
+            transform: translateY(60px);
           }
           100% {
             opacity: 1;
-            transform: perspective(400px) rotateY(0deg);
+            transform: translateY(0);
           }
         }
 

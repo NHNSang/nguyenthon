@@ -1,6 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import NumberCounter from "./NumberCounter";
 
 const archievementArr = [
   {
@@ -52,12 +54,46 @@ const projects = [
 const NumberOfAchievements = () => {
   const [videoOpen, setVideoOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [animatedNumbers, setAnimatedNumbers] = useState(stats.map(() => 0));
 
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.3,
+  });
+
+  useEffect(() => {
+    if (inView && !hasAnimated) {
+      const duration = 1000; // ms
+      const frameRate = 30; // fps
+      const totalFrames = Math.round(duration / (1000 / frameRate));
+
+      stats.forEach((stat, index) => {
+        let frame = 0;
+        const increment = stat.number / totalFrames;
+
+        const interval = setInterval(() => {
+          frame++;
+          setAnimatedNumbers((prev) => {
+            const newValues = [...prev];
+            newValues[index] = Math.min(
+              Math.round(increment * frame),
+              stat.number
+            );
+            return newValues;
+          });
+
+          if (frame >= totalFrames) clearInterval(interval);
+        }, 1000 / frameRate);
+      });
+
+      setHasAnimated(true);
+    }
+  }, [inView, hasAnimated, stats]);
   const toggleIndex = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
   const [showVideo, setShowVideo] = useState(false);
-
 
   return (
     <>
@@ -72,61 +108,39 @@ const NumberOfAchievements = () => {
             Tại sao chọn <span className="text-primary">chúng tôi</span>
           </h1>
         </motion.div>
-
-        <motion.div
-          whileInView={{ opacity: 1, translateX: 0 }}
-          initial={{ opacity: 0, translateX: 100 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-        >
-          {/* số đếm */}
-          {/* {archievementArr.map((item, index) => (
-          <NumberCounter
-            key={index}
-            title={item.title}
-            from={0}
-            to={item.number}
-          />
-        ))} */}
-          <section className="w-full pt-8 bg-white">
-            <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center px-4">
-              {stats.map((item, index) => (
-                <div
-                  key={index}
-                  className="relative flex flex-col items-center justify-center"
-                >
-                  {/* Container for stacked numbers */}
-                  <div className="relative flex items-center justify-center">
-                    {/* Background number (mờ) */}
-                    <span className="absolute text-[75px] md:text-[75px] font-bold text-stroke-gray select-none">
-                      {item.number}
-                    </span>
-                    {/* Foreground number (đậm) */}
-                    <span className="text-5xl font-bold text-black z-10">
-                      {item.number}
-                    </span>
-                  </div>
-                  {/* Label */}
-                  <div className="mt-2 uppercase text-lg md:text-xl font-semibold text-[#AC7A49]">
-                    {item.label}
-                  </div>
-                  {/* Sub label */}
-                  <div className="text-sm text-gray-700 font-medium">
-                    {item.sublabel}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        </motion.div>
       </div>
+      <section className="w-full pt-8 bg-white" ref={ref}>
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center px-4">
+          {stats.map((item, index) => (
+            <div
+              key={index}
+              className="relative flex flex-col items-center justify-center"
+            >
+              <div className="relative flex items-center justify-center">
+                <span className="absolute text-[75px] md:text-[75px] font-bold text-stroke-gray select-none">
+                  {animatedNumbers[index]}
+                </span>
+                <span className="text-5xl font-bold text-black z-10">
+                  {animatedNumbers[index]}
+                </span>
+              </div>
+              <div className="mt-2 uppercase text-lg md:text-xl font-semibold text-[#AC7A49]">
+                {item.label}
+              </div>
+              <div className="text-sm text-gray-700 font-medium">
+                {item.sublabel}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
         {/* LEFT: Image or Video */}
         <div className="relative w-full h-64 md:h-[400px] lg:h-[500px] max-w-4xl mx-auto my-12">
           {/* Thumbnail image */}
           <img
-            src="https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/06/z6389588989489_5455d0c5530fc804fc6e10eddc6ddf80.jpg" // 🔁 Thay bằng ảnh thật
+            src="https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_2896.jpg" // 🔁 Thay bằng ảnh thật
             alt="Video thumbnail"
             className="w-full h-full object-cover shadow-lg object-fill"
           />
@@ -192,7 +206,9 @@ const NumberOfAchievements = () => {
                   className="flex justify-between items-center cursor-pointer text-lg font-medium hover:text-primary transition-colors"
                   onClick={() => toggleIndex(idx)}
                 >
-                  <span className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase tracking-[1px] font-medium">{proj.title}</span>
+                  <span className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase tracking-[1px] font-medium">
+                    {proj.title}
+                  </span>
                   <span className="text-2xl select-none">
                     {openIndex === idx ? "−" : "+"}
                   </span>
