@@ -7,7 +7,11 @@ import { Check } from "lucide-react";
 import { JetBrains_Mono } from "next/font/google";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { useWindowSize } from "@/hooks/useWindowSize";
+
+// const font = JetBrains_Mono({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+// })
 
 interface ValuesSectionProps {
   valuesComponent: valuesComponent;
@@ -16,13 +20,12 @@ interface ValuesSectionProps {
 const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
   // Ref cho section
   const sectionRef = useRef<HTMLElement>(null);
-  // const { isMobile } = useWindowSize();
 
   // Kiểm tra khi nào section hiển thị 1/3 trong viewport
   // const isInView = useInView(sectionRef, { amount: 0.33, once: true })
   // Kiểm tra khi nào section hiển thị 70% trong viewport
   const isInView = useInView(sectionRef, { amount: 0.5, once: true });
-  const isMobile = window.innerWidth < 768;
+
   // Animation controls
   const controls = useAnimation();
 
@@ -35,8 +38,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
     },
     {
       label: "Đội ngũ chuyên nghiệp",
-      description:
-        "Kiến trúc sư tài năng, giàu sáng tạo và tận tâm trong công việc.",
+      description: "Kiến trúc sư tài năng, giàu sáng tạo và tận tâm trong công việc.",
     },
     {
       label: "Thiết kế cá nhân hóa",
@@ -45,8 +47,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
     },
     {
       label: "Chất lượng vượt trội",
-      description:
-        "Sử dụng vật liệu cao cấp, chất lượng, bền bỉ với thời gian.",
+      description: "Sử dụng vật liệu cao cấp, chất lượng, bền bỉ với thời gian.",
     },
     {
       label: "Dịch vụ trọn gói",
@@ -68,14 +69,30 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
       (value) => value.label !== null && value.description !== null
     ) || defaultValues;
 
+  // Tự động scroll khi component hiển thị 1/3
+  // useEffect(() => {
+  //   if (isInView && sectionRef.current) {
+  //     // Lấy vị trí của section
+  //     const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY
+  //     console.log(sectionTop,"sectionTop")
+  //     // Scroll đến vị trí của section
+  //     window.scrollTo({
+  //       top: sectionTop,
+  //       behavior: "smooth",
+  //     })
+
+  //     // Kích hoạt animation cho các items
+  //     controls.start("visible")
+  //   }
+  // }, [isInView, controls])
+
   // Tự động scroll khi component hiển thị 70%
   useEffect(() => {
-    if (isInView && !isMobile) {
+    if (isInView) {
       controls.start("visible");
-    } else {
-      controls.set("visible"); // không animate, set luôn trạng thái cuối
     }
   }, [isInView, controls]);
+
   // Variants cho container
   const containerVariants = {
     hidden: {},
@@ -114,17 +131,37 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
           // chỉ xảy ra một lần, không lặp lại
         >
           <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-6 uppercase tracking-[5px] lg:tracking-[8px] font-semibold">
-            MỤC TIÊU <span className="text-primary">HƯỚNG ĐẾN</span>
+            MỤC TIÊU  <span className="text-primary">HƯỚNG ĐẾN</span>
           </h1>
           <p className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase font-normal">
-            SÁNG TẠO – UY TÍN – TẬN TÂM là những giá trị cốt lõi mà CÔNG TY
-            NGUYÊN THỐNG JP gầy dựng cho đội ngũ. Vì chúng tôi tin rằng, khi sở
-            hữu những phẩm chất này thì chúng tôi sẽ thành công trong mọi sản
-            phẩm, dịch vụ và tự tin mang đến NHỮNG điều tốt NHẤT CHO KHÁCH HÀNG
+            SÁNG TẠO – UY TÍN – TẬN TÂM  là những giá trị cốt lõi mà CÔNG  TY NGUYÊN THỐNG JP gầy dựng cho đội ngũ. Vì chúng tôi tin rằng, khi sở hữu những phẩm chất này thì chúng tôi sẽ thành công trong mọi sản phẩm, dịch vụ và tự tin mang đến NHỮNG điều tốt NHẤT CHO KHÁCH HÀNG
           </p>
         </motion.div>
 
-        {/* defaultValues */}
+        {/* <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={controls}
+        >
+          {valuesArray.map((value, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              custom={index}
+              className="flex items-start p-6 bg-[#f1ede6] rounded-lg cursor-pointer shadow-xl group"
+            >
+              <div className="bg-primary rounded-full p-2 mr-4 flex-shrink-0">
+                <Check className="h-5 w-5 text-white" />
+              </div>
+              <div className="group-hover:translate-x-2 duration-500">
+                <h3 className="text-xl font-medium mb-2">{value.label}</h3>
+                <p className="text-gray-600">{value.description}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div> */}
+
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 sm:px-6 md:px-0"
           variants={containerVariants}
@@ -136,7 +173,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
               key={index}
               variants={itemVariants}
               custom={index}
-              className="flex items-start p-4 sm:p-5 md:p-6 bg-white cursor-pointer shadow-md hover:shadow-xl group border border-primary transition-all duration-300"
+              className="flex items-start p-4 sm:p-5 md:p-6 bg-white cursor-pointer shadow-md hover:shadow-xl group border border-[#e1e1e1] transition-all duration-300"
             >
               <div className="bg-[#CA9C6A] p-2 mr-4 flex-shrink-0  shadow-lg">
                 <Check className="h-3 lg:h-5 w-3 lg:w-5 text-white" />
