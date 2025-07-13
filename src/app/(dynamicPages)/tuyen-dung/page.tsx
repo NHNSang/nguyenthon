@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 // Dữ liệu các vị trí tuyển dụng
 const jobPositions = [
@@ -256,7 +257,7 @@ function ApplicationModal({
         <Card className="relative bg-white shadow-2xl border-0 font-calibri max-h-[90vh] overflow-y-auto">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
+            className="absolute top-4 right-4 text-gray-400 hover:text-base sm:text-base text-[#5f5c5c] leading-relaxed transition-colors z-10"
           >
             <X size={24} />
           </button>
@@ -267,7 +268,7 @@ function ApplicationModal({
                 <CardTitle className="text-2xl font-bold text-gray-900">
                   Ứng Tuyển: {job.title}
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                   Điền thông tin của bạn để ứng tuyển vị trí này
                 </CardDescription>
               </CardHeader>
@@ -344,9 +345,11 @@ function ApplicationModal({
                     />
                   </div>
 
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <div className="border-2 border-dashed border-gray-300  p-6 text-center">
                     <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                    <p className="text-gray-600 mb-2">Tải lên CV của bạn</p>
+                    <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed mb-2">
+                      Tải lên CV của bạn
+                    </p>
                     <p className="text-sm text-gray-500">
                       PDF, DOC, DOCX (tối đa 5MB)
                     </p>
@@ -362,7 +365,7 @@ function ApplicationModal({
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                        <div className="animate-spin  h-5 w-5 border-b-2 border-white mr-2"></div>
                         Đang gửi...
                       </div>
                     ) : (
@@ -377,13 +380,13 @@ function ApplicationModal({
             </>
           ) : (
             <div className="p-8 text-center">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+              <div className="mx-auto w-16 h-16 bg-green-100  flex items-center justify-center mb-4">
                 <CheckCircle size={32} className="text-green-600" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
                 Gửi Hồ Sơ Thành Công!
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed mb-4">
                 Cảm ơn bạn đã ứng tuyển vị trí <strong>{job.title}</strong>.
                 Chúng tôi sẽ xem xét hồ sơ và liên hệ với bạn trong thời gian
                 sớm nhất.
@@ -429,51 +432,47 @@ export default function RecruitmentPage() {
   };
 
   return (
-    <div className=" bg-[#F1EDE6] font-calibri pt-[120px]">
-      <div className="container mx-auto">
-        <div className="w-full m-8 flex flex-col lg:w-[85%] mx-auto items-center justify-center ">
-          <div
-            className="
-        items-center justify-center mx-auto
-        flex flex-col w-12/12 md:w-9/12 gap-1"
-          >
-            <h2 className="bg-[#D5B78F] w-full py-1 text-center text-3xl md:text-2xl font-[300px] rounded-t-lg uppercase">
-              Vị Trí Đang Tuyển Dụng
-            </h2>
-            <p className="bg-[#F5F5F3] w-full  py-1  text-gray-600 text-lg  line-clamp-2  shadow-xl text-center">
-              Khám phá các cơ hội nghề nghiệp hấp dẫn và tìm kiếm vị trí phù hợp
-              với năng lực của bạn
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className=" bg-white font-calibri pt-[60px] lg:pt-[90px]">
+      <motion.div
+        // initial={{ opacity: 0, y: 0 }}
+        // whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mt-4 lg:mt-8 mb:8 lg:mb-10 container"
+      >
+        <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-8 uppercase tracking-[5px] lg:tracking-[8px] font-semibold text-center">
+          Vị Trí Đang <span className="text-primary">Tuyển Dụng</span>
+        </h1>
+      </motion.div>
 
-      {/* Job Positions */}
+      {/* Job Positions - Filter button */}
       <section className="">
         <div className="container mx-auto px-4">
-          {/* Filter */}
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
+          <div className="w-full overflow-x-scroll hiddenScrollBar mb-6 ">
+<div className="flex flex-row justify-center items-center gap-1 min-w-max px-4 border-b border-primary mb-3">
             {departments.map((dept) => (
-              <Button
+              <button
                 key={dept}
                 onClick={() => setFilterDepartment(dept)}
                 className={cn(
-                  "px-6 py-3 rounded-full text-sm font-medium transition-all duration-300",
+                  "uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary ",
                   filterDepartment === dept
-                    ? " bg-white text-black border border-primary font-bold shadow-md"
-                    : "bg-primary text-white"
+                    ? "text-white font-semibold"
+                    : "text-black bg-white border-primary"
                 )}
               >
                 {dept === "all" ? "Tất cả" : dept}
-              </Button>
+              </button>
             ))}
           </div>
+          </div>
+          
 
           {/* Results count */}
           <div className="text-center mb-4">
-            <p className="text-gray-600">
+            <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
               Tìm thấy{" "}
-              <span className="font-semibold text-black">
+              <span className="font-semibold text-primary">
                 {filteredJobs.length}
               </span>{" "}
               vị trí phù hợp
@@ -485,12 +484,12 @@ export default function RecruitmentPage() {
             {filteredJobs.map((job) => (
               <Card
                 key={job.id}
-                className="border-0 shadow-xl bg-[#F5F5F3] p-3"
+                className=" bg-white p-3 border border-primary"
               >
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <CardTitle className="text-xl font-bold text-black mb-2   ">
+                      <CardTitle className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
                         {job.title}
                       </CardTitle>
                       <div className="flex flex-wrap gap-2 mb-3">
@@ -516,39 +515,47 @@ export default function RecruitmentPage() {
                   </div>
 
                   <div className="grid grid-cols-2 text-sm">
-                    <div className="flex items-center text-gray-600">
+                    <div className="flex items-center text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                       <MapPin
                         size={16}
                         className="mr-2 text-black flex-shrink-0"
                       />
-                      <span className="text-gray-600">{job.location}</span>
+                      <span className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
+                        {job.location}
+                      </span>
                     </div>
-                    <div className="flex items-center text-gray-600">
+                    <div className="flex items-center text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                       <Clock
                         size={16}
                         className="mr-2 text-black flex-shrink-0"
                       />
-                      <span className="text-gray-600">{job.type}</span>
+                      <span className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
+                        {job.type}
+                      </span>
                     </div>
-                    <div className="flex items-center text-gray-600">
+                    <div className="flex items-center text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                       <DollarSign
                         size={16}
                         className="mr-2 text-black 0 flex-shrink-0"
                       />
-                      <span className="text-gray-600">{job.salary}</span>
+                      <span className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
+                        {job.salary}
+                      </span>
                     </div>
-                    <div className="flex items-center text-gray-600">
+                    <div className="flex items-center text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                       <Briefcase
                         size={16}
                         className="mr-2 text-black flex-shrink-0"
                       />
-                      <span className="text-gray-600">{job.experience}</span>
+                      <span className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
+                        {job.experience}
+                      </span>
                     </div>
                   </div>
                 </CardHeader>
 
                 <CardContent className="pt-0">
-                  <p className="text-gray-600 mb-4 leading-relaxed">
+                  <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed mb-4 ">
                     {job.description}
                   </p>
 
@@ -557,17 +564,17 @@ export default function RecruitmentPage() {
                       <CheckCircle size={16} className="mr-2 text-black" />
                       Yêu cầu chính:
                     </h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
+                    <ul className="text-sm  sm:text-base text-[#5f5c5c] leading-relaxed space-y-1">
                       {job.requirements
                         .slice(0, 3)
                         .map((req: string, index: number) => (
                           <li key={index} className="flex items-start">
-                            <span className="w-1.5 h-1.5 bg-black rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                            <span className="w-1.5 h-1.5 bg-black  mr-3 mt-2 flex-shrink-0"></span>
                             <span>{req}</span>
                           </li>
                         ))}
                       {job.requirements.length > 3 && (
-                        <li className="text-gray-600 italic text-sm font-medium ml-4">
+                        <li className="text-base sm:text-base text-[#5f5c5c] leading-relaxed italic font-medium ml-4">
                           +{job.requirements.length - 3} yêu cầu khác...
                         </li>
                       )}
@@ -602,7 +609,7 @@ export default function RecruitmentPage() {
                     </Button> */}
 
                     {/* <Link href="/tuyen-dung-id" className="w-full">
-                      <Button className="px-4 bg-[#D5B78F]  text-white rounded-full w-full hover:scale-105  duration-500">
+                      <Button className="px-4 bg-[#D5B78F]  text-white  w-full hover:scale-105  duration-500">
                         Xem Chi Tiết
                       </Button>
                     </Link> */}
@@ -611,8 +618,8 @@ export default function RecruitmentPage() {
                       target="_blank"
                       className="w-full"
                     >
-                      <Button className="px-4 bg-[#D5B78F] text-white rounded-full w-full hover:scale-105 duration-500">
-                        Liên hệ với chúng tôi 
+                      <Button className="px-4 bg-[#D5B78F] text-white  w-full hover:scale-105 duration-500">
+                        Liên hệ với chúng tôi
                       </Button>
                     </Link>
                   </div>
@@ -624,13 +631,13 @@ export default function RecruitmentPage() {
           {/* No results */}
           {filteredJobs.length === 0 && (
             <div className="text-center py-12">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-24 h-24 bg-gray-100  flex items-center justify-center mx-auto mb-4">
                 <Search className="w-12 h-12 text-gray-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 Không tìm thấy vị trí phù hợp
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed mb-4">
                 Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc
               </p>
               <Button
@@ -647,92 +654,92 @@ export default function RecruitmentPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-8 bg-[#F1EDE6]">
+      <section className="py-8 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-              Tại Sao Chọn NguyenThong JP
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-3xl md:text-[40px] my-5 lg:mt-10 uppercase tracking-[5px] lg:tracking-[5px] font-semibold text-center">
+              Tại Sao Chọn <span className="text-primary">NGUYÊN THỐNG JP</span>
+            </p>
+            <p className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase font-normal">
               Chúng tôi cam kết tạo ra môi trường làm việc tốt nhất để nhân viên
               phát triển và thành công
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center p-6 bg-white border border-primary ">
+              <div className="w-16 h-16 bg-[#D4B38B]  flex items-center justify-center mx-auto mb-4">
                 <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-black ">
+              <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
                 Cơ Hội Thăng Tiến
               </h3>
-              <p className="text-gray-600">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                 Chính sách thăng tiến rõ ràng, đào tạo chuyên môn thường xuyên
                 và cơ hội phát triển không giới hạn
               </p>
             </div>
 
-            <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center p-6 bg-white border border-primary  ">
+              <div className="w-16 h-16 bg-[#D4B38B]  flex items-center justify-center mx-auto mb-4">
                 <DollarSign className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-black ">
+              <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
                 Lương Thưởng Hấp Dẫn
               </h3>
-              <p className="text-gray-600">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                 Mức lương cạnh tranh, thưởng theo hiệu quả công việc và các
                 khoản phụ cấp đặc biệt
               </p>
             </div>
 
-            <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center p-6 bg-white border border-primary  ">
+              <div className="w-16 h-16 bg-[#D4B38B]  flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-black ">
+              <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
                 Bảo Hiểm Toàn Diện
               </h3>
-              <p className="text-gray-600">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                 Bảo hiểm xã hội, y tế, tai nạn 24/7 và gói bảo hiểm sức khỏe cao
                 cấp
               </p>
             </div>
 
-            <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center p-6 bg-white border border-primary  ">
+              <div className="w-16 h-16 bg-[#D4B38B]  flex items-center justify-center mx-auto mb-4">
                 <Coffee className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-black ">
+              <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
                 Môi Trường Thân Thiện
               </h3>
-              <p className="text-gray-600">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                 Văn hóa công ty tích cực, đồng nghiệp hỗ trợ và không gian làm
                 việc hiện đại
               </p>
             </div>
 
-            <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center p-6 bg-white border border-primary  ">
+              <div className="w-16 h-16 bg-[#D4B38B]  flex items-center justify-center mx-auto mb-4">
                 <Car className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-black ">
+              <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
                 Phúc Lợi Đa Dạng
               </h3>
-              <p className="text-gray-600">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                 Du lịch hàng năm, xe đưa đón, hỗ trợ ăn trưa và nhiều hoạt động
                 giải trí
               </p>
             </div>
 
-            <div className="text-center p-6 bg-[#F5F5F3] shadow-xl rounded-xl">
-              <div className="w-16 h-16 bg-[#D4B38B] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center p-6 bg-white border border-primary  ">
+              <div className="w-16 h-16 bg-[#D4B38B]  flex items-center justify-center mx-auto mb-4">
                 <Award className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-black ">
+              <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
                 Ghi Nhận Thành Tích
               </h3>
-              <p className="text-gray-600">
+              <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
                 Chương trình khen thưởng, vinh danh nhân viên xuất sắc và bonus
                 đặc biệt
               </p>

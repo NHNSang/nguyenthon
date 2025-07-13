@@ -4,12 +4,12 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white pt-16 pb-8">
+    <footer className="bg-[#1E1E1E] text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold tracking-widest mb-6">NGUYÊN THỐNG JP</h3>
+            <h3 className="text-2xl font-bold tracking-widest mb-6 text-primary">NGUYÊN THỐNG JP</h3>
             <p className="text-gray-400 mb-6">
               Trang website chính thức của Công ty TNHH MTV NGUYÊN THỐNG JP
             </p>
@@ -67,7 +67,7 @@ export default function Footer() {
                 <MapPin className="h-5 w-5 mr-3 flex-shrink-0 text-primary" />
                 <span className="text-gray-400">
                 Trụ sở chính: 119 Lê Ấm, P. Hoà Xuân, TP. Đà Nẵng
-                Chinh nhánh: 58A Nguyễn Thành Hãn, P. Hoà Cường, TP. Đà Nẵng.
+                Chi nhánh: 58A Nguyễn Thành Hãn, P. Hoà Cường, TP. Đà Nẵng.
                 </span>
               </li>
             </ul>

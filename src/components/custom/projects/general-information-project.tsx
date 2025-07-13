@@ -24,59 +24,61 @@ const GeneralInformationProject: React.FC<GeneralInformationProjectProps> = ({
         className="w-full "
       >
         <AccordionItem value="item-1">
-          <AccordionTrigger className={`text-xl font-bold `}>
+          <AccordionTrigger className={`lg:text-xl text-base font-bold mt-3 `}>
             Thông tin tổng quan về dự án
           </AccordionTrigger>
           <AccordionContent>
-            <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 my-5">
-              <div className="flex flex-col items-center justify-center space-y-3 bg-[#F5F5F3]  shadow-xl  shadow-2xlrounded-md p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <SizeIcon className="h-10 w-10 text-primary" />
-                <p className="text-neutral-600 text-sm">Diện tích</p>
-                <p className="text-xl font-bold text-black">
+            <div className="w-full grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 my-5">
+              <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
+                <SizeIcon className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <p className="text-neutral-600 text-sm mt-2">Diện tích</p>
+                <p className="lg:text-xl text-base font-bold text-black">
                   {project?.projectFields?.sizeOfProject} (m2)
                 </p>
               </div>
 
-              <div className="flex flex-col items-center justify-center space-y-3 bg-[#F5F5F3]  shadow-xl  shadow-2xlrounded-md p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <Building2 className="h-10 w-10 text-primary" />
-                <p className="text-neutral-600 text-sm">Số tầng</p>
-                <p className="text-xl font-bold text-black">
+              <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
+                <Building2 className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <p className="text-neutral-600 text-sm mt-2">Số tầng</p>
+                <p className="lg:text-xl text-base font-bold text-black">
                   {project?.projectFields?.floor} (tầng)
                 </p>
               </div>
 
-              <div className="flex flex-col items-center justify-center space-y-3 bg-[#F5F5F3]  shadow-xl  shadow-2xlrounded-md p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <Timer className="h-10 w-10 text-primary" />
-                <p className="text-neutral-600 text-sm">Năm hoàn thành</p>
-                <p className="text-xl font-bold text-black">
+              <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
+                <Timer className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <p className="text-neutral-600 text-sm mt-2">Năm hoàn thành</p>
+                <p className="lg:text-xl text-base font-bold text-black">
                   {project?.projectFields?.completedYear}
                 </p>
               </div>
 
-              <div className="flex flex-col items-center justify-center space-y-3 bg-[#F5F5F3]  shadow-xl  shadow-2xlrounded-md p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <MapPin className="h-10 w-10 text-primary" />
-                <p className="text-neutral-600 text-sm text-center">Địa điểm</p>
-                <p className="text-xl font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
+              <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
+                <MapPin className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <p className="text-neutral-600 text-sm mt-2 text-center">
+                  Địa điểm
+                </p>
+                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
                   {project?.projectFields?.location}
                 </p>
               </div>
 
-              <div className="flex flex-col items-center justify-center space-y-3 bg-[#F5F5F3]  shadow-xl  shadow-2xlrounded-md p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <BedIcon className="h-10 w-10 text-primary" />
-                <p className="text-neutral-600 text-sm text-center">
+              <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
+                <BedIcon className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <p className="text-neutral-600 text-sm mt-2 text-center">
                   Số phòng ngủ
                 </p>
-                <p className="text-xl font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
+                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
                   {project?.projectFields?.bedroom}
                 </p>
               </div>
 
-              <div className="flex flex-col items-center justify-center space-y-3 bg-[#F5F5F3]  shadow-xl  shadow-2xlrounded-md p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <DollarSign className="h-10 w-10 text-primary" />
-                <p className="text-neutral-600 text-sm text-center">
+              <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
+                <DollarSign className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <p className="text-neutral-600 text-sm mt-2 text-center">
                   Ngân sách dự án
                 </p>
-                <p className="text-xl font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
+                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
                   {project?.projectFields?.budget}
                 </p>
               </div>

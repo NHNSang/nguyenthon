@@ -16,9 +16,9 @@ const LastestBlogPost: React.FC<LastestBlogPostProps> = ({ posts }) => {
     const lastestPost = posts[0]
     return (
         <section className="">
-            <div className="container">
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
-                    <div className="relative h-[220px] md:h-[400px] rounded-tl-2xl rounded-bl-2xl overflow-hidden shadow-2xl">
+            <div className="container ">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center border-t border-r border-b border-primary ">
+                    <div className="relative h-[220px] md:h-[400px] overflow-hidden shadow-2xl">
                         <Image
                             src={lastestPost.node.featuredImage?.node?.sourceUrl || ""}
                             alt="Featured blog post"
@@ -26,15 +26,15 @@ const LastestBlogPost: React.FC<LastestBlogPostProps> = ({ posts }) => {
                             className="object-cover"
                         />
                     </div>
-                    <div className='max-w-2xl bg-[#F5F5F3] h-full p-4 rounded-tr-2xl rounded-br-2xl shadow-2xl'>
+                    <div className='  h-full lg:p-4 shadow-2xl flex flex-col justify-center items-left text-left'>
                         <Link href={`/blog/${lastestPost.node.slug}`}
                         >
-                            <h2 className="text-3xl mb-4 mt-4 font-[600px] hover:underline cursor-pointer">
+                            <h2 className="text-2xl md:text-[28px] mb-2 lg:mb-3 uppercase tracking-[3px] font-semibold">
                                 {lastestPost.node.title}
                             </h2>
                         </Link>
                         <div dangerouslySetInnerHTML={{ __html: lastestPost.node.excerpt || "" }}
-                            className=" mb-6" />
+                            className="text-[#5f5c5c] text-base lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 mb-3 font-normal" />
 
                         <div className="flex items-center gap-4 mb-6">
                             <div className="flex items-center gap-2">

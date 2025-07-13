@@ -109,7 +109,7 @@ export default function TestimonialsSection() {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-10  relative overflow-hidden bg-[#F5F5F5] "
+      className="py-10  relative overflow-hidden bg-white"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={sectionVariants}

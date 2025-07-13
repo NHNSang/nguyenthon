@@ -154,7 +154,11 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
               ? projects
               : portfoliosByCategory
             )?.map((project) => (
-              <motion.div key={project.slug} variants={item} className="group mx-5 lg:mx-0">
+              <motion.div
+                key={project.slug}
+                variants={item}
+                className="group mx-5 lg:mx-0"
+              >
                 <Link
                   href={`du-an/${project.slug}`}
                   className="bg-[#F5F5F3] block overflow-hidden shadow-2xl hover:shadow-xl transition-all duration-500"
@@ -167,7 +171,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                       height={600}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
-                    <div className=" group-hover:translate-x-2 group-hover:-translate-y-2 absolute top-3 right-3 p-2 bg-amber-50 opacity-90 transition-opacity hover:opacity-100 duration-500 z-30">
+                    <div className="border border-primary group-hover:translate-x-2 group-hover:-translate-y-2 absolute top-3 right-3 p-2 bg-amber-50 opacity-90 transition-opacity hover:opacity-100 duration-500 z-30">
                       <ArrowUpRight className="h-4 w-4 text-amber-800" />
                     </div>
 
@@ -190,7 +194,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                       </ul>
                     </motion.div>
                   </div>
-                  <div className="p-4 border border-[#e1e1e1]">
+                  <div className="p-4 border-r border-l border-b border-primary">
                     <h3 className="text-base font-medium text-gray-600 group-hover:text-primary transition-colors duration-300 line-clamp-2 text-left">
                       {project.title}
                     </h3>

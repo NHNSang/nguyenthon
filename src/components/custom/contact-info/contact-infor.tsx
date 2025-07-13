@@ -77,9 +77,9 @@ function ContactForm() {
 
   if (isSuccess) {
     return (
-      <Card className="border-0 shadow-lg">
+      <Card className=" shadow-lg ">
         <CardContent className="p-8 text-center">
-          <div className="mx-auto w-16 h-16 bg-[#D5B48C] rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-16 h-16  flex items-center justify-center mb-4">
             <CheckCircle size={32} className="text-balack" />
           </div>
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
@@ -89,7 +89,7 @@ function ContactForm() {
             Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ phản hồi trong
             vòng 24 giờ.
           </p>
-          <div className="bg-[#D5B48C]  rounded-lg p-4 text-left">
+          <div className="bg-[#D5B48C] p-4 text-left">
             <div className="text-sm text-balack space-y-1">
               <div>
                 <strong>Họ tên:</strong> {formData.name}
@@ -111,19 +111,20 @@ function ContactForm() {
   }
 
   return (
-    <Card className="border-0 shadow-lg bg-[#F5F5F3] p-3">
+    <Card className=" lg:border lg:border-primary p-3">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-gray-900 flex items-center ">
-          Gửi Tin Nhắn Cho Chúng Tôi
+        <CardTitle className="text-2xl md:text-2xl uppercase tracking-[2px] lg:tracking-[3px] font-semibold text-center border-b lg:border-none border-primary">
+            Gửi Tin Nhắn Cho
+            <p className="text-primary"> NGUYÊN THỐNG JP</p>
         </CardTitle>
         <CardDescription className="text-gray-600 italic mb-3">
           Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
+        <form onSubmit={handleSubmit} className="lg:space-y-6">
+          <div className="grid md:grid-cols-2 lg:gap-4">
+            <div className="lg:lg:space-y-2">
               <Label htmlFor="name">Họ và tên *</Label>
               <Input
                 id="name"
@@ -132,10 +133,10 @@ function ContactForm() {
                 onChange={handleInputChange}
                 placeholder="Nhập họ và tên của bạn"
                 required
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
               />
             </div>
-            <div className="space-y-2">
+            <div className="lg:lg:space-y-2">
               <Label htmlFor="phone">Số điện thoại *</Label>
               <Input
                 id="phone"
@@ -145,13 +146,13 @@ function ContactForm() {
                 onChange={handleInputChange}
                 placeholder="Nhập số điện thoại"
                 required
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
               />
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
+          <div className="grid md:grid-cols-2 lg:gap-4">
+            <div className="lg:lg:space-y-2">
               <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
@@ -161,10 +162,10 @@ function ContactForm() {
                 onChange={handleInputChange}
                 placeholder="Nhập địa chỉ email"
                 required
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
               />
             </div>
-            <div className="space-y-2">
+            <div className="lg:lg:space-y-2">
               <Label htmlFor="company">Công ty/Tổ chức</Label>
               <Input
                 id="company"
@@ -172,19 +173,19 @@ function ContactForm() {
                 value={formData.company}
                 onChange={handleInputChange}
                 placeholder="Tên công ty (tùy chọn)"
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="lg:lg:space-y-2">
             <Label htmlFor="service">Dịch vụ quan tâm *</Label>
             <select
               id="service"
               name="service"
               value={formData.service}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-[#D5B78F] bg-white rounded-md focus:outline-none focus:ring-2 focu]s:ring-[#D5B78F] text-gray-600 text-sm"
+              className="w-full px-4 py-2 border border-[#D5B78F] bg-white focus:outline-none focus:ring-2 focu]s:ring-[#D5B78F] text-gray-600 text-sm"
               required
             >
               <option value="">Chọn dịch vụ</option>
@@ -196,7 +197,7 @@ function ContactForm() {
             </select>
           </div>
 
-          <div className="space-y-2">
+          <div className="lg:lg:space-y-2">
             <Label htmlFor="subject">Tiêu đề *</Label>
             <Input
               id="subject"
@@ -204,11 +205,11 @@ function ContactForm() {
               value={formData.subject}
               onChange={handleInputChange}
               placeholder="Nhập tiêu đề tin nhắn"
-              className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+              className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="lg:lg:space-y-2">
             <Label htmlFor="message">Nội dung tin nhắn *</Label>
             <Textarea
               id="message"
@@ -216,18 +217,18 @@ function ContactForm() {
               value={formData.message}
               onChange={handleInputChange}
               placeholder="Mô tả chi tiết yêu cầu của bạn..."
-              className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#D5B78F] min-h-[120px] resize-none"
+              className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F] min-h-[120px] resize-none"
             />
           </div>
 
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-[#D5B48C] hover:scale-105 text-black rounded-lg py-3 text-lg"
+            className="w-full bg-[#D5B48C] hover:scale-105 text-black py-3 text-lg"
           >
             {isSubmitting ? (
               <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                <div className="animate-spin h-5 w-5 border-b-2 border-white mr-2"></div>
                 Đang gửi...
               </div>
             ) : (
@@ -238,7 +239,7 @@ function ContactForm() {
             )}
           </Button>
 
-          <p className="text-xs text-gray-600 text-center">
+          <p className="text-xs text-gray-600 text-center py-2">
             * Thông tin bắt buộc. Chúng tôi cam kết bảo mật thông tin của bạn.
           </p>
         </form>
@@ -249,15 +250,16 @@ function ContactForm() {
 
 export default function ContactInfor() {
   return (
-    <div className="mb-6 font-calibri">
+    <div className="pb-6">
       {/* Hero Section */}
-      <div className="grid lg:grid-cols-[35%_60%] gap-12 ">
+      <div className="grid lg:grid-cols-[35%_60%] lg:gap-12">
         <ContactForm />
-        <div className="rounded-lg overflow-hidden shadow-lg">
+        <div className="overflow-hidden lg:shadow-lg">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4245999999997!2d106.69999999999999!3d10.7769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4b00000000%3A0x0!2zMTAuNzc2OSwgMTA2LjcwMDAw!5e0!3m2!1svi!2s!4v1234567890"
             width="100%"
             height="100%"
+            className="h-[300px] lg:h-full"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"

@@ -31,10 +31,10 @@ const BlogCard = ({ post }: BlogCardProps) => {
   return (
     <Card
       key={post?.node?.slug}
-      className="border-none hover:shadow-xl transition-shadow cursor-pointer bg-[#F5F5F3] rounded-t-2xl shadow-2xl h-full"
+      className=" hover:shadow-xl transition-shadow cursor-pointer lg:shadow-2xl h-full mx-5 lg-mx-0 border border-primary"
       onClick={handleCardClick}
     >
-      <div className="relative h-[180px] w-full overflow-hidden rounded-t-2xl">
+      <div className="relative h-[180px] w-full overflow-hidden b">
         <Image
           src={`${post?.node?.featuredImage?.node?.sourceUrl}`}
           alt={post?.node?.featuredImage?.node?.altText || ""}
@@ -42,16 +42,16 @@ const BlogCard = ({ post }: BlogCardProps) => {
           className="object-cover filter brightness-90 hover:scale-110 transition-all duration-300 ease-in-out"
         />
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 bg-primary-foreground text-neutral-100 text-xs font-medium rounded-full">
+          <span className="px-3 py-1 bg-primary-foreground text-neutral-100 text-xs font-medium ">
             {post?.node?.categories?.nodes[0]?.name || "Chưa phân loại"}
           </span>
         </div>
       </div>
-      <CardHeader>
-        <CardTitle className="text-xl line-clamp-1">
+      <CardHeader className="">
+        <CardTitle className="md:text-xl  uppercase lg:tracking-[1px] font-semibold line-clamp-1">
           {post?.node?.title}
         </CardTitle>
-        <CardDescription className="flex items-center gap-4 mt-2">
+        <CardDescription className="flex items-center gap-4">
           <Date dateString={post?.node?.date} />
           <span className="text-sm text-gray-500">
             {post?.node.customPost?.readtime || 5} phút đọc
@@ -60,7 +60,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
       </CardHeader>
       <CardContent>
         <div
-          className="text-gray-600 line-clamp-2"
+          className="text-[#5f5c5c] text-base lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-2 font-normal"
           dangerouslySetInnerHTML={{
             __html: post?.node?.excerpt || "",
           }}
@@ -92,7 +92,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
           icon={<ArrowUpRight className="h-6 w-6" />}
           href={`/blog/${post?.node?.slug}`}
         /> */}
-        <Button className="px-4 bg-[#D5B78F] text-white rounded-full hover:scale-105  duration-500">
+        <Button className="px-4 bg-[#D5B78F] text-white hover:scale-105 uppercase duration-500">
           <Link href={`/blog/${post?.node?.slug}`}>Xem Chi Tiết</Link>
         </Button>
       </CardFooter>

@@ -18,17 +18,18 @@ import {
   FileText,
   Headphones,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 // Dữ liệu công ty
 const companyData = {
   name: "BuildPro Construction",
   mainOffice: {
     address:
-      "119 Lê Ấm, Cẩm Lệ, Đà Nẵng. Chinh nhánh: 58A Nguyễn Thành Hãn, Hải Châu, Đà Nẵng.",
+      "119 Lê Ấm, P. Hoà Xuân, TP. Đà Nẵng Chi nhánh: 58A Nguyễn Thành Hãn, P. Hoà Cường, TP. Đà Nẵng.",
     phone: "0912842727",
-    email: "info@nguyenthongjp.com",
+    email: "nguyenthongjpcontrustion@gmail.com",
     website: "https://nguyenthongjp.vercel.app/",
-    workingHours: "8:00 - 17:30 (T2-T6), 8:00 - 12:00 (T7)",
+    workingHours: "7:30 - 17 (T2-T7),",
     hotline: "0912842727",
   },
 };
@@ -38,12 +39,12 @@ export default function ContactInforV2() {
     <div className=" font-calibri">
       {/* Office Information */}
       <section className=" ">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto lg:px-4">
           <div className="max-w-5xl mx-auto ">
             <Card className="border-0 shadow-lg">
-              <CardContent className="p-8 bg-[#F5F5F3] shadow-2xl">
-                <h2 className="text-3xl font-bold text-black mb-4 text-center">
-                  Thông Tin Văn Phòng
+              <CardContent className="p-4 bg-white  lg:border lg:border-primary lg:shadow-2xl">
+                <h2 className="text-2xl md:text-3xl mb-2 lg:mb-6 uppercase tracking-[2px] lg:tracking-[3px] font-semibold text-center border-b lg:border-none border-primary">
+                  Thông Tin <span className="text-primary">Văn Phòng</span> 
                 </h2>
 
                 <div className="grid md:grid-cols-2 gap-8">
@@ -105,11 +106,11 @@ export default function ContactInforV2() {
                         <Clock className="mr-2 text-black" size={18} />
                         Giờ Làm Việc
                       </h4>
-                      <div className="rounded-lg p-4">
+                      <div className=" p-4">
                         <p className="text-gray-700">
                           {companyData.mainOffice.workingHours}
                         </p>
-                        <div className="mt-3 pt-3 border-t border-gray-200">
+                        <div className="mt-3 pt-3 border-t border-primary">
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-gray-600">
                               Hotline:
@@ -131,11 +132,20 @@ export default function ContactInforV2() {
                         Liên Hệ Nhanh
                       </h4>
                       <div className="space-y-3">
-                        <Button className="w-full bg-[#D5B48C] rounded-lg">
+                        <motion.button
+                          initial={{ scale: 1 }}
+                          animate={{ scale: [1, 1.05, 1] }} // Zoom in-out nhẹ
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          }}
+                          className="w-full bg-[#D5B48C] text-white flex items-center justify-center p-2"
+                        >
                           <Phone className="mr-2 text-black" size={16} />
                           Gọi ngay: {companyData.mainOffice.phone}
-                        </Button>
-                        <Button className="w-full bg-[#D5B48C] rounded-lg">
+                        </motion.button>
+                        <Button className="w-full bg-[#D5B48C] ">
                           <Phone className="mr-2 text-black" size={16} />
                           Gửi email: {companyData.mainOffice.email}
                         </Button>
@@ -149,7 +159,7 @@ export default function ContactInforV2() {
                         Dịch Vụ Hỗ Trợ
                       </h4>
                       <div className="space-y-2">
-                        <div className="flex items-center justify-between p-3 bg-white shadow-2xl border  border-primary  rounded-lg">
+                        <div className="flex items-center justify-between p-3 bg-white lg:shadow-2xl border  border-primary  ">
                           <div className="flex items-center">
                             <Calculator className="mr-2 text-black" size={16} />
                             <span className="text-sm font-medium">
@@ -158,7 +168,7 @@ export default function ContactInforV2() {
                           </div>
                           <Badge variant="secondary">Miễn phí</Badge>
                         </div>
-                        <div className="flex items-center justify-between p-3 bg-white shadow-2xl border  border-primary  rounded-lg">
+                        <div className="flex items-center justify-between p-3 bg-white lg:shadow-2xl border  border-primary  ">
                           <div className="flex items-center">
                             <Users className="mr-2 text-black" size={16} />
                             <span className="text-sm font-medium">
@@ -167,7 +177,7 @@ export default function ContactInforV2() {
                           </div>
                           <Badge variant="secondary">24/7</Badge>
                         </div>
-                        <div className="flex items-center justify-between p-3 bg-white shadow-2xl border  border-primary  rounded-lg">
+                        <div className="flex items-center justify-between p-3 bg-white lg:shadow-2xl border  border-primary  ">
                           <div className="flex items-center">
                             <Shield className="mr-2 text-black" size={16} />
                             <span className="text-sm font-medium">

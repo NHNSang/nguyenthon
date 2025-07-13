@@ -27,7 +27,7 @@ const ContentBlogPostProps: React.FC<ContentBlogPostProps> = ({ post, updateHtml
     const shareExcerpt = `${post.excerpt}`
     return (
         <div className="lg:col-span-8">
-            <div className="relative h-[220px] w-full md:h-[400px] rounded-xl overflow-hidden mb-8">
+            <div className="relative h-[220px] w-full md:h-[400px] overflow-hidden mb-8">
                 <Image
                     src={post.featuredImage.node.sourceUrl}
                     alt={post.title}

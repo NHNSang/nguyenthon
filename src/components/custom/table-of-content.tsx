@@ -22,7 +22,7 @@ const TableOfContent: React.FC<TableOfContentProps> = ({
         defaultValue='toc'
         type='single' 
         collapsible 
-        className='w-full p-5 bg-[#F5F5F3] rounded-md  '>
+        className='w-full p-5 bg-[#F5F5F3] '>
             <AccordionItem value='toc'>
                 <AccordionTrigger >
                    <span className='font-semibold text-black text-lg'>

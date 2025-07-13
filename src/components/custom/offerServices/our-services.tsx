@@ -219,7 +219,7 @@ const OurServices = () => {
               {duplicatedCategories.map((category, index) => (
                 <motion.div
                   key={index}
-                  className="flex-shrink-0 w-[260px] lg:w-[300px] bg-white border-2 border-[#e1e1e1] group cursor-pointer shadow-xl my-0 lg:my-5"
+                  className="flex-shrink-0 w-[260px] lg:w-[300px] bg-white border border-primary group cursor-pointer shadow-xl my-0 lg:my-5"
                   variants={itemVariants}
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.2 }}
@@ -233,7 +233,7 @@ const OurServices = () => {
                       className="object-cover"
                     />
                     <motion.div
-                      className="absolute top-2 right-2 p-1 bg-white border-[#e1e1e1] group-hover:translate-x-2 duration-300"
+                      className="absolute top-2 right-2 p-1 bg-white border border-primary group-hover:translate-x-2 duration-300"
                       transition={{ duration: 0.3 }}
                     >
                       <ArrowRight className="h-4 w-4 text-black " />

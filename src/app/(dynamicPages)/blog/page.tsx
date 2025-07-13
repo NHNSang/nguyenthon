@@ -16,8 +16,8 @@ type SearchParams = {
 // Define props to match Next.js expectations
 interface SearchParamsProps {
   searchParams?:
-  | Promise<{ [key: string]: string | string[] | undefined }>
-  | undefined;
+    | Promise<{ [key: string]: string | string[] | undefined }>
+    | undefined;
 }
 
 // Function to fetch all posts
@@ -45,20 +45,23 @@ const BlogpostPage = async ({ searchParams }: SearchParamsProps) => {
   // console.log("filteredPostsByPagination", filteredPostsByPagination);
 
   return (
-    <div className="bg-[#F1EDE6] pt-[140px]">
+    <div className="pt-[60px] lg:pt-[140px] bg-white">
       <Suspense fallback={<Loading />}>
         <main className="flex-1">
           {/* Bai viet moi */}
           <LastestBlogPost posts={posts} />
           {/* Blog Posts */}
+          <p className="text-2xl md:text-[40px] my-5 lg:my-10 uppercase tracking-[5px] lg:tracking-[5px] font-semibold text-center">
+            Các bài <span className="text-primary">viết mới</span>
+          </p>
           {filteredPostsByPagination && (
-            <section id="posts-body-section" className=" bg-[#F1EDE6] ">
-              <div className="mt-8 container">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-3xl md:text-4xlfont-light">
-                    Các bài viết mới
-                  </h2>
-                </div>
+            <section id="posts-body-section" className="  ">
+              <div className="lg:mt-8 container">
+                {/* <div className="flex justify-between items-center mb-6">
+                  <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-6 uppercase tracking-[5px] lg:tracking-[8px] font-semibold text-center">
+                    Các bài <span className="text-primary"></span> viết mới
+                  </h1>
+                </div> */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {filteredPostsByPagination?.map((post) => (

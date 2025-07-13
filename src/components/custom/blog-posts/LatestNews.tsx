@@ -126,10 +126,10 @@ const LatestNewsSection: React.FC<PostsProps> = ({
                   alt={item.node.title}
                   width={400}
                   height={300}
-                  className="w-full h-[250px] lg:h-[300px]  aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-[250px] lg:h-[300px]  aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-105 "
                 />
                 <motion.div
-                  className="absolute top-3 right-3 p-2 bg-amber-50 opacity-90"
+                  className="absolute top-3 right-3 p-2 bg-white opacity-90 border border-primary"
                   whileHover={{
                     opacity: 1,
                     scale: 1.1,
@@ -144,7 +144,7 @@ const LatestNewsSection: React.FC<PostsProps> = ({
                   </motion.div>
                 </motion.div>
               </div>
-              <div className="px-4 pb-4 pt-3 lg:pt-0 lg:h-[25%] border-2 border-[#e1e1e1]">
+              <div className="px-4 pb-4 pt-3 lg:pt-0 lg:h-[25%] border-r border-l border-b border-primary">
                 <motion.h3
                   className="text-black text-base px-0 lg:text-lg line-clamp-2 lg:line-clamp-2 uppercase tracking-[1px] font-semibold "
                   initial={{ opacity: 0.8 }}

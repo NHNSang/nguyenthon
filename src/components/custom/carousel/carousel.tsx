@@ -391,7 +391,7 @@ export default function MultiAnimationCarousel() {
           <div className="relative z-20 h-full flex items-center justify-center lh:mt-0">
             <div className="text-center text-white px-2 max-w-7xl">
               <p
-                className={`font-Oswald uppercase text-base md:text-3xl lg:text-5xl font-medium lg:font-bold mb-4 tracking-[3px] ${
+                className={`font-Oswald uppercase text-base md:text-3xl lg:text-5xl font-medium lg:font-bold mb-4 tracking-[3px] pt-4 ${
                   index === currentSlide && isAnimating
                     ? `animate-title-${slide.titleAnimation}`
                     : "opacity-0"

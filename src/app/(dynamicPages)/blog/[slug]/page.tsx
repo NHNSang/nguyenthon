@@ -89,7 +89,7 @@ export default async function SinglePostPage({
     const { headings, updateHtml } = extractHeadings(post.content as string);
 
     return (
-      <div className="flex flex-col min-h-screen relative bg-[#F1EDE6] pt-[120px]">
+      <div className="flex flex-col min-h-screen relative bg-white pt-[60px] lg:pt-[90px] px-4 mb-4 lg:mb-0">
         <main className="flex-1">
           {/* Blog Post Header */}
           <section className=" ">
@@ -102,14 +102,14 @@ export default async function SinglePostPage({
                   <ArrowLeft className="h-7 w-7" />
                   Trở về
                 </Link>
-                <span className="inline-block px-3 py-1 bg-[#D0AC80] text-white text-sm rounded-sm">
+                <span className="inline-block px-3 py-1 bg-[#D0AC80] text-white text-sm">
                   Danh mục {post.categories.nodes[0]?.name || "Không xác định"}
                 </span>
               </div>
 
               {/* Post Header */}
               <div className="w-full">
-                <div className="max-w-6xl line-clamp-2">
+                <div className="line-clamp-2">
                   <h1 className="text-xl md:text-4xl font-bold tracking-tight mb-4">
                     {post.title}
                   </h1>

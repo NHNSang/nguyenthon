@@ -163,7 +163,7 @@ const ProjectsComponent: React.FC<OurProjectsComponentProps> = ({
                       </div>
                     </div>
 
-                    <div className="px-6 py-4 bg-white h-[30%] border-2 border-[#e1e1e1]">
+                    <div className="px-6 py-4 bg-white h-[30%] border border-primary">
                       <h3 className="text-xl font-semibold uppercase">
                         {item.projectFields.projectCategory[0]}
                       </h3>

@@ -64,7 +64,7 @@ const ContactPage = () => {
   };
 
   return (
-    <main className="bg-[#F1EDE6] font-calibri pt-[120px] ">
+    <main className="bg-white font-calibri pt-[60px] lg:pt-[80px] ">
       {/* <BackgroundForBreadcrumb titleForPage="Liên hệ" /> */}
       <Container className="">
         <motion.div
@@ -80,11 +80,11 @@ const ContactPage = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5 mb-6 w-[90%]  mx-auto"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5 mb-6 w-[80%]  mx-auto"
         >
           <motion.div
             variants={itemVariants}
-            className="bg-[#F5F5F3] p-4 rounded-lg shadow-xl text-center  "
+            className="bg-white border border-primary p-4 shadow-xl text-center  "
           >
             <FaBuilding className="text-primary mx-auto mb-2" size={32} />
             <h3 className="text-3xl  font-semibold text-gray-600">
@@ -94,7 +94,7 @@ const ContactPage = () => {
           </motion.div>
           <motion.div
             variants={itemVariants}
-            className="bg-[#F5F5F3] p-4 rounded-lg shadow-xl text-center"
+            className="bg-white border border-primary p-4 shadow-xl text-center"
           >
             <FaProjectDiagram className="text-primary mx-auto mb-2" size={32} />
             <h3 className="text-3xl  font-semibold text-gray-600">
@@ -104,7 +104,7 @@ const ContactPage = () => {
           </motion.div>
           <motion.div
             variants={itemVariants}
-            className="bg-[#F5F5F3] p-4 rounded-lg shadow-xl text-center"
+            className="bg-white border border-primary p-4 shadow-xl text-center"
           >
             <FaUsers className="text-primary mx-auto mb-2" size={32} />
             <h3 className="text-3xl  font-semibold text-gray-600">
@@ -114,7 +114,7 @@ const ContactPage = () => {
           </motion.div>
           <motion.div
             variants={itemVariants}
-            className="bg-[#F5F5F3] p-4 rounded-lg shadow-xl text-center"
+            className="bg-white border border-primary p-4 shadow-xl text-center"
           >
             <FaAward className="text-primary mx-auto mb-2" size={32} />
             <h3 className="text-3xl  font-semibold text-gray-600">

@@ -91,7 +91,7 @@ export default function ContactInfoModal() {
       {/* Trigger Button */}
       <Button
         onClick={() => setIsOpen(true)}
-        className="bg-primary text-white  px-8 py-3 rounded-md w-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-calibri"
+        className="bg-primary text-white  px-8 py-3 w-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-calibri"
       >
         {/* <User className="mr-2" size={20} /> */}
         Để Lại Thông Tin
