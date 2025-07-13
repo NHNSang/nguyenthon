@@ -173,7 +173,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
               key={index}
               variants={itemVariants}
               custom={index}
-              className="flex items-start p-4 sm:p-5 md:p-6 bg-white cursor-pointer shadow-md hover:shadow-xl group border border-[#e1e1e1] transition-all duration-300"
+              className="flex items-start p-4 sm:p-5 md:p-6 bg-white cursor-pointer shadow-md hover:shadow-xl group border border-primary transition-all duration-300"
             >
               <div className="bg-[#CA9C6A] p-2 mr-4 flex-shrink-0  shadow-lg">
                 <Check className="h-3 lg:h-5 w-3 lg:w-5 text-white" />
