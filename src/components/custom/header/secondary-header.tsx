@@ -46,12 +46,12 @@ const SecondaryHeader = () => {
         <div className="bg-white px-2 lg:px-10 py-2 lg:py-3">
           <div className="container mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             {/* Logo / Tên công ty */}
-            <p className="font-oswald text-lg lg:text-2xl font-extrabold text-black pl-4 ">
-              CÔNG TY TNHH MTV{" "}
-              <span className="text-primary whitespace-nowrap">
-                 NGUYÊN THỐNG JP 
-              </span>
-            </p>
+            <div>
+              <p className="font-oswald text-lg lg:text-base font-extrabold text-black pl-4">CÔNG TY TNHH MTV NGUYÊN THỐNG JP </p>
+              <p className="font-oswald text-lg lg:text-base font-extrabold text-primary whitespace-nowrap pl-4 text-center">
+                 THIẾT KẾ - THI CÔNG XÂY DỰNG
+              </p>
+            </div>
 
             {/* Grid thông tin chỉ hiển thị ở màn lớn */}
             <div className="flex gap-6 ">

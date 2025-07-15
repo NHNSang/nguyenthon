@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import type React from "react";
+import type React from 'react'
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import {
   MapPin,
   Clock,
@@ -35,176 +35,176 @@ import {
   Star,
   Search,
   Filter,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { motion } from "framer-motion";
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 // Dữ liệu các vị trí tuyển dụng
 const jobPositions = [
   {
     id: 1,
-    title: "Kỹ Sư Xây Dựng Dân Dụng",
-    department: "Kỹ Thuật",
-    location: "Hà Nội",
-    type: "Toàn thời gian",
-    salary: "15-25 triệu",
-    experience: "2-5 năm",
+    title: 'Kỹ Sư Xây Dựng Dân Dụng',
+    department: 'Kỹ Thuật',
+    location: 'Hà Nội',
+    type: 'Toàn thời gian',
+    salary: '15-25 triệu',
+    experience: '2-5 năm',
     description:
-      "Tham gia thiết kế, giám sát thi công các dự án xây dựng dân dụng và công nghiệp. Yêu cầu có kinh nghiệm về AutoCAD, Revit và các phần mềm thiết kế chuyên ngành.",
+      'Tham gia thiết kế, giám sát thi công các dự án xây dựng dân dụng và công nghiệp. Yêu cầu có kinh nghiệm về AutoCAD, Revit và các phần mềm thiết kế chuyên ngành.',
     requirements: [
-      "Tốt nghiệp Đại học chuyên ngành Xây dựng Dân dụng",
-      "Có kinh nghiệm 2-5 năm trong lĩnh vực xây dựng",
-      "Thành thạo AutoCAD, Revit, MS Office",
-      "Có khả năng đọc hiểu bản vẽ kỹ thuật",
-      "Kỹ năng giao tiếp tốt, làm việc nhóm hiệu quả",
-      "Có thể đi công tác theo dự án",
+      'Tốt nghiệp Đại học chuyên ngành Xây dựng Dân dụng',
+      'Có kinh nghiệm 2-5 năm trong lĩnh vực xây dựng',
+      'Thành thạo AutoCAD, Revit, MS Office',
+      'Có khả năng đọc hiểu bản vẽ kỹ thuật',
+      'Kỹ năng giao tiếp tốt, làm việc nhóm hiệu quả',
+      'Có thể đi công tác theo dự án',
     ],
     benefits: [
-      "Lương cạnh tranh + thưởng dự án",
-      "Bảo hiểm đầy đủ",
-      "Đào tạo chuyên môn",
-      "Cơ hội thăng tiến",
+      'Lương cạnh tranh + thưởng dự án',
+      'Bảo hiểm đầy đủ',
+      'Đào tạo chuyên môn',
+      'Cơ hội thăng tiến',
     ],
     urgent: true,
-    posted: "2 ngày trước",
+    posted: '2 ngày trước',
   },
   {
     id: 2,
-    title: "Kiến Trúc Sư Thiết Kế",
-    department: "Thiết Kế",
-    location: "TP.HCM",
-    type: "Toàn thời gian",
-    salary: "20-35 triệu",
-    experience: "3-7 năm",
+    title: 'Kiến Trúc Sư Thiết Kế',
+    department: 'Thiết Kế',
+    location: 'TP.HCM',
+    type: 'Toàn thời gian',
+    salary: '20-35 triệu',
+    experience: '3-7 năm',
     description:
-      "Thiết kế kiến trúc các công trình dân dụng, thương mại, resort. Phối hợp với team kỹ thuật để hoàn thiện dự án từ ý tưởng đến triển khai.",
+      'Thiết kế kiến trúc các công trình dân dụng, thương mại, resort. Phối hợp với team kỹ thuật để hoàn thiện dự án từ ý tưởng đến triển khai.',
     requirements: [
-      "Tốt nghiệp Đại học Kiến trúc",
-      "Kinh nghiệm 3-7 năm thiết kế kiến trúc",
-      "Thành thạo SketchUp, 3ds Max, Photoshop, AutoCAD",
-      "Có tư duy sáng tạo, thẩm mỹ cao",
-      "Khả năng thuyết trình, trình bày ý tưởng tốt",
-      "Có portfolio các dự án đã thực hiện",
+      'Tốt nghiệp Đại học Kiến trúc',
+      'Kinh nghiệm 3-7 năm thiết kế kiến trúc',
+      'Thành thạo SketchUp, 3ds Max, Photoshop, AutoCAD',
+      'Có tư duy sáng tạo, thẩm mỹ cao',
+      'Khả năng thuyết trình, trình bày ý tưởng tốt',
+      'Có portfolio các dự án đã thực hiện',
     ],
     benefits: [
-      "Lương cao + bonus",
-      "Môi trường sáng tạo",
-      "Dự án đa dạng",
-      "Team building thường xuyên",
+      'Lương cao + bonus',
+      'Môi trường sáng tạo',
+      'Dự án đa dạng',
+      'Team building thường xuyên',
     ],
     urgent: false,
-    posted: "1 tuần trước",
+    posted: '1 tuần trước',
   },
   {
     id: 3,
-    title: "Trưởng Phòng Kinh Doanh",
-    department: "Kinh Doanh",
-    location: "Hà Nội",
-    type: "Toàn thời gian",
-    salary: "25-40 triệu",
-    experience: "5+ năm",
+    title: 'Trưởng Phòng Kinh Doanh',
+    department: 'Kinh Doanh',
+    location: 'Hà Nội',
+    type: 'Toàn thời gian',
+    salary: '25-40 triệu',
+    experience: '5+ năm',
     description:
-      "Quản lý đội ngũ kinh doanh, phát triển thị trường, tìm kiếm khách hàng mới và duy trì mối quan hệ với khách hàng cũ. Xây dựng chiến lược kinh doanh cho công ty.",
+      'Quản lý đội ngũ kinh doanh, phát triển thị trường, tìm kiếm khách hàng mới và duy trì mối quan hệ với khách hàng cũ. Xây dựng chiến lược kinh doanh cho công ty.',
     requirements: [
-      "Tốt nghiệp Đại học các ngành Kinh tế, Quản trị",
-      "Kinh nghiệm 5+ năm quản lý kinh doanh",
-      "Kỹ năng lãnh đạo, quản lý team xuất sắc",
-      "Mạng lưới quan hệ rộng trong ngành xây dựng",
-      "Kỹ năng đàm phán, thuyết phục tốt",
-      "Có kinh nghiệm làm việc với khách hàng doanh nghiệp",
+      'Tốt nghiệp Đại học các ngành Kinh tế, Quản trị',
+      'Kinh nghiệm 5+ năm quản lý kinh doanh',
+      'Kỹ năng lãnh đạo, quản lý team xuất sắc',
+      'Mạng lưới quan hệ rộng trong ngành xây dựng',
+      'Kỹ năng đàm phán, thuyết phục tốt',
+      'Có kinh nghiệm làm việc với khách hàng doanh nghiệp',
     ],
     benefits: [
-      "Lương + Hoa hồng hấp dẫn",
-      "Xe công ty",
-      "Du lịch hàng năm",
-      "Thưởng KPI cao",
+      'Lương + Hoa hồng hấp dẫn',
+      'Xe công ty',
+      'Du lịch hàng năm',
+      'Thưởng KPI cao',
     ],
     urgent: true,
-    posted: "3 ngày trước",
+    posted: '3 ngày trước',
   },
   {
     id: 4,
-    title: "Nhân Viên Kế Toán Tổng Hợp",
-    department: "Tài Chính",
-    location: "Hà Nội",
-    type: "Toàn thời gian",
-    salary: "8-15 triệu",
-    experience: "1-3 năm",
+    title: 'Nhân Viên Kế Toán Tổng Hợp',
+    department: 'Tài Chính',
+    location: 'Hà Nội',
+    type: 'Toàn thời gian',
+    salary: '8-15 triệu',
+    experience: '1-3 năm',
     description:
-      "Thực hiện các công việc kế toán tổng hợp, lập báo cáo tài chính, theo dõi công nợ khách hàng, hỗ trợ công tác thuế và kiểm toán.",
+      'Thực hiện các công việc kế toán tổng hợp, lập báo cáo tài chính, theo dõi công nợ khách hàng, hỗ trợ công tác thuế và kiểm toán.',
     requirements: [
-      "Tốt nghiệp Đại học Kế toán, Tài chính",
-      "Có kinh nghiệm 1-3 năm làm kế toán tổng hợp",
-      "Thành thạo Excel, phần mềm kế toán MISA/FAST",
-      "Tỉ mỉ, cẩn thận, trung thực trong công việc",
-      "Có chứng chỉ kế toán trưởng là lợi thế",
-      "Khả năng làm việc độc lập và theo nhóm",
+      'Tốt nghiệp Đại học Kế toán, Tài chính',
+      'Có kinh nghiệm 1-3 năm làm kế toán tổng hợp',
+      'Thành thạo Excel, phần mềm kế toán MISA/FAST',
+      'Tỉ mỉ, cẩn thận, trung thực trong công việc',
+      'Có chứng chỉ kế toán trưởng là lợi thế',
+      'Khả năng làm việc độc lập và theo nhóm',
     ],
     benefits: [
-      "Lương ổn định",
-      "Môi trường chuyên nghiệp",
-      "Đào tạo nghiệp vụ",
-      "Thưởng lễ tết",
+      'Lương ổn định',
+      'Môi trường chuyên nghiệp',
+      'Đào tạo nghiệp vụ',
+      'Thưởng lễ tết',
     ],
     urgent: false,
-    posted: "5 ngày trước",
+    posted: '5 ngày trước',
   },
   {
     id: 5,
-    title: "Thực Tập Sinh Kỹ Thuật",
-    department: "Kỹ Thuật",
-    location: "Hà Nội/TP.HCM",
-    type: "Thực tập",
-    salary: "3-5 triệu",
-    experience: "Sinh viên",
+    title: 'Thực Tập Sinh Kỹ Thuật',
+    department: 'Kỹ Thuật',
+    location: 'Hà Nội/TP.HCM',
+    type: 'Thực tập',
+    salary: '3-5 triệu',
+    experience: 'Sinh viên',
     description:
-      "Hỗ trợ các kỹ sư trong việc thiết kế, vẽ bản vẽ kỹ thuật, tham gia khảo sát thực địa các dự án. Cơ hội học hỏi kinh nghiệm thực tế từ các chuyên gia.",
+      'Hỗ trợ các kỹ sư trong việc thiết kế, vẽ bản vẽ kỹ thuật, tham gia khảo sát thực địa các dự án. Cơ hội học hỏi kinh nghiệm thực tế từ các chuyên gia.',
     requirements: [
-      "Sinh viên năm 3, 4 ngành Xây dựng, Kiến trúc",
-      "Có kiến thức cơ bản về AutoCAD, SketchUp",
-      "Ham học hỏi, nhiệt tình, có trách nhiệm",
-      "Có thể làm việc full-time tối thiểu 3 tháng",
-      "Ưu tiên sinh viên có điểm số tốt",
-      "Có khả năng giao tiếp tốt",
+      'Sinh viên năm 3, 4 ngành Xây dựng, Kiến trúc',
+      'Có kiến thức cơ bản về AutoCAD, SketchUp',
+      'Ham học hỏi, nhiệt tình, có trách nhiệm',
+      'Có thể làm việc full-time tối thiểu 3 tháng',
+      'Ưu tiên sinh viên có điểm số tốt',
+      'Có khả năng giao tiếp tốt',
     ],
     benefits: [
-      "Trợ cấp thực tập",
-      "Mentor 1-1",
-      "Cơ hội full-time",
-      "Chứng nhận thực tập",
+      'Trợ cấp thực tập',
+      'Mentor 1-1',
+      'Cơ hội full-time',
+      'Chứng nhận thực tập',
     ],
     urgent: false,
-    posted: "1 ngày trước",
+    posted: '1 ngày trước',
   },
   {
     id: 6,
-    title: "Giám Đốc Dự Án",
-    department: "Quản Lý",
-    location: "Hà Nội",
-    type: "Toàn thời gian",
-    salary: "35-50 triệu",
-    experience: "7+ năm",
+    title: 'Giám Đốc Dự Án',
+    department: 'Quản Lý',
+    location: 'Hà Nội',
+    type: 'Toàn thời gian',
+    salary: '35-50 triệu',
+    experience: '7+ năm',
     description:
-      "Quản lý toàn bộ dự án từ khởi động đến hoàn thành, điều phối các bộ phận, đảm bảo tiến độ, chất lượng và ngân sách dự án.",
+      'Quản lý toàn bộ dự án từ khởi động đến hoàn thành, điều phối các bộ phận, đảm bảo tiến độ, chất lượng và ngân sách dự án.',
     requirements: [
-      "Tốt nghiệp Đại học chuyên ngành liên quan",
-      "Kinh nghiệm 7+ năm quản lý dự án xây dựng",
-      "Có chứng chỉ PMP hoặc tương đương",
-      "Kỹ năng lãnh đạo và quản lý team mạnh",
-      "Khả năng làm việc dưới áp lực cao",
-      "Thành thạo MS Project, Primavera",
+      'Tốt nghiệp Đại học chuyên ngành liên quan',
+      'Kinh nghiệm 7+ năm quản lý dự án xây dựng',
+      'Có chứng chỉ PMP hoặc tương đương',
+      'Kỹ năng lãnh đạo và quản lý team mạnh',
+      'Khả năng làm việc dưới áp lực cao',
+      'Thành thạo MS Project, Primavera',
     ],
     benefits: [
-      "Lương cao + thưởng dự án",
-      "Quyền quyết định cao",
-      "Cơ hội phát triển",
-      "Đãi ngộ đặc biệt",
+      'Lương cao + thưởng dự án',
+      'Quyền quyết định cao',
+      'Cơ hội phát triển',
+      'Đãi ngộ đặc biệt',
     ],
     urgent: true,
-    posted: "4 ngày trước",
+    posted: '4 ngày trước',
   },
-];
+]
 
 // Component form ứng tuyển
 function ApplicationModal({
@@ -212,44 +212,44 @@ function ApplicationModal({
   isOpen,
   onClose,
 }: {
-  job: any;
-  isOpen: boolean;
-  onClose: () => void;
+  job: any
+  isOpen: boolean
+  onClose: () => void
 }) {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    experience: "",
-    coverLetter: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+    name: '',
+    email: '',
+    phone: '',
+    experience: '',
+    coverLetter: '',
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    e.preventDefault()
+    setIsSubmitting(true)
 
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    setIsSubmitting(false)
+    setIsSuccess(true)
 
     setTimeout(() => {
-      onClose();
-      setIsSuccess(false);
+      onClose()
+      setIsSuccess(false)
       setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        experience: "",
-        coverLetter: "",
-      });
-    }, 3000);
-  };
+        name: '',
+        email: '',
+        phone: '',
+        experience: '',
+        coverLetter: '',
+      })
+    }, 3000)
+  }
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -257,7 +257,7 @@ function ApplicationModal({
         <Card className="relative bg-white shadow-2xl border-0 font-calibri max-h-[90vh] overflow-y-auto">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-base sm:text-base text-[#5f5c5c] leading-relaxed transition-colors z-10"
+            className="absolute top-4 right-4  hover:text-base sm:text-base text-[#5f5c5c] leading-relaxed transition-colors z-10"
           >
             <X size={24} />
           </button>
@@ -399,37 +399,37 @@ function ApplicationModal({
         </Card>
       </div>
     </div>
-  );
+  )
 }
 
 export default function RecruitmentPage() {
-  const [selectedJob, setSelectedJob] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterDepartment, setFilterDepartment] = useState("all");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedJob, setSelectedJob] = useState<any>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [filterDepartment, setFilterDepartment] = useState('all')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const departments = [
-    "all",
-    "Kỹ Thuật",
-    "Thiết Kế",
-    "Kinh Doanh",
-    "Tài Chính",
-    "Quản Lý",
-  ];
+    'all',
+    'Kỹ Thuật',
+    'Thiết Kế',
+    'Kinh Doanh',
+    'Tài Chính',
+    'Quản Lý',
+  ]
 
   const filteredJobs = jobPositions.filter((job) => {
     const matchesDepartment =
-      filterDepartment === "all" || job.department === filterDepartment;
+      filterDepartment === 'all' || job.department === filterDepartment
     const matchesSearch =
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      job.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesDepartment && matchesSearch;
-  });
+      job.description.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesDepartment && matchesSearch
+  })
 
   const handleApply = (job: any) => {
-    setSelectedJob(job);
-    setIsModalOpen(true);
-  };
+    setSelectedJob(job)
+    setIsModalOpen(true)
+  }
 
   return (
     <div className=" bg-white font-calibri pt-[60px] lg:pt-[90px]">
@@ -449,32 +449,31 @@ export default function RecruitmentPage() {
       <section className="">
         <div className="container mx-auto px-4">
           <div className="w-full overflow-x-scroll hiddenScrollBar mb-6 ">
-<div className="flex flex-row justify-center items-center gap-1 min-w-max px-4 border-b border-primary mb-3">
-            {departments.map((dept) => (
-              <button
-                key={dept}
-                onClick={() => setFilterDepartment(dept)}
-                className={cn(
-                  "uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary ",
-                  filterDepartment === dept
-                    ? "text-white font-semibold"
-                    : "text-black bg-white border-primary"
-                )}
-              >
-                {dept === "all" ? "Tất cả" : dept}
-              </button>
-            ))}
+            <div className="flex flex-row justify-center items-center gap-1 min-w-max px-4 border-b border-primary mb-3">
+              {departments.map((dept) => (
+                <button
+                  key={dept}
+                  onClick={() => setFilterDepartment(dept)}
+                  className={cn(
+                    'uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary font-bold ',
+                    filterDepartment === dept
+                      ? 'text-white '
+                      : 'text-black bg-white border-primary'
+                  )}
+                >
+                  {dept === 'all' ? 'Tất cả' : dept}
+                </button>
+              ))}
+            </div>
           </div>
-          </div>
-          
 
           {/* Results count */}
           <div className="text-center mb-4">
             <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
-              Tìm thấy{" "}
+              Tìm thấy{' '}
               <span className="font-semibold text-primary">
                 {filteredJobs.length}
-              </span>{" "}
+              </span>{' '}
               vị trí phù hợp
             </p>
           </div>
@@ -642,8 +641,8 @@ export default function RecruitmentPage() {
               </p>
               <Button
                 onClick={() => {
-                  setSearchTerm("");
-                  setFilterDepartment("all");
+                  setSearchTerm('')
+                  setFilterDepartment('all')
                 }}
               >
                 Xem tất cả vị trí
@@ -755,5 +754,5 @@ export default function RecruitmentPage() {
         onClose={() => setIsModalOpen(false)}
       />
     </div>
-  );
+  )
 }

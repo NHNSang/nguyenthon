@@ -110,7 +110,7 @@ const Navbar: React.FC<NavbarProps> = ({ initialPosts }) => {
       className={`${
         isFixed
           ? "fixed top-0 left-0 w-full z-50"
-          : "absolute left-0 top-[0px] md:top-[56px] lg:top-[70px] z-50 bg-transparent"
+          : "absolute left-0 top-[0px] md:top-[56px] lg:top-[72px] z-50 bg-transparent"
       } 
     transition-all duration-300 `}
     >

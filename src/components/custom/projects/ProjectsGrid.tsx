@@ -109,10 +109,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary 
+              className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary  font-bold
       ${
         seletedcategory === "Tất cả"
-          ? "text-white font-semibold"
+          ? "text-white"
           : "text-black bg-white border-primary"
       }`}
               onClick={() => setSeletedCategory("Tất cả")}
@@ -126,10 +126,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                 key={projectCategory.slug}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary0 bg-primary
+                className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary0 bg-primary font-bold
         ${
           seletedcategory === projectCategory.name
-            ? "text-white font-semibold"
+            ? "text-white"
             : "text-black bg-white border-primary"
         }`}
                 onClick={() => setSeletedCategory(projectCategory.name)}
@@ -180,24 +180,24 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                       whileHover={{ opacity: 1 }}
                       className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end justify-center p-6"
                     >
-                      <ul className="text-white text-center space-y-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <li className="font-medium">
+                      <ul className="text-white text-center space-y-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ">
+                        <li className="font-semibold">
                           Diện tích: {project.projectFields.sizeOfProject} m²
                         </li>
-                        <li className="font-medium">
+                        <li className="font-semibold">
                           Quy mô: {project.projectFields.floor} tầng
                         </li>
-                        <li className="font-medium">
+                        <li className="font-semibold">
                           Loại công trình:{" "}
                           {project.projectFields.projectCategory[0]}
                         </li>
                       </ul>
                     </motion.div>
                   </div>
-                  <div className="p-4 border-r border-l border-b border-primary">
-                    <h3 className="text-base font-medium text-gray-600 group-hover:text-primary transition-colors duration-300 line-clamp-2 text-left">
+                  <div className="p-2 border-r border-l border-b border-primary">
+                    <p className="text-black text-base px-0 lg:text-base line-clamp-2 uppercase tracking-[1px] font-semibold">
                       {project.title}
-                    </h3>
+                    </p>
                   </div>
                 </Link>
               </motion.div>

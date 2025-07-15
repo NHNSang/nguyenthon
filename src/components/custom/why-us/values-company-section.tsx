@@ -4,14 +4,9 @@ import type React from "react";
 
 import type { valuesComponent } from "@/types/typeForWordpressData";
 import { Check } from "lucide-react";
-import { JetBrains_Mono } from "next/font/google";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
 
-// const font = JetBrains_Mono({
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700"],
-// })
 
 interface ValuesSectionProps {
   valuesComponent: valuesComponent;
@@ -52,7 +47,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
     {
       label: "Dịch vụ trọn gói",
       description:
-        "Từ tư vấn, thiết kế đến thi công, đảm bảo tiến độ và chất lượng",
+        "Từ tư vấn, thiết kế đến thi công, đảm bảo tiến độ và chất lượng.",
     },
     {
       label: "Giá cả hợp lý",
