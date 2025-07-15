@@ -27,16 +27,18 @@ const VideoAuto = () => {
       transition={{ duration: 0.6 }}
       className="aspect-video w-full max-w-3xl mx-auto mt-10"
     >
-      <iframe
-        ref={iframeRef}
-        width="100%"
-        height="100%"
-        src={videoSrc}
-        allow="autoplay; encrypted-media"
-        allowFullScreen
-        title="YouTube Video"
-        className=" w-full h-full"
-      ></iframe>
+      {videoSrc && (
+  <iframe
+    ref={iframeRef}
+    width="100%"
+    height="100%"
+    src={videoSrc}
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+    title="YouTube Video"
+    className="w-full h-full"
+  ></iframe>
+)}
     </motion.div>
   );
 };

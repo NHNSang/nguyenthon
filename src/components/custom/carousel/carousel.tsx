@@ -43,7 +43,7 @@ const carouselSlides = [
     id: 4,
     image:
       "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/6cb7d9c34fb532308f21252ba56933f2.jpg",
-    title: "Uy Tín Là Niềm Tin Của Chúng Tôi",
+    title: "XÂY GIÁ TRỊ - DỰNG NIỀM TIN ",
     description: "Được tin chọn bởi hàng ngàn khách",
     titleAnimation: "flipInY",
     descriptionAnimation: "slideInLeft",
