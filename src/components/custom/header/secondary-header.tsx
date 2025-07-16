@@ -1,44 +1,44 @@
-"use client";
+'use client'
 
-import Logo from "@/components/custom/header/logo";
-import { useWindowSize } from "@/hooks/useWindowSize";
-import { MapPin, PhoneIcon } from "lucide-react";
-import Link from "next/link";
-import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import Logo from '@/components/custom/header/logo'
+import { useWindowSize } from '@/hooks/useWindowSize'
+import { MapPin, PhoneIcon } from 'lucide-react'
+import Link from 'next/link'
+import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa'
 
 const SecondaryHeader = () => {
-  const { isMobile } = useWindowSize();
+  const { isMobile } = useWindowSize()
 
   const informationCompany = [
     {
       icon: <MapPin className="text-primary w-5 h-5" />,
-      title: "Địa Chỉ:",
+      title: 'Địa Chỉ:',
       Content: <p>119 Lê Ấm, P. Hoà Xuân, TP. Đà Nẵng</p>,
     },
     {
       icon: <PhoneIcon className="w-5 h-5 text-primary" />,
-      title: "Hotline:",
+      title: 'Hotline:',
       Content: <Link href="tel:0905 123 456">0912842727</Link>,
     },
-  ];
+  ]
 
   const socialLinks = [
     {
       icon: <FaFacebook />,
-      link: "https://facebook.com/nguyenthongjp",
-      label: "Facebook",
+      link: 'https://facebook.com/nguyenthongjp',
+      label: 'Facebook',
     },
     {
       icon: <FaInstagram />,
-      link: "https://instagram.com/nguyenthongjp",
-      label: "Instagram",
+      link: 'https://instagram.com/nguyenthongjp',
+      label: 'Instagram',
     },
     {
       icon: <FaLinkedin />,
-      link: "https://linkedin.com/company/nguyenthongjp",
-      label: "LinkedIn",
+      link: 'https://linkedin.com/company/nguyenthongjp',
+      label: 'LinkedIn',
     },
-  ];
+  ]
 
   return (
     <>
@@ -47,9 +47,11 @@ const SecondaryHeader = () => {
           <div className="container mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             {/* Logo / Tên công ty */}
             <div>
-              <p className="font-oswald text-lg lg:text-base font-extrabold text-black pl-4">CÔNG TY TNHH MTV NGUYÊN THỐNG JP </p>
-              <p className="font-oswald text-lg lg:text-base font-extrabold text-primary whitespace-nowrap pl-4 text-center">
-                 THIẾT KẾ - THI CÔNG XÂY DỰNG
+              <p className="font-oswald text-lg lg:text-base font-extrabold text-black pl-4 tracking-[1px]">
+                CÔNG TY TNHH MTV NGUYÊN THỐNG JP{' '}
+              </p>
+              <p className="font-oswald text-lg lg:text-base font-extrabold text-primary whitespace-nowrap pl-4 text-center tracking-[1px]">
+                THIẾT KẾ - THI CÔNG XÂY DỰNG
               </p>
             </div>
 
@@ -77,7 +79,7 @@ const SecondaryHeader = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default SecondaryHeader;
+export default SecondaryHeader

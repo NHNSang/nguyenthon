@@ -1,24 +1,24 @@
-"use client";
-import React, { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import Container from "@/components/custom/container";
-import Title from "@/components/custom/title";
-import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import MainBtn from "../buttons/main-btn";
-import { ArrowDownLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { Project, ProjectCategories } from "@/types/typeForWordpressData";
+'use client'
+import React, { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import Container from '@/components/custom/container'
+import Title from '@/components/custom/title'
+import { usePathname, useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import MainBtn from '../buttons/main-btn'
+import { ArrowDownLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
+import { Project, ProjectCategories } from '@/types/typeForWordpressData'
 
 interface ProjectsGridProps {
-  projectsArray: Project[];
-  projectCategoryArray: ProjectCategories["projectCategories"]["nodes"];
-  title: string;
-  subtitle?: string;
-  islightBg?: boolean;
-  text?: string;
-  href: string;
-  labelOfButton: string;
+  projectsArray: Project[]
+  projectCategoryArray: ProjectCategories['projectCategories']['nodes']
+  title: string
+  subtitle?: string
+  islightBg?: boolean
+  text?: string
+  href: string
+  labelOfButton: string
 }
 
 const ProjectsGrid: React.FC<ProjectsGridProps> = ({
@@ -31,15 +31,18 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   href,
   labelOfButton,
 }) => {
-  const pathname = usePathname();
-  const route = useRouter();
+  const pathname = usePathname()
+  const route = useRouter()
   const [seletedcategory, setSeletedCategory] = useState<string | null>(
-    "Tất cả"
-  );
-  const projects = projectsArray;
+    'Tất cả'
+  )
+  console.log('hello2', projectCategoryArray)
+
+  const projects = projectsArray
   const portfoliosByCategory = projects?.filter(
     (project) => project?.projectFields?.projectCategory[0] === seletedcategory
-  );
+  )
+  console.log('hello', portfoliosByCategory)
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -49,7 +52,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
         delayChildren: 0.2,
       },
     },
-  };
+  }
 
   const item = {
     hidden: { opacity: 0, y: 30 },
@@ -58,10 +61,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: 'easeOut',
       },
     },
-  };
+  }
 
   const categoryVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -70,10 +73,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: 'easeOut',
       },
     },
-  };
+  }
 
   return (
     <section className=" ">
@@ -111,11 +114,11 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
               whileTap={{ scale: 0.95 }}
               className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary  font-bold
       ${
-        seletedcategory === "Tất cả"
-          ? "text-white"
-          : "text-black bg-white border-primary"
+        seletedcategory === 'Tất cả'
+          ? 'text-white'
+          : 'text-black bg-white border-primary'
       }`}
-              onClick={() => setSeletedCategory("Tất cả")}
+              onClick={() => setSeletedCategory('Tất cả')}
             >
               Tất cả dự án
             </motion.button>
@@ -129,8 +132,8 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                 className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary0 bg-primary font-bold
         ${
           seletedcategory === projectCategory.name
-            ? "text-white"
-            : "text-black bg-white border-primary"
+            ? 'text-white'
+            : 'text-black bg-white border-primary'
         }`}
                 onClick={() => setSeletedCategory(projectCategory.name)}
               >
@@ -150,7 +153,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
             exit={{ opacity: 0 }}
             className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 px-2 md:px-1 lg:px-0 pb-8"
           >
-            {(seletedcategory === "Tất cả"
+            {(seletedcategory === 'Tất cả'
               ? projects
               : portfoliosByCategory
             )?.map((project) => (
@@ -188,7 +191,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                           Quy mô: {project.projectFields.floor} tầng
                         </li>
                         <li className="font-semibold">
-                          Loại công trình:{" "}
+                          Loại công trình:{' '}
                           {project.projectFields.projectCategory[0]}
                         </li>
                       </ul>
@@ -206,7 +209,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
         </AnimatePresence>
 
         {/* View All Button */}
-        {pathname !== "/du-an" && (
+        {pathname !== '/du-an' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -223,7 +226,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
         )}
       </Container>
     </section>
-  );
-};
+  )
+}
 
-export default ProjectsGrid;
+export default ProjectsGrid
