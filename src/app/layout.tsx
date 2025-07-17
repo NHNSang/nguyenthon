@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Quicksand, Inter, JetBrains_Mono } from 'next/font/google'
 import "./globals.css";
 
-import Header from "@/components/custom/header/header";
 import Footer from "@/components/custom/footer/footer";
+import Header from "@/components/custom/header/header";
 import { Suspense } from "react";
 import Loading from "./loading";
 
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import { Toaster } from "sonner";
 dotenv.config()
 export const metadata: Metadata = {
   title: "NGUYÊN THỐNG JP - TƯ VẤN THIẾT KẾ & THI CÔNG XÂY DỰNG",
@@ -18,15 +18,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   return (
     <html lang="vi" suppressHydrationWarning>
-     {/* <body className={`${quicksand.variable} ${inter.variable} ${jetbrains.variable} font-mono antialiased`}> */}
-     <body className="font-calibri antialiased">
+      {/* <body className={`${quicksand.variable} ${inter.variable} ${jetbrains.variable} font-mono antialiased`}> */}
+      <body className="font-calibri antialiased">
         <Suspense fallback={<Loading />}>
-          <Header/>
+          <Header />
         </Suspense>
-          {children}
+        {children}
+        <Toaster />
         <Footer />
       </body>
     </html>

@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import VideoAuto from "./video-auto/Video-auto";
-import ImgVideoAuto from "./Img-video-auto/ImgVideoAuto";
 
 const archievementArr = [
   {
@@ -90,7 +89,7 @@ const NumberOfAchievements = () => {
 
       setHasAnimated(true);
     }
-  }, [inView, hasAnimated, stats]);
+  }, [inView, hasAnimated]);
   const toggleIndex = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };

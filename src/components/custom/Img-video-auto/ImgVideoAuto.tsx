@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
 
 const ImgVideoAuto = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -6,10 +7,10 @@ const ImgVideoAuto = () => {
   return (
     <div className="relative w-full h-64 md:h-[400px] lg:h-[500px] max-w-4xl mx-auto my-12">
       {/* Thumbnail image */}
-      <img
+      <Image
         src="https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_2896.jpg" // 🔁 Thay bằng ảnh thật
         alt="Video thumbnail"
-        className="w-full h-full object-cover shadow-lg object-fill"
+        className="w-full h-full object-cover shadow-lg"
       />
 
       {/* Play button */}

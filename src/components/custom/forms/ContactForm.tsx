@@ -11,8 +11,9 @@ import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ContactSchema } from "@/schemas";
+import { submissionSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import * as z from "zod";
 import { FormError } from "./FormError";
 import { FormSuccess } from "./FormSuccess";
@@ -37,47 +38,70 @@ const ContactForm = ({
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof ContactSchema>>({
-    resolver: zodResolver(ContactSchema),
+  const form = useForm<z.infer<typeof submissionSchema>>({
+    resolver: zodResolver(submissionSchema),
     defaultValues: {
       name: "",
       email: "",
       phone: "",
       message: "",
     },
+    // Hiển thị thông báo lỗi ngay khi người dùng rời khỏi trường đầu vào
+    mode: "onBlur",
   });
 
-  const onSubmit = (values: z.infer<typeof ContactSchema>) => {
+  const onSubmit = (values: z.infer<typeof submissionSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(async () => {
-      console.log(values);
       try {
-        const response = await fetch(
-          "https://aqua-pigeon-769011.hostingersite.com/wp-json/wp/v2/contact_submission",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-          }
-        );
+        // Gọi API route của NextJS để xử lý submission
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
 
         const result = await response.json();
 
-        if (response.ok) {
-          if (result?.success) {
-            setSuccess(result.success || "Gửi thông tin thành công");
-            form.reset();
-          } else {
-            throw new Error(result?.error || "Gửi yêu cầu đã xảy ra lỗi");
-          }
+        if (result.success) {
+          setSuccess("Gửi thông tin thành công!");
+          form.reset();
+
+          // Hiển thị toast thông báo thành công
+          toast.success("Gửi thông tin thành công!", {
+            description: "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
+            closeButton: true,
+            duration: 3000
+          });
+
+          // Tự động ẩn thông báo thành công sau 3 giây
+          setTimeout(() => {
+            setSuccess("");
+          }, 3000);
         } else {
-          throw new Error("Failed to submit form. Please try again later.");
+          console.error('Lỗi từ API:', result.error);
+
+          // Hiển thị toast thông báo lỗi
+          toast.error("Gửi thông tin thất bại!", {
+            description: result.error || "Vui lòng thử lại sau.",
+            closeButton: true
+          });
+
+          throw new Error(result.error || "Vui lòng thử lại sau.");
         }
       } catch (error) {
+        console.error('Exception khi gửi form:', error);
+
+        // Hiển thị toast thông báo lỗi
+        toast.error("Gửi thông tin thất bại!", {
+          description: error instanceof Error ? error.message : "Vui lòng thử lại sau.",
+          closeButton: true
+        });
+
         setError(error instanceof Error ? error.message : String(error));
       }
     });
@@ -168,30 +192,7 @@ const ContactForm = ({
             )}
           />
 
-          {/* Địa chỉ */}
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <>
-                <FormItem className="my-5">
-                  <FormControl className="h-[50px]">
-                    <div className="relative">
-                      {/* Đảm bảo value luôn là string để tránh lỗi type */}
-                      <Input
-                        className="w-full border-neutral-700 focus:ring-0 rounded-none shadow-xl text-neutral-500 placeholder:text-neutral-400 placeholder:font-normal placeholder:text-xl pl-6"
-                        type="text"
-                        placeholder="Địa chỉ"
-                        {...field}
-                        value={field.value ?? ""}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </>
-            )}
-          />
+
           <FormField
             control={form.control}
             name="message"
@@ -222,9 +223,18 @@ const ContactForm = ({
             type="submit"
             className="w-full border-none bg-primary py-6 mt-auto"
           >
-            <span className="tracking-wide font-extrabold text-xl text-white ">
-              GỬI NGAY
-            </span>
+            {isPending ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                <span className="tracking-wide font-extrabold text-xl text-white">
+                  ĐANG GỬI...
+                </span>
+              </div>
+            ) : (
+              <span className="tracking-wide font-extrabold text-xl text-white">
+                GỬI NGAY
+              </span>
+            )}
           </Button>
         </form>
       </Form>

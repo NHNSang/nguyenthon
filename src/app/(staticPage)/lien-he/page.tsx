@@ -1,26 +1,14 @@
 "use client";
+import ContactInforV2 from "@/components/custom/contact-info-v2/contact-info-v2";
+import ContactInfor from "@/components/custom/contact-info/contact-infor";
 import Container from "@/components/custom/container";
-import React from "react";
 import { motion } from "framer-motion";
 import {
-  FaMapMarkerAlt,
-  FaPhone,
-  FaEnvelope,
-  FaFacebook,
-  FaInstagram,
-  FaYoutube,
-  FaBuilding,
-  FaUsers,
   FaAward,
+  FaBuilding,
   FaProjectDiagram,
+  FaUsers
 } from "react-icons/fa";
-import BackgroundForBreadcrumb from "@/components/custom/BackgroundForBreadcrumb";
-import BreadcrumbComponent from "@/components/custom/breadcrumb/BreadcrumbComponent";
-import { ArchitectureCarousel } from "@/components/custom/carousel/ArchitectureCarousel";
-import ContactForm from "@/components/custom/forms/ContactForm";
-import ContactFormTest from "@/components/custom/forms/contact-from-test";
-import ContactInfor from "@/components/custom/contact-info/contact-infor";
-import ContactInforV2 from "@/components/custom/contact-info-v2/contact-info-v2";
 
 const ContactPage = () => {
   const companyInfo = {
