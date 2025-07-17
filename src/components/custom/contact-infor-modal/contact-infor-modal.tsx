@@ -1,12 +1,7 @@
 "use client";
 
-import type React from "react";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
@@ -14,15 +9,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  X,
-  User,
-  Phone,
-  Mail,
-  MessageSquare,
   CheckCircle,
+  Mail,
+  MessageCircle,
   MousePointerClick,
+  Phone,
+  User,
+  X
 } from "lucide-react";
+import { useState } from "react";
+
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Submission, submissionSchema } from "@/lib/validations";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface ContactFormData {
   name: string;
@@ -35,55 +40,94 @@ export default function ContactInfoModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState<ContactFormData>({
+
+
+  // Khai báo giá trị mặc định cho form
+  const defaultValues: Partial<Submission> = {
     name: "",
     phone: "",
     email: "",
     message: "",
-  });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  // Định nghĩa form
+  const form = useForm<Submission>({
+    resolver: zodResolver(submissionSchema),
+    defaultValues,
+  })
+  // Lấy các phương thức từ form
+  const {
+    handleSubmit,
+    setValue,
+    watch,
+    reset
+  } = form;
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setIsSubmitting(false);
-    setIsSuccess(true);
-
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsOpen(false);
-      setIsSuccess(false);
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        message: "",
+  // Định nghĩa hàm onsubmit để xử lý gửi dữ liệu
+  const onsubmit = async (data: Submission) => {
+    try {
+      // Gọi API route của NextJS để xử lý submission
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
-    }, 3000);
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSuccess(true);
+        toast.success("Gửi thông tin thành công!", {
+          description: "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
+          closeButton: true
+        });
+
+        // Reset form sau 3 giây
+        setTimeout(() => {
+          setIsOpen(false);
+          setIsSuccess(false);
+          reset();
+        }, 3000);
+      } else {
+        console.error('Lỗi từ API:', result.error);
+        toast.error("Gửi thông tin thất bại!", {
+          description: result.error || "Vui lòng thử lại sau.",
+          closeButton: true
+        });
+      }
+    } catch (error) {
+      console.error('Exception khi gửi form:', error);
+      toast.error("Gửi thông tin thất bại!", {
+        description: error instanceof Error ? error.message : "Vui lòng thử lại sau.",
+        closeButton: true
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
+  const internalSubmit: SubmitHandler<Submission> = async (data) => {
+    setIsSubmitting(true);
+    const validationResult = await form.trigger(["name", "phone", "email", "message"]);
+
+    if (!validationResult) {
+      toast(" các trường đã điền không hợp lệ ", {
+        description: "Vui lòng kiểm tra lại thông tin đã nhập.",
+        closeButton: true
+      });
+      setIsSubmitting(false);
+      return; //Dừng submit
+    }
+
+    await onsubmit(data);
+
+  }
   const closeModal = () => {
     setIsOpen(false);
     setIsSuccess(false);
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      message: "",
-    });
+    reset();
   };
 
   return (
@@ -126,112 +170,123 @@ export default function ContactInfoModal() {
 
                   {/* Form */}
                   <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                      {/* Name Field */}
-                      <div className="space-y-2">
-                        <Label
-                          htmlFor="name"
-                          className="text-gray-700 font-medium flex items-center"
-                        >
-                          <User size={16} className="mr-2 text-blue-600" />
-                          Họ và tên *
-                        </Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          placeholder="Nhập họ và tên của bạn"
-                          className="rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                          required
+                    <Form {...form}>
+                      <form
+                        onSubmit={handleSubmit(internalSubmit)}
+                        className="space-y-4">
+                        {/* Name Field */}
+                        <FormField
+                          control={form.control}
+                          name='name'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex flex-row items-center justify-start gap-1">
+                                <User size={16} className="mr-2 text-blue-600" />
+                                Họ và tên *
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Nhập họ và tên của bạn"
+                                  type="text"
+                                  className="text-white"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
 
-                      {/* Phone Field */}
-                      <div className="space-y-2">
-                        <Label
-                          htmlFor="phone"
-                          className="text-gray-700 font-medium flex items-center"
-                        >
-                          <Phone size={16} className="mr-2 text-green-600" />
-                          Số điện thoại *
-                        </Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          placeholder="Nhập số điện thoại"
-                          className="rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                          required
+                        {/* Phone Field */}
+                        <FormField
+                          control={form.control}
+                          name='phone'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex flex-row items-center justify-start gap-1">
+                                <Phone size={16} className="mr-2 text-green-600" />
+                                Số điện thoại *
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Nhập số điện thoại"
+                                  type="tel"
+                                  className="text-white"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
 
-                      {/* Email Field */}
-                      <div className="space-y-2">
-                        <Label
-                          htmlFor="email"
-                          className="text-gray-700 font-medium flex items-center"
-                        >
-                          <Mail size={16} className="mr-2 text-red-600" />
-                          Email
-                        </Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          placeholder="Nhập địa chỉ email (tùy chọn)"
-                          className="rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        {/* Email Field */}
+                        <FormField
+                          control={form.control}
+                          name='email'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex flex-row items-center justify-start gap-1">
+                                <Mail size={16} className="mr-2 text-blue-600" />
+                                Email *
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Nhập địa chỉ email"
+                                  type="email"
+                                  className="text-white"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
 
-                      {/* Message Field */}
-                      <div className="space-y-2">
-                        <Label
-                          htmlFor="message"
-                          className="text-gray-700 font-medium flex items-center"
-                        >
-                          <MessageSquare
-                            size={16}
-                            className="mr-2 text-purple-600"
-                          />
-                          Tin nhắn
-                        </Label>
-                        <Textarea
-                          id="message"
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          placeholder="Nhập tin nhắn hoặc yêu cầu của bạn (tùy chọn)"
-                          className="rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 min-h-[100px] resize-none"
-                          rows={4}
+                        {/* Message Field */}
+                        <FormField
+                          control={form.control}
+                          name='message'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex flex-row items-center justify-start gap-1">
+                                <MessageCircle size={16} className="mr-2 text-blue-600" />
+                                Lời nhắn *
+                              </FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Nhập tin nhắn hoặc yêu cầu của bạn (tùy chọn)"
+                                  {...field}
+                                  disabled={isSubmitting}
+                                  rows={2}
+                                  className="text-white"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
+                        {/* Submit Button */}
+                        <Button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full bg-primary text-white font-semibold py-3 rounded-lg transition-all duration-300 mt-6"
+                        >
+                          {isSubmitting ? (
+                            <div className="flex items-center justify-center">
+                              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                              Đang gửi...
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-center">
+                              <CheckCircle size={20} className="mr-2" />
+                              Hoàn Thành
+                            </div>
+                          )}
+                        </Button>
+                      </form>
 
-                      {/* Submit Button */}
-                      <Button
-                        type="submit"
-                        disabled={
-                          isSubmitting || !formData.name || !formData.phone
-                        }
-                        className="w-full bg-primary text-white font-semibold py-3 rounded-lg transition-all duration-300 mt-6"
-                      >
-                        {isSubmitting ? (
-                          <div className="flex items-center justify-center">
-                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                            Đang gửi...
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center">
-                            <CheckCircle size={20} className="mr-2" />
-                            Hoàn Thành
-                          </div>
-                        )}
-                      </Button>
-                    </form>
+                    </Form>
 
                     {/* Note */}
                     <p className="text-xs text-gray-500 text-center py-3">
@@ -259,19 +314,19 @@ export default function ContactInfoModal() {
                   <div className="bg-[#F1EDE6] border border-[#F5F5F3] rounded-lg p-4 mb-4">
                     <div className="text-sm text-black space-y-1">
                       <div>
-                        <strong>Họ tên:</strong> {formData.name}
+                        <strong>Họ tên:</strong> {watch('name')}
                       </div>
                       <div>
-                        <strong>Điện thoại:</strong> {formData.phone}
+                        <strong>Điện thoại:</strong> {watch('phone')}
                       </div>
-                      {formData.email && (
+                      {watch('email') && (
                         <div>
-                          <strong>Email:</strong> {formData.email}
+                          <strong>Email:</strong> {watch('email')}
                         </div>
                       )}
-                      {formData.message && (
+                      {watch('message') && (
                         <div>
-                          <strong>Tin nhắn:</strong> {formData.message}
+                          <strong>Tin nhắn:</strong> {watch('message')}
                         </div>
                       )}
                     </div>

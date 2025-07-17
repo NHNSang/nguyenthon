@@ -1,18 +1,14 @@
 import Date from "@/components/custom/Date";
+import GeneralInformationProject from "@/components/custom/projects/general-information-project";
+import MainContentProjectPost from "@/components/custom/projects/main-content-project-post";
+import ProjectSidebarComponent from "@/components/custom/sidebar/project-sidebar-component";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { extractHeadings } from "@/hooks/useExtractHeadings";
+import { getAllProjects, getSingleProject } from "@/lib/api";
+import { BASE_URL } from "@/lib/constants";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { extractHeadings } from "@/hooks/useExtractHeadings";
-import { BASE_URL } from "@/lib/constants";
-import NewslettersLight from "@/components/custom/newsletters/newsletters-light";
-import { fetchAllPosts, fetchSinglePost } from "@/data/datafromWP";
-import ContentBlogPostProps from "@/components/custom/blog-posts/content-blogpost";
-import PostSidebarComponent from "@/components/custom/sidebar/post-sidebar-component";
-import { getAllProjects, getSingleProject } from "@/lib/api";
-import MainContentProjectPost from "@/components/custom/projects/main-content-project-post";
-import ProjectSidebarComponent from "@/components/custom/sidebar/project-sidebar-component";
-import GeneralInformationProject from "@/components/custom/projects/general-information-project";
 
 interface Params {
   uri: string;
@@ -46,13 +42,13 @@ export async function generateMetadata({
         type: "article",
         images: validImageUrl
           ? [
-              {
-                url: validImageUrl,
-                width: 800,
-                height: 600,
-                alt: res?.project?.featuredImage?.node?.altText,
-              },
-            ]
+            {
+              url: validImageUrl,
+              width: 800,
+              height: 600,
+              alt: res?.project?.featuredImage?.node?.altText,
+            },
+          ]
           : [],
       },
     };
