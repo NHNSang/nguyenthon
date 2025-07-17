@@ -2,9 +2,10 @@
 
 import type React from "react";
 
+import { useWindowSize } from "@/hooks/useWindowSize";
 import type { valuesComponent } from "@/types/typeForWordpressData";
+import { motion, useAnimation, useInView } from "framer-motion";
 import { Check } from "lucide-react";
-import { motion, useInView, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
 
 
@@ -13,18 +14,11 @@ interface ValuesSectionProps {
 }
 
 const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
-  // Ref cho section
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Kiểm tra khi nào section hiển thị 1/3 trong viewport
-  // const isInView = useInView(sectionRef, { amount: 0.33, once: true })
-  // Kiểm tra khi nào section hiển thị 70% trong viewport
   const isInView = useInView(sectionRef, { amount: 0.5, once: true });
-
   // Animation controls
   const controls = useAnimation();
-
-  // data seeding
+  const { isMobile } = useWindowSize();
   const defaultValues = [
     {
       label: "Kinh nghiệm dày dặn",
@@ -55,38 +49,20 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
         "Minh bạch, cạnh tranh, mang lại giá trị tối ưu cho khách hàng.",
     },
   ];
-
   const { introduction, values } = valuesComponent;
-
   // transform valuesComponent from object to values Array
   const valuesArray =
     Object.values(values).filter(
       (value) => value.label !== null && value.description !== null
     ) || defaultValues;
 
-  // Tự động scroll khi component hiển thị 1/3
-  // useEffect(() => {
-  //   if (isInView && sectionRef.current) {
-  //     // Lấy vị trí của section
-  //     const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY
-  //     console.log(sectionTop,"sectionTop")
-  //     // Scroll đến vị trí của section
-  //     window.scrollTo({
-  //       top: sectionTop,
-  //       behavior: "smooth",
-  //     })
-
-  //     // Kích hoạt animation cho các items
-  //     controls.start("visible")
-  //   }
-  // }, [isInView, controls])
-
   // Tự động scroll khi component hiển thị 70%
   useEffect(() => {
-    if (isInView) {
+    // Chỉ áp dụng animation trên desktop
+    if (!isMobile && isInView) {
       controls.start("visible");
     }
-  }, [isInView, controls]);
+  }, [isInView, controls, isMobile]);
 
   // Variants cho container
   const containerVariants = {
@@ -99,6 +75,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
   };
 
   // Variants cho từng item
+  // Nếu là mobile thì không dùng variants, trả về undefined
   const itemVariants = {
     hidden: { x: 100, opacity: 0 },
     visible: {
@@ -117,76 +94,89 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ valuesComponent }) => {
       ref={sectionRef}
       className="py-[30px] lg:py-[110px] h-fit md:h-[600px] lg:h-[calc(100vh-100px)] xl:h-fit flex flex-col items-center justify-center bg-[#FFFAF4] bg-service-bg bg-center bg-no-repeat"
     >
-      <div className="container max-w-6xl mx-auto h-full flex flex-col ">
-        <motion.div
-          className="max-w-4xl mx-auto text-center mb-4 lg:mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-          // chỉ xảy ra một lần, không lặp lại
-        >
-          <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-6 uppercase tracking-[5px] lg:tracking-[8px] font-semibold">
-            MỤC TIÊU  <span className="text-primary">HƯỚNG ĐẾN</span>
-          </h1>
-          <p className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase font-normal">
-            SÁNG TẠO – UY TÍN – TẬN TÂM  là những giá trị cốt lõi mà CÔNG  TY NGUYÊN THỐNG JP gầy dựng cho đội ngũ. Vì chúng tôi tin rằng, khi sở hữu những phẩm chất này thì chúng tôi sẽ thành công trong mọi sản phẩm, dịch vụ và tự tin mang đến NHỮNG điều tốt NHẤT CHO KHÁCH HÀNG
-          </p>
-        </motion.div>
+      {/* // Trên mobile: sử dụng div thông thường, không có animation */}
+      {isMobile ? (
+        <div className="container max-w-6xl mx-auto h-full flex flex-col">
+          <div className="max-w-4xl mx-auto text-center mb-4 lg:mb-8">
+            <HeaderOfValuesSection />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 sm:px-6 md:px-0">
+            {defaultValues.map((value, index) => (
+              <div
+                key={index}
+                className="flex items-start p-4 sm:p-5 md:p-6 bg-white cursor-pointer shadow-md hover:shadow-xl group border border-primary transition-all duration-300"
+              >
+                <div className="bg-[#CA9C6A] p-2 mr-4 flex-shrink-0 shadow-lg">
+                  <Check className="h-3 lg:h-5 w-3 lg:w-5 text-white" />
+                </div>
+                <div className="group-hover:translate-x-1 md:group-hover:translate-x-2 duration-500">
+                  <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
+                    {value.label}
+                  </h3>
+                  <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
+                    {value.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-        {/* <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate={controls}
-        >
-          {valuesArray.map((value, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              custom={index}
-              className="flex items-start p-6 bg-[#f1ede6] rounded-lg cursor-pointer shadow-xl group"
-            >
-              <div className="bg-primary rounded-full p-2 mr-4 flex-shrink-0">
-                <Check className="h-5 w-5 text-white" />
-              </div>
-              <div className="group-hover:translate-x-2 duration-500">
-                <h3 className="text-xl font-medium mb-2">{value.label}</h3>
-                <p className="text-gray-600">{value.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div> */}
-
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 sm:px-6 md:px-0"
-          variants={containerVariants}
-          initial="hidden"
-          animate={controls}
-        >
-          {defaultValues.map((value, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              custom={index}
-              className="flex items-start p-4 sm:p-5 md:p-6 bg-white cursor-pointer shadow-md hover:shadow-xl group border border-primary transition-all duration-300"
-            >
-              <div className="bg-[#CA9C6A] p-2 mr-4 flex-shrink-0  shadow-lg">
-                <Check className="h-3 lg:h-5 w-3 lg:w-5 text-white" />
-              </div>
-              <div className="group-hover:translate-x-1 md:group-hover:translate-x-2 duration-500">
-                <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
-                  {value.label}
-                </h3>
-                <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
-                  {value.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
+      ) : (
+        // Trên desktop: sử dụng motion.div với các animation
+        <div className="container max-w-6xl mx-auto h-full flex flex-col">
+          <motion.div
+            className="max-w-4xl mx-auto text-center mb-4 lg:mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <HeaderOfValuesSection />
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 sm:px-6 md:px-0"
+            variants={containerVariants}
+            initial="hidden"
+            animate={controls}
+          >
+            {defaultValues.map((value, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                custom={index}
+                className="flex items-start p-4 sm:p-5 md:p-6 bg-white cursor-pointer shadow-md hover:shadow-xl group border border-primary transition-all duration-300"
+              >
+                <div className="bg-[#CA9C6A] p-2 mr-4 flex-shrink-0 shadow-lg">
+                  <Check className="h-3 lg:h-5 w-3 lg:w-5 text-white" />
+                </div>
+                <div className="group-hover:translate-x-1 md:group-hover:translate-x-2 duration-500">
+                  <h3 className="text-lg sm:text-lg md:text-xl font-semibold mb-1 uppercase">
+                    {value.label}
+                  </h3>
+                  <p className="text-base sm:text-base text-[#5f5c5c] leading-relaxed">
+                    {value.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      )}
     </section>
   );
 };
 
 export default ValuesSection;
+
+const HeaderOfValuesSection = () => {
+  return (
+    <div>
+      <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-6 uppercase tracking-[5px] lg:tracking-[8px] font-semibold">
+        MỤC TIÊU  <span className="text-primary">HƯỚNG ĐẾN</span>
+      </h1>
+      <p className="text-[#5f5c5c] text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase font-normal">
+        SÁNG TẠO – UY TÍN – TẬN TÂM  là những giá trị cốt lõi mà CÔNG  TY NGUYÊN THỐNG JP gầy dựng cho đội ngũ. Vì chúng tôi tin rằng, khi sở hữu những phẩm chất này thì chúng tôi sẽ thành công trong mọi sản phẩm, dịch vụ và tự tin mang đến NHỮNG điều tốt NHẤT CHO KHÁCH HÀNG
+      </p>
+    </div>
+  )
+}

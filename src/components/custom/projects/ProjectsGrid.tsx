@@ -1,14 +1,13 @@
 'use client'
-import React, { useCallback, useEffect, useState } from 'react'
+import Container from '@/components/custom/container'
+import { Project, ProjectCategories } from '@/types/typeForWordpressData'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Container from '@/components/custom/container'
-import Title from '@/components/custom/title'
 import { usePathname, useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState } from 'react'
 import MainBtn from '../buttons/main-btn'
-import { ArrowDownLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
-import { Project, ProjectCategories } from '@/types/typeForWordpressData'
 
 interface ProjectsGridProps {
   projectsArray: Project[]
@@ -20,6 +19,14 @@ interface ProjectsGridProps {
   href: string
   labelOfButton: string
 }
+
+// Hàm tiện ích để chuẩn hóa chuỗi, đảm bảo so sánh chính xác
+const normalizeString = (str: string | null) => {
+  if (!str) return '';
+  return str.trim().toLowerCase()
+    .replace(/[–—−-]/g, '-') // Thay tất cả các loại gạch ngang bằng dấu gạch ngang thường (-)
+    .replace(/\s+/g, ' ');   // Chuẩn hóa khoảng trắng
+};
 
 const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   projectsArray,
@@ -36,13 +43,37 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   const [seletedcategory, setSeletedCategory] = useState<string | null>(
     'Tất cả'
   )
-  console.log('hello2', projectCategoryArray)
+
 
   const projects = projectsArray
-  const portfoliosByCategory = projects?.filter(
-    (project) => project?.projectFields?.projectCategory[0] === seletedcategory
+
+  // Logic lọc dự án theo danh mục đã chọn với chuẩn hóa tên danh mục
+  const projectsByCategory = projects?.filter(
+    (project) => {
+      // Kiểm tra nếu project và projectFields tồn tại
+      if (!project?.projectFields?.projectCategory) return false;
+
+      // Kiểm tra nếu seletedcategory là null
+      if (seletedcategory === null) return false;
+
+      // Tạo một hàm so sánh sử dụng hàm chuẩn hóa
+      const categoryMatches = (cat: string) => {
+        if (!cat || !seletedcategory) return false;
+
+        const normalizedCat = normalizeString(cat);
+        const normalizedSelected = normalizeString(seletedcategory);
+
+        return normalizedCat === normalizedSelected;
+      };
+
+      // Kiểm tra xem danh mục đã chọn có trong mảng danh mục của dự án không
+      return project.projectFields.projectCategory.some(categoryMatches);
+    }
   )
-  console.log('hello', portfoliosByCategory)
+
+  // Không còn cần debug sau khi chức năng đã hoạt động đúng
+
+  // Không cần useEffect debug sau khi chức năng đã hoạt động đúng
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -113,11 +144,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary  font-bold
-      ${
-        seletedcategory === 'Tất cả'
-          ? 'text-white'
-          : 'text-black bg-white border-primary'
-      }`}
+      ${seletedcategory === 'Tất cả'
+                  ? 'text-white'
+                  : 'text-black bg-white border-primary'
+                }`}
               onClick={() => setSeletedCategory('Tất cả')}
             >
               Tất cả dự án
@@ -130,11 +160,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary0 bg-primary font-bold
-        ${
-          seletedcategory === projectCategory.name
-            ? 'text-white'
-            : 'text-black bg-white border-primary'
-        }`}
+        ${normalizeString(seletedcategory) === normalizeString(projectCategory.name)
+                    ? 'text-white'
+                    : 'text-black bg-white border-primary'
+                  }`}
                 onClick={() => setSeletedCategory(projectCategory.name)}
               >
                 {projectCategory.name}
@@ -153,9 +182,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
             exit={{ opacity: 0 }}
             className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 px-2 md:px-1 lg:px-0 pb-8"
           >
+
             {(seletedcategory === 'Tất cả'
               ? projects
-              : portfoliosByCategory
+              : projectsByCategory
             )?.map((project) => (
               <motion.div
                 key={project.slug}
