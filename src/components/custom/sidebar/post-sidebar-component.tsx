@@ -3,9 +3,8 @@
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Post, PostsData, Project } from "@/types/typeForWordpressData";
+import { PostsData } from "@/types/typeForWordpressData";
 import { Avatar } from "@radix-ui/react-avatar";
-import { MousePointerClick, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -102,10 +101,6 @@ const PostSidebarComponent: React.FC<SidebarComponentProps> = ({
               cách chân thực nhất.Đừng ngần ngại! Gọi hoặc để lại thông tin và
               chúng tôi sẽ hổ trọ
             </p>
-            {/* <Button className="w-full bg-primary hover:bg-primary/90 rounded-md text-base ">
-                            Để lại thông tin
-                            <MousePointerClick />
-                        </Button> */}
             <ContactInfoModal />
           </CardContent>
         </Card>
