@@ -25,6 +25,15 @@ export const ReactEmailService = {
                     console.log('Gửi request đến URL:', `${apiClient.defaults.baseURL}/api/send-confirmation`);
                 }
 
+                // Xác định URL endpoint dựa trên môi trường
+                const baseUrl = typeof window !== 'undefined'
+                    ? window.location.origin
+                    : process.env.NEXT_PUBLIC_SITE_URL
+                        ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
+                        : 'http://localhost:3000';
+
+                console.log('ReactEmail sử dụng baseURL:', baseUrl);
+
                 const response = await apiClient.post('/api/send-confirmation', {
                     name: data.name,
                     email: data.email,
