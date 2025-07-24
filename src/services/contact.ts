@@ -87,7 +87,7 @@ export const ContactService = {
             const cacheKey = `submission_${Date.now()}`;
 
             // URL đầy đủ của WordPress GraphQL endpoint
-            const graphqlEndpoint = 'https://aqua-pigeon-769011.hostingersite.com/graphql';
+            const graphqlEndpoint = 'https://wp.nguyenthongjp.com/graphql';
 
             // Log request để debug
             console.log('Gửi GraphQL request đến:', graphqlEndpoint);
