@@ -26,6 +26,8 @@ export const apiClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
+    // Thêm timeout để tránh request treo quá lâu
+    timeout: 15000, // 15 giây
 });
 
 /**

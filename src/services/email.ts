@@ -3,32 +3,38 @@ import { Resend } from 'resend';
 
 // Khởi tạo resend client nếu có API key
 const resend = process.env.RESEND_API_KEY
-    ? new Resend(process.env.RESEND_API_KEY)
-    : null;
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
+
+// Log khởi tạo Resend để debug
+console.log('Khởi tạo Resend client:', {
+  initialized: !!resend,
+  api_key_exists: !!process.env.RESEND_API_KEY
+});
 
 /**
  * Service xử lý việc gửi email thông báo
  */
 export const EmailService = {
-    /**
-     * Gửi email thông báo đến admin khi có submission mới
-     * 
-     * @param data Dữ liệu từ form submission
-     * @returns Promise với kết quả gửi email
-     */
-    async sendNotificationToAdmin(data: Submission): Promise<{ success: boolean, error?: string }> {
-        try {
-            // Kiểm tra xem đã cấu hình email chưa
-            if (!resend || !process.env.ADMIN_EMAIL) {
-                console.warn('Email service không được cấu hình. Bỏ qua việc gửi thông báo.');
-                return { success: false, error: 'Email service không được cấu hình' };
-            }
+  /**
+   * Gửi email thông báo đến admin khi có submission mới
+   * 
+   * @param data Dữ liệu từ form submission
+   * @returns Promise với kết quả gửi email
+   */
+  async sendNotificationToAdmin(data: Submission): Promise<{ success: boolean, error?: string }> {
+    try {
+      // Kiểm tra xem đã cấu hình email chưa
+      if (!resend || !process.env.ADMIN_EMAIL) {
+        console.warn('Email service không được cấu hình. Bỏ qua việc gửi thông báo.');
+        return { success: false, error: 'Email service không được cấu hình' };
+      }
 
-            // Chuẩn bị nội dung email
-            const emailSubject = `Liên hệ mới từ ${data.name}`;
+      // Chuẩn bị nội dung email
+      const emailSubject = `Liên hệ mới từ ${data.name}`;
 
-            // Tạo HTML cho email
-            const emailHtml = `
+      // Tạo HTML cho email
+      const emailHtml = `
         <h2>Thông tin liên hệ mới từ website</h2>
         <p><strong>Thời gian:</strong> ${new Date().toLocaleString('vi-VN')}</p>
         <hr />
@@ -57,53 +63,60 @@ export const EmailService = {
         <p>Hãy liên hệ lại với khách hàng sớm nhất có thể.</p>
       `;
 
-            // Gửi email
-            const { data: emailData, error } = await resend.emails.send({
-                from: `Thông báo website <noreply@${process.env.EMAIL_DOMAIN || 'example.com'}>`,
-                to: [process.env.ADMIN_EMAIL],
-                subject: emailSubject,
-                html: emailHtml,
-            });
+      // Gửi email
+      const { data: emailData, error } = await resend.emails.send({
+        from: `Nguyên Thông JP <onboarding@resend.dev>`,
+        to: [process.env.ADMIN_EMAIL],
+        subject: emailSubject,
+        html: emailHtml,
+      });
 
-            if (error) {
-                throw new Error(`Lỗi khi gửi email: ${error.message}`);
-            }
+      if (error) {
+        throw new Error(`Lỗi khi gửi email: ${error.message}`);
+      }
 
-            return { success: true };
-        } catch (error) {
-            console.error('Lỗi khi gửi email thông báo:', error);
-            return {
-                success: false,
-                error: error instanceof Error ? error.message : 'Lỗi không xác định khi gửi email'
-            };
-        }
-    },
+      return { success: true };
+    } catch (error) {
+      console.error('Lỗi khi gửi email thông báo:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Lỗi không xác định khi gửi email'
+      };
+    }
+  },
 
-    /**
-     * Gửi email xác nhận đến người dùng khi họ gửi liên hệ
-     * 
-     * @param data Dữ liệu từ form submission
-     * @returns Promise với kết quả gửi email
-     */
-    async sendConfirmationToUser(data: Submission): Promise<{ success: boolean, error?: string }> {
-        try {
-            // Kiểm tra xem đã cấu hình email chưa và người dùng có cung cấp email không
-            if (!resend || !data.email) {
-                console.warn('Email service không được cấu hình hoặc người dùng không cung cấp email. Bỏ qua việc gửi thông báo.');
-                return { success: false, error: 'Không thể gửi email xác nhận' };
-            }
+  /**
+   * Gửi email xác nhận đến người dùng khi họ gửi liên hệ
+   * 
+   * @param data Dữ liệu từ form submission
+   * @returns Promise với kết quả gửi email
+   */
+  async sendConfirmationToUser(data: Submission): Promise<{ success: boolean, error?: string }> {
+    try {
+      // Kiểm tra xem đã cấu hình email chưa và người dùng có cung cấp email không
+      if (!resend || !data.email) {
+        console.warn('Email service không được cấu hình hoặc người dùng không cung cấp email. Bỏ qua việc gửi thông báo.');
+        return { success: false, error: 'Không thể gửi email xác nhận' };
+      }
 
-            // Thông tin công ty
-            const companyName = 'Nguyên Thông JP';
-            const companyPhone = '028.3333.8888';
-            const companyWebsite = 'nguyenthongjp.com';
-            const companyAddress = 'Khu đô thị Vạn Phúc, Thủ Đức, TP. Hồ Chí Minh';
+      // Log thêm thông tin để debug
+      console.log('Cấu hình Resend:', {
+        api_key_exists: !!process.env.RESEND_API_KEY,
+        email_domain: process.env.EMAIL_DOMAIN,
+        recipient: data.email,
+      });
 
-            // Chuẩn bị nội dung email
-            const emailSubject = `Cảm ơn bạn đã liên hệ với ${companyName}`;
+      // Thông tin công ty
+      const companyName = 'Nguyên Thông JP';
+      const companyPhone = '028.3333.8888';
+      const companyWebsite = 'nguyenthongjp.com';
+      const companyAddress = 'Khu đô thị Vạn Phúc, Thủ Đức, TP. Hồ Chí Minh';
 
-            // Tạo HTML cho email với thiết kế nâng cao
-            const emailHtml = `
+      // Chuẩn bị nội dung email
+      const emailSubject = `Cảm ơn bạn đã liên hệ với ${companyName}`;
+
+      // Tạo HTML cho email với thiết kế nâng cao
+      const emailHtml = `
         <!DOCTYPE html>
         <html>
         <head>
@@ -221,25 +234,29 @@ export const EmailService = {
         </html>
       `;
 
-            // Gửi email xác nhận
-            const { data: emailData, error } = await resend.emails.send({
-                from: `${companyName} <noreply@${process.env.EMAIL_DOMAIN || 'example.com'}>`,
-                to: [data.email],
-                subject: emailSubject,
-                html: emailHtml,
-            });
+      // Gửi email xác nhận
+      const { data: emailData, error } = await resend.emails.send({
+        from: `${companyName} <onboarding@resend.dev>`,
+        to: [data.email],
+        subject: emailSubject,
+        html: emailHtml,
+      });
 
-            if (error) {
-                throw new Error(`Lỗi khi gửi email: ${error.message}`);
-            }
+      if (error) {
+        console.error('Resend API trả về lỗi khi gửi đến người dùng:', error);
+        throw new Error(`Lỗi khi gửi email: ${error.message}`);
+      }
 
-            return { success: true };
-        } catch (error) {
-            console.error('Lỗi khi gửi email xác nhận cho người dùng:', error);
-            return {
-                success: false,
-                error: error instanceof Error ? error.message : 'Lỗi không xác định khi gửi email'
-            };
-        }
+      // Log thành công để debug
+      console.log('Resend gửi email đến người dùng thành công, ID:', emailData?.id);
+
+      return { success: true };
+    } catch (error) {
+      console.error('Lỗi khi gửi email xác nhận cho người dùng:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Lỗi không xác định khi gửi email'
+      };
     }
+  }
 };

@@ -65,19 +65,24 @@ export async function POST(req: NextRequest) {
                     try {
                         // Thử gửi email xác nhận trực tiếp với EmailService (template thông thường)
                         // Debug log chỉ trong development
-                        if (process.env.NODE_ENV !== 'production') {
-                            console.log('Gửi email xác nhận tới:', validationResult.data.email);
-                        }
+                        console.log('Gửi email xác nhận tới:', validationResult.data.email);
+                        console.log('Đang sử dụng Resend với cấu hình:', {
+                            api_key_exists: !!process.env.RESEND_API_KEY,
+                            email_domain: process.env.EMAIL_DOMAIN,
+                            sender: 'onboarding@resend.dev'
+                        });
 
                         const emailResult = await EmailService.sendConfirmationToUser(validationResult.data);
                         if (emailResult.success) {
-                            // Debug log chỉ trong development
-                            if (process.env.NODE_ENV !== 'production') {
-                                console.log('Đã gửi email xác nhận thành công đến:', validationResult.data.email);
-                            }
+                            console.log('Đã gửi email xác nhận thành công đến:', validationResult.data.email);
                         } else {
                             // Warning log vẫn giữ lại để dễ debug
                             console.warn('Không thể gửi email xác nhận đến người dùng:', emailResult.error);
+                            // Log thêm thông tin để debug resend
+                            console.log('Cấu hình email hiện tại:', {
+                                api_key: process.env.RESEND_API_KEY ? 'Đã cấu hình' : 'Chưa cấu hình',
+                                email_domain: process.env.EMAIL_DOMAIN || 'Không có'
+                            });
                         }
 
                         // Ghi log thử sử dụng React Email nhưng không block process
