@@ -1,106 +1,106 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Contact, Phone } from "lucide-react";
-import MainBtn from "../buttons/main-btn";
-import Link from "next/link";
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { ChevronLeft, ChevronRight, Contact, Phone } from 'lucide-react'
+import MainBtn from '../buttons/main-btn'
+import Link from 'next/link'
 
 // Dữ liệu carousel với animation riêng cho từng element
 const carouselSlides = [
   {
     id: 1,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_4624.jpg",
-    title: "Không Gian Sống Đẹp & Tiện Nghi",
-    description: "Cùng bạn xây dựng tổ ấm hoàn hảo",
-    titleAnimation: "fadeInUp",
-    descriptionAnimation: "slideInRight",
-    buttonAnimation: "bounceIn",
+      'https://wp.nguyenthongjp.com/wp-content/uploads/2025/07/IMG_4624.jpg',
+    title: 'Không Gian Sống Đẹp & Tiện Nghi',
+    description: 'Cùng bạn xây dựng tổ ấm hoàn hảo',
+    titleAnimation: 'fadeInUp',
+    descriptionAnimation: 'slideInRight',
+    buttonAnimation: 'bounceIn',
   },
   {
     id: 2,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_2900.jpg",
-    title: "Thiết Kế & Thi Công Trọn Gói",
-    description: "Một quy trình khép kín, rõ ràng",
-    titleAnimation: "slideInLeft",
-    descriptionAnimation: "fadeInDown",
-    buttonAnimation: "flipInX",
+      'https://wp.nguyenthongjp.com/wp-content/uploads/2025/07/IMG_2900.jpg',
+    title: 'Thiết Kế & Thi Công Trọn Gói',
+    description: 'Một quy trình khép kín, rõ ràng',
+    titleAnimation: 'slideInLeft',
+    descriptionAnimation: 'fadeInDown',
+    buttonAnimation: 'flipInX',
   },
   {
     id: 3,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_9044.jpg",
-    title: "Vững Kỹ Thuật - Bền Công Trình",
-    description: "Cam kết chất lượng và tiến độ",
-    titleAnimation: "rotateIn",
-    descriptionAnimation: "zoomIn",
-    buttonAnimation: "slideInUp",
+      'https://wp.nguyenthongjp.com/wp-content/uploads/2025/07/IMG_9044.jpg',
+    title: 'Vững Kỹ Thuật - Bền Công Trình',
+    description: 'Cam kết chất lượng và tiến độ',
+    titleAnimation: 'rotateIn',
+    descriptionAnimation: 'zoomIn',
+    buttonAnimation: 'slideInUp',
   },
   {
     id: 4,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/6cb7d9c34fb532308f21252ba56933f2.jpg",
-    title: "XÂY GIÁ TRỊ - DỰNG NIỀM TIN ",
-    description: "Được tin chọn bởi hàng ngàn khách",
-    titleAnimation: "flipInY",
-    descriptionAnimation: "slideInLeft",
-    buttonAnimation: "pulseScale",
+      'https://wp.nguyenthongjp.com/wp-content/uploads/2025/07/6cb7d9c34fb532308f21252ba56933f2.jpg',
+    title: 'XÂY GIÁ TRỊ - DỰNG NIỀM TIN ',
+    description: 'Được tin chọn bởi hàng ngàn khách',
+    titleAnimation: 'flipInY',
+    descriptionAnimation: 'slideInLeft',
+    buttonAnimation: 'pulseScale',
   },
   {
     id: 5,
     image:
-      "https://aqua-pigeon-769011.hostingersite.com/wp-content/uploads/2025/07/IMG_2857.jpg",
-    title: "TƯ VẤN - HỖ TRỢ & BẢO TRÌ 24/7 ",
-    description: "NGUYÊN THỐNG JP luôn sẵn sàng cùng bạn",
-    titleAnimation: "typeWriter",
-    descriptionAnimation: "fadeInScale",
-    buttonAnimation: "shakeIn",
+      'https://wp.nguyenthongjp.com/wp-content/uploads/2025/07/IMG_2857.jpg',
+    title: 'TƯ VẤN - HỖ TRỢ & BẢO TRÌ 24/7 ',
+    description: 'NGUYÊN THỐNG JP luôn sẵn sàng cùng bạn',
+    titleAnimation: 'typeWriter',
+    descriptionAnimation: 'fadeInScale',
+    buttonAnimation: 'shakeIn',
   },
-];
+]
 
 export default function MultiAnimationCarousel() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(true)
 
   // Auto-slide functionality
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) =>
         prev === carouselSlides.length - 1 ? 0 : prev + 1
-      );
-    }, 7000); // 9 giây để có thời gian xem đầy đủ animation
+      )
+    }, 7000) // 9 giây để có thời gian xem đầy đủ animation
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(interval)
+  }, [])
 
   // Reset animation when slide changes
   useEffect(() => {
-    setIsAnimating(false);
+    setIsAnimating(false)
     const timer = setTimeout(() => {
-      setIsAnimating(true);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [currentSlide]);
+      setIsAnimating(true)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [currentSlide])
 
   // Navigation functions
   const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
+    setCurrentSlide(index)
+  }
 
   const nextSlide = () => {
     setCurrentSlide((prev) =>
       prev === carouselSlides.length - 1 ? 0 : prev + 1
-    );
-  };
+    )
+  }
 
   const prevSlide = () => {
     setCurrentSlide((prev) =>
       prev === 0 ? carouselSlides.length - 1 : prev - 1
-    );
-  };
+    )
+  }
 
   return (
     <div className="relative w-full h-[320px] md:h-[500px] lg:h-[750px] overflow-hidden mt-[60px] lg:mt-0">
@@ -371,13 +371,13 @@ export default function MultiAnimationCarousel() {
         <div
           key={slide.id}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+            index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
         >
           {/* Background Image */}
           <div className="absolute inset-0">
             <Image
-              src={slide.image || "/placeholder.svg"}
+              src={slide.image || '/placeholder.svg'}
               alt={slide.title}
               fill
               className="object-cover"
@@ -394,7 +394,7 @@ export default function MultiAnimationCarousel() {
                 className={`font-Oswald uppercase text-base md:text-3xl lg:text-5xl font-medium lg:font-bold mb-4 tracking-[3px] pt-4 ${
                   index === currentSlide && isAnimating
                     ? `animate-title-${slide.titleAnimation}`
-                    : "opacity-0"
+                    : 'opacity-0'
                 }`}
               >
                 {slide.title}
@@ -403,7 +403,7 @@ export default function MultiAnimationCarousel() {
                 className={`flex items-center justify-center text-white text-lg md:text-xl lg:text-xl mb-0 lg:mb-10 max-w-4xl mx-auto ${
                   index === currentSlide && isAnimating
                     ? `animate-desc-${slide.descriptionAnimation}`
-                    : "opacity-0"
+                    : 'opacity-0'
                 }`}
               >
                 <p className="font-Oswald uppercase text-sm md:text-lg lg:text-2xl font-medium mb-8 tracking-[2px] text-primary">
@@ -414,7 +414,7 @@ export default function MultiAnimationCarousel() {
                 className={`${
                   index === currentSlide && isAnimating
                     ? `animate-btn-${slide.buttonAnimation}`
-                    : "opacity-0"
+                    : 'opacity-0'
                 }`}
               >
                 <Link href="/du-an">
@@ -442,8 +442,8 @@ export default function MultiAnimationCarousel() {
         border border-white/30
         ${
           index === currentSlide
-            ? "bg-primary w-8 md:w-[45px] shadow-md shadow-primary/50"
-            : "bg-white/30 hover:bg-white/50"
+            ? 'bg-primary w-8 md:w-[45px] shadow-md shadow-primary/50'
+            : 'bg-white/30 hover:bg-white/50'
         }
       `}
             aria-label={`Go to slide ${index + 1}`}
@@ -451,5 +451,5 @@ export default function MultiAnimationCarousel() {
         ))}
       </div>
     </div>
-  );
+  )
 }
