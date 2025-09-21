@@ -3,14 +3,22 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Project, SingleProject } from "@/types/typeForWordpressData";
-import { SizeIcon } from "@radix-ui/react-icons";
-import { BedIcon, Building2, DollarSign, MapPin, Timer } from "lucide-react";
-import React from "react";
+} from '@/components/ui/accordion'
+import { Project, SingleProject } from '@/types/typeForWordpressData'
+import { SizeIcon } from '@radix-ui/react-icons'
+import {
+  BedIcon,
+  Building2,
+  DollarSign,
+  MapPin,
+  Timer,
+  User,
+  Hammer,
+} from 'lucide-react'
+import React from 'react'
 
 interface GeneralInformationProjectProps {
-  project: SingleProject["project"];
+  project: SingleProject['project']
 }
 const GeneralInformationProject: React.FC<GeneralInformationProjectProps> = ({
   project,
@@ -58,28 +66,28 @@ const GeneralInformationProject: React.FC<GeneralInformationProjectProps> = ({
                 <p className="text-neutral-600 text-sm mt-2 text-center">
                   Địa điểm
                 </p>
-                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
+                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 ">
                   {project?.projectFields?.location}
                 </p>
               </div>
 
               <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <BedIcon className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <User className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
                 <p className="text-neutral-600 text-sm mt-2 text-center">
-                  Số phòng ngủ
+                  Chủ đầu tư
                 </p>
-                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
+                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 ">
                   {project?.projectFields?.bedroom}
                 </p>
               </div>
 
               <div className="flex flex-col items-center justify-center lg:space-y-3 bg-white border border-primary     p-2 lg:p-5 cursor-pointer hover:shadow-lg hover:shadow-primary duration-500">
-                <DollarSign className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
+                <Hammer className="h-6 w-6 lg:h-10 lg:w-10 text-primary" />
                 <p className="text-neutral-600 text-sm mt-2 text-center">
-                  Ngân sách dự án
+                  Loại công trình
                 </p>
-                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 whitespace-nowrap ">
-                  {project?.projectFields?.budget}
+                <p className="lg:text-xl text-base font-bold text-black text-center line-clamp-2 ">
+                  {project?.projectFields?.projectCategory}
                 </p>
               </div>
             </div>
@@ -87,7 +95,7 @@ const GeneralInformationProject: React.FC<GeneralInformationProjectProps> = ({
         </AccordionItem>
       </Accordion>
     </div>
-  );
-};
+  )
+}
 
-export default GeneralInformationProject;
+export default GeneralInformationProject

@@ -1,33 +1,28 @@
-"use client";
-import ContactInforV2 from "@/components/custom/contact-info-v2/contact-info-v2";
-import ContactInfor from "@/components/custom/contact-info/contact-infor";
-import Container from "@/components/custom/container";
-import { motion } from "framer-motion";
-import {
-  FaAward,
-  FaBuilding,
-  FaProjectDiagram,
-  FaUsers
-} from "react-icons/fa";
+'use client'
+import ContactInforV2 from '@/components/custom/contact-info-v2/contact-info-v2'
+import ContactInfor from '@/components/custom/contact-info/contact-infor'
+import Container from '@/components/custom/container'
+import { motion } from 'framer-motion'
+import { FaAward, FaBuilding, FaProjectDiagram, FaUsers } from 'react-icons/fa'
 
 const ContactPage = () => {
   const companyInfo = {
-    name: "Nguyễn Thông JP",
-    address: "123 Đường ABC, Phường XYZ, Quận 1, TP.HCM",
-    phone: "+84 123 456 789",
-    email: "info@nguyenthongarchitects.com",
+    name: 'Nguyễn Thông JP',
+    address: '123 Đường ABC, Phường XYZ, Quận 1, TP.HCM',
+    phone: '+84 123 456 789',
+    email: 'https://www.nguyenthongjp.com/',
     socialMedia: {
-      facebook: "https://facebook.com/nguyenthongarchitects",
-      instagram: "https://instagram.com/nguyenthongarchitects",
-      youtube: "https://youtube.com/nguyenthongarchitects",
+      facebook: 'https://facebook.com/nguyenthongarchitects',
+      instagram: 'https://instagram.com/nguyenthongarchitects',
+      youtube: 'https://youtube.com/nguyenthongarchitects',
     },
     stats: {
-      years: "15+",
-      projects: "200+",
-      team: "50+",
-      awards: "25+",
+      years: '15+',
+      projects: '200+',
+      team: '50+',
+      awards: '25+',
     },
-  };
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -37,7 +32,7 @@ const ContactPage = () => {
         staggerChildren: 0.2,
       },
     },
-  };
+  }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -49,7 +44,7 @@ const ContactPage = () => {
         ease: [0.6, -0.05, 0.01, 0.99],
       },
     },
-  };
+  }
 
   return (
     <main className="bg-white font-calibri pt-[60px] lg:pt-[80px] ">
@@ -133,7 +128,7 @@ const ContactPage = () => {
         </motion.div>
       </Container>
     </main>
-  );
-};
+  )
+}
 
-export default ContactPage;
+export default ContactPage
