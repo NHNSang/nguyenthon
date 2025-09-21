@@ -28,7 +28,7 @@ const companyData = {
     companyBranch: ' 58A Nguyễn Thành Hãn, P. Hoà Cường, TP. Đà Nẵng.',
     phone: '0912842727',
     email: 'nguyenthongjpcontrustion@gmail.com',
-    website: 'https://nguyenthongjp.vercel.app/',
+    website: 'https://www.nguyenthongjp.com/',
     workingHours: '7:30 - 17 (T2-T7),',
     hotline: '0912842727',
   },
