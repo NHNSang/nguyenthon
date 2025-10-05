@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Project } from "@/types/typeForWordpressData";
-import { MousePointerClick, User } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import ContactInfoModal from "../contact-infor-modal/contact-infor-modal";
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Project } from '@/types/typeForWordpressData'
+import { MousePointerClick, User } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import ContactInfoModal from '../contact-infor-modal/contact-infor-modal'
 
 interface SidebarComponentProps {
-  relevantProjects: Project[]; // Define the type of relevantProjects
+  relevantProjects: Project[] // Define the type of relevantProjects
 }
 
 const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
@@ -30,9 +30,12 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
                 Trao đổi với đội ngũ thiết kế hơn 10 năm kinh nghiệm của Nguyên
                 Thống JP
               </p>
-              <Button className="w-full bg-primary hover:bg-primary/90 uppercase text-lg">
-                Nhắn tin facebook
-              </Button>
+              <Link
+                href="https://www.facebook.com/nguyenthongjpconstruction"
+                className="w-full block bg-primary hover:bg-primary/90 uppercase text-lg text-white text-center py-2"
+              >
+                Nhắn tin Facebook
+              </Link>
             </div>
           </CardContent>
         </Card>
@@ -62,7 +65,7 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
                     </h4>
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: project.excerpt || "",
+                        __html: project.excerpt || '',
                       }}
                       className="text-sm text-gray-600 line-clamp-4 px-2"
                     />
@@ -89,7 +92,7 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProjectSidebarComponent;
+export default ProjectSidebarComponent
