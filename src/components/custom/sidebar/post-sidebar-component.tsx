@@ -1,30 +1,30 @@
-"use client";
+'use client'
 
-import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { PostsData } from "@/types/typeForWordpressData";
-import { Avatar } from "@radix-ui/react-avatar";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import ContactInfoModal from "../contact-infor-modal/contact-infor-modal";
+import { AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { PostsData } from '@/types/typeForWordpressData'
+import { Avatar } from '@radix-ui/react-avatar'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import ContactInfoModal from '../contact-infor-modal/contact-infor-modal'
 
 interface SidebarComponentProps {
-  relevantPost: NonNullable<PostsData["posts"]["edges"]> | undefined; // Define the type of relevantProjects
+  relevantPost: NonNullable<PostsData['posts']['edges']> | undefined // Define the type of relevantProjects
 }
 
 const PostSidebarComponent: React.FC<SidebarComponentProps> = ({
   relevantPost,
 }) => {
   const handleClick = () => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       window.open(
-        "https://www.facebook.com/nguyenthongjpconstruction/",
-        "_blank"
-      );
+        'https://www.facebook.com/nguyenthongjpconstruction/',
+        '_blank'
+      )
     }
-  };
+  }
   return (
     <div className="lg:col-span-4">
       <div className="">
@@ -60,15 +60,17 @@ const PostSidebarComponent: React.FC<SidebarComponentProps> = ({
 
         {/* Related Posts */}
         <div className="mb-8 ">
-          <h3 className="text-black text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase tracking-[1px] font-semibold mt-3">Bài viết liên quan</h3>
+          <h3 className="text-black text-base px-5 lg:px-0 lg:text-lg line-clamp-2 lg:line-clamp-3 uppercase tracking-[1px] font-semibold mt-3">
+            Bài viết liên quan
+          </h3>
           <div className="space-y-4 ">
             {relevantPost?.map((item) => (
               <Link key={item.node.slug} href={`/du-an/${item.node.slug}`}>
                 <div className="group flex flex-col items-start my-5">
                   <div className="relative h-[180px] w-full flex-shrink-0 overflow-hidden  ">
                     <Image
-                      src={item?.node?.featuredImage?.node.sourceUrl || ""}
-                      alt={item?.node?.featuredImage?.node.altText || ""}
+                      src={item?.node?.featuredImage?.node.sourceUrl || ''}
+                      alt={item?.node?.featuredImage?.node.altText || ''}
                       width={400}
                       height={400}
                       className="object-cover w-full h-full"
@@ -80,7 +82,7 @@ const PostSidebarComponent: React.FC<SidebarComponentProps> = ({
                     </h4>
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: item.node.excerpt || "",
+                        __html: item.node.excerpt || '',
                       }}
                       className="hidden text-sm text-gray-500"
                     />
@@ -106,7 +108,7 @@ const PostSidebarComponent: React.FC<SidebarComponentProps> = ({
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PostSidebarComponent;
+export default PostSidebarComponent
