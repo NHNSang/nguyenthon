@@ -1,251 +1,247 @@
-"use client";
+'use client'
 
-import type React from "react";
-
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import type React from 'react'
+import { useState, useTransition } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Send, CheckCircle, MessageSquare } from "lucide-react";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { FormError } from '../forms/FormError'
+import { FormSuccess } from '../forms/FormSuccess'
+import { useForm } from 'react-hook-form'
+import { submissionSchema } from '@/lib/validations'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { toast } from 'sonner'
 
 // Component form liên hệ
 function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    subject: "",
-    message: "",
-    service: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | undefined>('')
+  const [success, setSuccess] = useState<string | undefined>('')
+  const [isPending, startTransition] = useTransition()
+  const form = useForm<z.infer<typeof submissionSchema>>({
+    resolver: zodResolver(submissionSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+    },
+    // Hiển thị thông báo lỗi ngay khi người dùng rời khỏi trường đầu vào
+    mode: 'onBlur',
+  })
+  const onSubmit = (values: z.infer<typeof submissionSchema>) => {
+    setError('')
+    setSuccess('')
 
-  const services = [
-    "Biệt thư villa",
-    "Căn hộ khách sạn",
-    "Nhà hàng cà phê",
-    "Nhà phố",
-    "Văn phòng",
-  ];
+    startTransition(async () => {
+      try {
+        // Gọi API route của NextJS để xử lý submission
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        })
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+        const result = await response.json()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+        if (result.success) {
+          setSuccess('Gửi thông tin thành công!')
+          form.reset()
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+          // Hiển thị toast thông báo thành công
+          toast.success('Gửi thông tin thành công!', {
+            description:
+              'Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.',
+            closeButton: true,
+            duration: 3000,
+          })
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
+          // Tự động ẩn thông báo thành công sau 3 giây
+          setTimeout(() => {
+            setSuccess('')
+          }, 3000)
+        } else {
+          console.error('Lỗi từ API:', result.error)
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSuccess(false);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        subject: "",
-        message: "",
-        service: "",
-      });
-    }, 3000);
-  };
+          // Hiển thị toast thông báo lỗi
+          toast.error('Gửi thông tin thất bại!', {
+            description: result.error || 'Vui lòng thử lại sau.',
+            closeButton: true,
+          })
 
-  if (isSuccess) {
-    return (
-      <Card className=" shadow-lg ">
-        <CardContent className="p-8 text-center">
-          <div className="mx-auto w-16 h-16  flex items-center justify-center mb-4">
-            <CheckCircle size={32} className="text-balack" />
-          </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">
-            Gửi Thành Công!
-          </h3>
-          <p className="text-gray-600 mb-4">
-            Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ phản hồi trong
-            vòng 24 giờ.
-          </p>
-          <div className="bg-[#D5B48C] p-4 text-left">
-            <div className="text-sm text-balack space-y-1">
-              <div>
-                <strong>Họ tên:</strong> {formData.name}
-              </div>
-              <div>
-                <strong>Email:</strong> {formData.email}
-              </div>
-              <div>
-                <strong>Điện thoại:</strong> {formData.phone}
-              </div>
-              <div>
-                <strong>Dịch vụ:</strong> {formData.service}
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
+          throw new Error(result.error || 'Vui lòng thử lại sau.')
+        }
+      } catch (error) {
+        console.error('Exception khi gửi form:', error)
+
+        // Hiển thị toast thông báo lỗi
+        toast.error('Gửi thông tin thất bại!', {
+          description:
+            error instanceof Error ? error.message : 'Vui lòng thử lại sau.',
+          closeButton: true,
+        })
+
+        setError(error instanceof Error ? error.message : String(error))
+      }
+    })
   }
-
   return (
     <Card className=" lg:border lg:border-primary p-3">
       <CardHeader>
         <CardTitle className="text-2xl md:text-2xl uppercase tracking-[2px] lg:tracking-[3px] font-semibold text-center border-b lg:border-none border-primary">
-            Gửi Tin Nhắn Cho
-            <p className="text-primary"> NGUYÊN THỐNG JP</p>
+          Gửi Tin Nhắn Cho
+          <p className="text-primary"> NGUYÊN THỐNG JP</p>
         </CardTitle>
-        <CardDescription className="text-gray-600 italic mb-3">
-          Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất
-        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="lg:space-y-6">
-          <div className="grid md:grid-cols-2 lg:gap-4">
-            <div className="lg:lg:space-y-2">
-              <Label htmlFor="name">Họ và tên *</Label>
-              <Input
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Nhập họ và tên của bạn"
-                required
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
-              />
-            </div>
-            <div className="lg:lg:space-y-2">
-              <Label htmlFor="phone">Số điện thoại *</Label>
-              <Input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="Nhập số điện thoại"
-                required
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
-              />
-            </div>
-          </div>
+      {/* form */}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col justify-between flex-1"
+        >
+          {/* họ và tên */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <>
+                <Label htmlFor="name">Họ và tên</Label>
+                <FormItem className="my-3 relative">
+                  <FormControl className="h-[50px]">
+                    <div className="relative">
+                      <Input
+                        className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+                        type="text"
+                        placeholder="Nhập họ và tên của bạn"
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </>
+            )}
+          />
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <>
+                <Label htmlFor="email">Email *</Label>
 
-          <div className="grid md:grid-cols-2 lg:gap-4">
-            <div className="lg:lg:space-y-2">
-              <Label htmlFor="email">Email *</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Nhập địa chỉ email"
-                required
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
-              />
-            </div>
-            <div className="lg:lg:space-y-2">
-              <Label htmlFor="company">Công ty/Tổ chức</Label>
-              <Input
-                id="company"
-                name="company"
-                value={formData.company}
-                onChange={handleInputChange}
-                placeholder="Tên công ty (tùy chọn)"
-                className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
-              />
-            </div>
-          </div>
+                <FormItem className="my-3">
+                  <FormControl className="h-[50px]">
+                    <div className="relative">
+                      <Input
+                        required
+                        className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+                        type="text"
+                        placeholder="Nhập địa chỉ email"
+                        {...field}
+                      />
+                      <span className="absolute left-2 top-[30%] transform -translate-y-1/2 text-red-400 text-xl pointer-events-none z-10">
+                        *
+                      </span>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </>
+            )}
+          />
+          {/* Phone */}
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <>
+                <Label htmlFor="phone">Số điện thoại *</Label>
 
-          <div className="lg:lg:space-y-2">
-            <Label htmlFor="service">Dịch vụ quan tâm *</Label>
-            <select
-              id="service"
-              name="service"
-              value={formData.service}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-[#D5B78F] bg-white focus:outline-none focus:ring-2 focu]s:ring-[#D5B78F] text-gray-600 text-sm"
-              required
-            >
-              <option value="">Chọn dịch vụ</option>
-              {services.map((service) => (
-                <option key={service} value={service}>
-                  {service}
-                </option>
-              ))}
-            </select>
-          </div>
+                <FormItem className="my-3">
+                  <FormControl className="h-[50px]">
+                    <div className="relative">
+                      <Input
+                        required
+                        className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
+                        type="text"
+                        placeholder="Nhập số điện thoại"
+                        {...field}
+                      />
+                      <span className="absolute left-2 top-[30%] transform -translate-y-1/2 text-red-400 text-xl pointer-events-none z-10">
+                        *
+                      </span>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </>
+            )}
+          />
 
-          <div className="lg:lg:space-y-2">
-            <Label htmlFor="subject">Tiêu đề *</Label>
-            <Input
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleInputChange}
-              placeholder="Nhập tiêu đề tin nhắn"
-              className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F]"
-            />
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <>
+                <Label htmlFor="message">Nội dung tin nhắn</Label>
+                <FormItem className="my-3">
+                  <FormControl className="h-[50px]">
+                    <Textarea
+                      {...field}
+                      placeholder="Mô tả chi tiết yêu cầu của bạn..."
+                      className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F] min-h-[120px] resize-none"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-destructive" />
+                </FormItem>
+              </>
+            )}
+          />
+          <div className="my-1">
+            {error ? (
+              <FormError message={error} />
+            ) : success ? (
+              <FormSuccess message={success} />
+            ) : null}
           </div>
-
-          <div className="lg:lg:space-y-2">
-            <Label htmlFor="message">Nội dung tin nhắn *</Label>
-            <Textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleInputChange}
-              placeholder="Mô tả chi tiết yêu cầu của bạn..."
-              className="w-full px-4 py-2 border border-[#D5B78F] bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#D5B78F] min-h-[120px] resize-none"
-            />
-          </div>
-
           <Button
+            disabled={isPending}
             type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-[#D5B48C] hover:scale-105 text-black py-3 text-lg"
+            className="w-full border-none bg-primary py-6 mt-auto"
           >
-            {isSubmitting ? (
+            {isPending ? (
               <div className="flex items-center justify-center">
-                <div className="animate-spin h-5 w-5 border-b-2 border-white mr-2"></div>
-                Đang gửi...
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                <span className="tracking-wide font-extrabold text-xl text-white">
+                  ĐANG GỬI...
+                </span>
               </div>
             ) : (
-              <div className="flex items-center justify-center">
-                <Send size={18} className="mr-2" />
-                Gửi Tin Nhắn
-              </div>
+              <span className="tracking-wide font-extrabold text-xl text-white">
+                GỬI NGAY
+              </span>
             )}
           </Button>
-
           <p className="text-xs text-gray-600 text-center py-2">
             * Thông tin bắt buộc. Chúng tôi cam kết bảo mật thông tin của bạn.
           </p>
         </form>
-      </CardContent>
+      </Form>
     </Card>
-  );
+  )
 }
 
 export default function ContactInfor() {
@@ -268,5 +264,5 @@ export default function ContactInfor() {
         </div>
       </div>
     </div>
-  );
+  )
 }
