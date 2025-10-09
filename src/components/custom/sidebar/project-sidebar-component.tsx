@@ -34,7 +34,7 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
                 href="https://www.facebook.com/nguyenthongjpconstruction"
                 className="w-full block bg-primary hover:bg-primary/90 uppercase text-lg text-white text-center py-2"
               >
-                Nhắn tin Facebook
+                Nhắn tin Facebook 123
               </Link>
             </div>
           </CardContent>
