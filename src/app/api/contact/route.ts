@@ -1,6 +1,7 @@
 import { ContactService } from '@/services/contact';
-import { EmailService } from '@/services/email';
-import { ReactEmailService } from '@/services/react-email';
+import { GmailService } from '@/services/gmail';
+// import { EmailService } from '@/services/email';
+// import { ReactEmailService } from '@/services/react-email';
 // import { ContactRestService } from '@/services/contact-rest'; 
 // import { CF7Service } from '@/services/contact-cf7';
 import { submissionSchema } from '@/lib/validations';
@@ -50,13 +51,15 @@ export async function POST(req: NextRequest) {
 
             if (result.success) {
                 // Gửi email thông báo đến admin (không chờ kết quả để tránh làm chậm response)
-                EmailService.sendNotificationToAdmin(validationResult.data)
-                    .then((emailResult) => {
+                GmailService.sendNotificationToAdmin(validationResult.data)
+                    .then((emailResult: { success: boolean; error?: string }) => {
                         if (!emailResult.success) {
                             console.warn('Không thể gửi email thông báo đến admin:', emailResult.error);
+                        } else {
+                            console.log('Đã gửi email thông báo đến admin thành công');
                         }
                     })
-                    .catch(err => {
+                    .catch((err: any) => {
                         console.error('Lỗi khi gửi email thông báo đến admin:', err);
                     });
 
@@ -64,44 +67,28 @@ export async function POST(req: NextRequest) {
                 if (validationResult.data.email) {
                     try {
                         // Thử gửi email xác nhận trực tiếp với EmailService (template thông thường)
-                        // Debug log chỉ trong development
+                        // Debug log
                         console.log('Gửi email xác nhận tới:', validationResult.data.email);
-                        console.log('Đang sử dụng Resend với cấu hình:', {
-                            api_key_exists: !!process.env.RESEND_API_KEY,
-                            email_domain: process.env.EMAIL_DOMAIN,
-                            sender: 'onboarding@resend.dev'
+                        console.log('Đang sử dụng Gmail với cấu hình:', {
+                            gmail_user_exists: !!process.env.GMAIL_USER,
+                            gmail_password_exists: !!process.env.GMAIL_APP_PASSWORD,
+                            admin_email: process.env.ADMIN_EMAIL
                         });
 
-                        const emailResult = await EmailService.sendConfirmationToUser(validationResult.data);
+                        const emailResult = await GmailService.sendConfirmationToUser(validationResult.data);
                         if (emailResult.success) {
                             console.log('Đã gửi email xác nhận thành công đến:', validationResult.data.email);
                         } else {
                             // Warning log vẫn giữ lại để dễ debug
                             console.warn('Không thể gửi email xác nhận đến người dùng:', emailResult.error);
-                            // Log thêm thông tin để debug resend
+                            // Log thêm thông tin để debug Gmail
                             console.log('Cấu hình email hiện tại:', {
-                                api_key: process.env.RESEND_API_KEY ? 'Đã cấu hình' : 'Chưa cấu hình',
-                                email_domain: process.env.EMAIL_DOMAIN || 'Không có'
+                                gmail_user: process.env.GMAIL_USER || 'Chưa cấu hình',
+                                gmail_password: process.env.GMAIL_APP_PASSWORD ? 'Đã cấu hình' : 'Chưa cấu hình'
                             });
                         }
 
-                        // Ghi log thử sử dụng React Email nhưng không block process
-                        ReactEmailService.sendConfirmationToUser(validationResult.data)
-                            .then(result => {
-                                if (result.success) {
-                                    // Debug log chỉ trong development
-                                    if (process.env.NODE_ENV !== 'production') {
-                                        console.log('Đã gửi React Email xác nhận thành công');
-                                    }
-                                } else {
-                                    // Warning log vẫn giữ lại để dễ debug
-                                    console.warn('Không thể gửi React Email xác nhận:', result.error);
-                                }
-                            })
-                            .catch(err => {
-                                // Error log vẫn giữ lại để dễ debug
-                                console.error('Lỗi khi thử gửi React Email:', err);
-                            });
+                        // Chỉ sử dụng Gmail service, không cần React Email nữa
                     } catch (emailError) {
                         // Error log vẫn giữ lại để dễ debug
                         console.error('Lỗi khi gửi email xác nhận đến người dùng:', emailError);
