@@ -174,7 +174,7 @@ export const GmailService = {
               <div class="contact-info">
                 <h3 style="margin-top: 0; color: #007bff;">📞 Thông tin liên hệ</h3>
                 <p><strong>Công ty:</strong> Nguyên Thông JP Construction</p>
-                <p><strong>Điện thoại:</strong> [SỐ ĐIỆN THOẠI CÔNG TY]</p>
+                <p><strong>Điện thoại:</strong>0912842727</p>
                 <p><strong>Email:</strong> ${process.env.ADMIN_EMAIL}</p>
                 <p><strong>Website:</strong> nguyenthongjp.com</p>
               </div>
