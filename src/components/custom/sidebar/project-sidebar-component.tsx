@@ -31,7 +31,9 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
                 Thống JP
               </p>
               <Link
-                href="https://www.facebook.com/nguyenthongjpconstruction"
+                href="https://m.me/nguyenthongjpconstruction"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full block bg-primary hover:bg-primary/90 uppercase text-lg text-white text-center py-2"
               >
                 Nhắn tin Facebook
