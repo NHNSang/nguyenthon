@@ -24,7 +24,6 @@ export async function generateMetadata({
     const { uri } = await params
     const projectUri = `/project/${uri}/`
     const res = await getSingleProject(projectUri)
-
     if (!res) {
       throw new Error(`Post not found for uri: ${projectUri}`)
     }

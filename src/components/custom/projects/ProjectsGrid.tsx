@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
 import MainBtn from '../buttons/main-btn'
 
 interface ProjectsGridProps {
@@ -20,14 +20,14 @@ interface ProjectsGridProps {
   labelOfButton: string
 }
 
-// Hàm tiện ích để chuẩn hóa chuỗi, đảm bảo so sánh chính xác
+// Hàm chuẩn hoá chuỗi
 const normalizeString = (str: string | null) => {
   if (!str) return ''
   return str
     .trim()
     .toLowerCase()
-    .replace(/[–—−-]/g, '-') // Thay tất cả các loại gạch ngang bằng dấu gạch ngang thường (-)
-    .replace(/\s+/g, ' ') // Chuẩn hóa khoảng trắng
+    .replace(/[–—−-]/g, '-')
+    .replace(/\s+/g, ' ')
 }
 
 const ProjectsGrid: React.FC<ProjectsGridProps> = ({
@@ -41,158 +41,135 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
   labelOfButton,
 }) => {
   const pathname = usePathname()
-  const route = useRouter()
-  const [seletedcategory, setSeletedCategory] = useState<string | null>(
-    'Tất cả'
-  )
+  const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả')
 
+  // 👉 Dùng object để lưu trang hiện tại cho từng danh mục
+  const [pageByCategory, setPageByCategory] = useState<Record<string, number>>({
+    'Tất cả': 1,
+  })
+
+  const projectsPerPage = 10
+
+  // lọc theo danh mục
   const projects = projectsArray
-
-  // Logic lọc dự án theo danh mục đã chọn với chuẩn hóa tên danh mục
   const projectsByCategory = projects?.filter((project) => {
-    // Kiểm tra nếu project và projectFields tồn tại
     if (!project?.projectFields?.projectCategory) return false
+    if (!selectedCategory) return false
 
-    // Kiểm tra nếu seletedcategory là null
-    if (seletedcategory === null) return false
+    const categoryMatches = (cat: string) =>
+      normalizeString(cat) === normalizeString(selectedCategory)
 
-    // Tạo một hàm so sánh sử dụng hàm chuẩn hóa
-    const categoryMatches = (cat: string) => {
-      if (!cat || !seletedcategory) return false
-
-      const normalizedCat = normalizeString(cat)
-      const normalizedSelected = normalizeString(seletedcategory)
-
-      return normalizedCat === normalizedSelected
-    }
-
-    // Kiểm tra xem danh mục đã chọn có trong mảng danh mục của dự án không
     return project.projectFields.projectCategory.some(categoryMatches)
   })
 
-  // Không còn cần debug sau khi chức năng đã hoạt động đúng
+  // chọn dữ liệu hiển thị tuỳ theo filter
+  const visibleProjects =
+    selectedCategory === 'Tất cả' ? projects : projectsByCategory
 
-  // Không cần useEffect debug sau khi chức năng đã hoạt động đúng
+  // lấy số trang hiện tại tương ứng với danh mục đang chọn
+  const currentPage = pageByCategory[selectedCategory] || 1
+
+  // tính toán phân trang
+  const indexOfLastProject = currentPage * projectsPerPage
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage
+  const currentProjects = visibleProjects?.slice(
+    indexOfFirstProject,
+    indexOfLastProject
+  )
+
+  const totalPages = Math.ceil(visibleProjects.length / projectsPerPage)
+
+  // chuyển trang
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setPageByCategory((prev) => ({
+        ...prev,
+        [selectedCategory]: page,
+      }))
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  // reset về trang 1 khi đổi danh mục (nếu danh mục chưa có trong pageByCategory)
+  useEffect(() => {
+    setPageByCategory((prev) => ({
+      ...prev,
+      [selectedCategory]: prev[selectedCategory] || 1,
+    }))
+  }, [selectedCategory])
+
+  // Animation
   const container = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
     },
   }
-
   const item = {
     hidden: { opacity: 0, y: 30 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: 'easeOut',
-      },
-    },
-  }
-
-  const categoryVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: 'easeOut',
-      },
-    },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
   }
 
   return (
-    <section className=" ">
+    <section>
       <Container>
+        {/* Tiêu đề */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-4 lg:mt-8 mb:8 lg:mb-10  "
+          className="mt-4 lg:mt-8 mb:8 lg:mb-10"
         >
-          {/* <Title
-            title={title}
-            islightBg={islightBg}
-            subtitle={subtitle}
-            text={text}
-          /> */}
           <h1 className="text-2xl md:text-[48px] mb-2 lg:mb-8 uppercase tracking-[5px] lg:tracking-[8px] font-semibold text-center">
             Khám phá dự án <span className="text-primary"> nổi bật</span>
           </h1>
         </motion.div>
 
-        {/* Category List */}
-        <motion.div
-          variants={categoryVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="w-full overflow-x-scroll hiddenScrollBar mb-6 "
-        >
+        {/* Danh mục */}
+        <div className="w-full overflow-x-scroll hiddenScrollBar mb-6">
           <div className="flex flex-row justify-center items-center gap-1 min-w-max px-4 border-b border-primary">
-            {/* Nút Tất cả dự án */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary  bg-primary  font-bold
-      ${
-        seletedcategory === 'Tất cả'
-          ? 'text-white'
-          : 'text-black bg-white border-primary'
-      }`}
-              onClick={() => setSeletedCategory('Tất cả')}
+            <button
+              className={`uppercase px-14 py-3 text-sm border font-bold transition-all duration-300 ${
+                selectedCategory === 'Tất cả'
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white text-black border-primary'
+              }`}
+              onClick={() => setSelectedCategory('Tất cả')}
             >
               Tất cả dự án
-            </motion.button>
+            </button>
 
-            {/* Các nút còn lại */}
-            {projectCategoryArray.map((projectCategory) => (
-              <motion.button
-                key={projectCategory.slug}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`uppercase px-14 py-3 text-sm transition-all duration-300 border border-primary0 bg-primary font-bold
-        ${
-          normalizeString(seletedcategory) ===
-          normalizeString(projectCategory.name)
-            ? 'text-white'
-            : 'text-black bg-white border-primary'
-        }`}
-                onClick={() => setSeletedCategory(projectCategory.name)}
+            {projectCategoryArray.map((cat) => (
+              <button
+                key={cat.slug}
+                className={`uppercase px-14 py-3 text-sm border font-bold transition-all duration-300 ${
+                  normalizeString(selectedCategory) ===
+                  normalizeString(cat.name)
+                    ? 'bg-primary text-white border-primary'
+                    : 'bg-white text-black border-primary'
+                }`}
+                onClick={() => setSelectedCategory(cat.name)}
               >
-                {projectCategory.name}
-              </motion.button>
+                {cat.name}
+              </button>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Portfolio Grid */}
+        {/* Lưới dự án */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={seletedcategory}
+            key={`${selectedCategory}-${currentPage}`}
             variants={container}
             initial="hidden"
             animate="show"
             exit={{ opacity: 0 }}
             className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 px-2 md:px-1 lg:px-0 pb-8"
           >
-            {(seletedcategory === 'Tất cả'
-              ? projects
-              : projectsByCategory
-            )?.map((project) => (
-              <motion.div
-                key={project.slug}
-                variants={item}
-                className="group mx-5 lg:mx-0"
-              >
+            {currentProjects?.map((project) => (
+              <motion.div key={project.slug} variants={item}>
                 <Link
                   href={`du-an/${project.slug}`}
                   className="bg-[#F5F5F3] block overflow-hidden shadow-2xl hover:shadow-xl transition-all duration-500"
@@ -208,28 +185,9 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
                     <div className="border border-primary group-hover:translate-x-2 group-hover:-translate-y-2 absolute top-3 right-3 p-2 bg-amber-50 opacity-90 transition-opacity hover:opacity-100 duration-500 z-30">
                       <ArrowUpRight className="h-4 w-4 text-amber-800" />
                     </div>
-
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end justify-center p-6"
-                    >
-                      <ul className="text-white text-center space-y-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ">
-                        <li className="font-semibold">
-                          Diện tích: {project.projectFields.sizeOfProject} m²
-                        </li>
-                        <li className="font-semibold">
-                          Quy mô: {project.projectFields.floor} tầng
-                        </li>
-                        <li className="font-semibold">
-                          Loại công trình:{' '}
-                          {project.projectFields.projectCategory[0]}
-                        </li>
-                      </ul>
-                    </motion.div>
                   </div>
                   <div className="p-2 border-r border-l border-b border-primary h-[65px]">
-                    <p className="text-black text-base px-0 lg:text-base line-clamp-2 uppercase tracking-[1px] font-semibold">
+                    <p className="text-black text-base uppercase tracking-[1px] font-semibold line-clamp-2">
                       {project.title}
                     </p>
                   </div>
@@ -238,6 +196,39 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({
             ))}
           </motion.div>
         </AnimatePresence>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-8 py-4">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-1 border border-primary text-primary rounded hover:bg-primary hover:text-white disabled:opacity-40"
+            >
+              Trước
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => handlePageChange(i + 1)}
+                className={`px-3 py-1 rounded border ${
+                  currentPage === i + 1
+                    ? 'bg-primary text-white border-primary'
+                    : 'bg-white text-black border-primary'
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-1 border border-primary text-primary rounded hover:bg-primary hover:text-white disabled:opacity-40"
+            >
+              Sau
+            </button>
+          </div>
+        )}
 
         {/* View All Button */}
         {pathname !== '/du-an' && (

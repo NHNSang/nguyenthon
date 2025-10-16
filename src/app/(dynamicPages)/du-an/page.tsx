@@ -1,14 +1,16 @@
-import Container from "@/components/custom/container";
-import { Suspense } from "react";
-import Loading from "@/app/loading";
+import Container from '@/components/custom/container'
+import { Suspense } from 'react'
+import Loading from '@/app/loading'
 
-import BreadcrumbComponent from "@/components/custom/breadcrumb/BreadcrumbComponent";
-import { getAllProjects, getProjectCategories } from "@/lib/api";
-import ProjectsGrid from "@/components/custom/projects/ProjectsGrid";
+import BreadcrumbComponent from '@/components/custom/breadcrumb/BreadcrumbComponent'
+import { getAllProjects, getProjectCategories } from '@/lib/api'
+import ProjectsGrid from '@/components/custom/projects/ProjectsGrid'
 
 export default async function ProjectsPage() {
-  const projects = await fetchProjects();
-  const projectsCategoryArray = await fetchProjectCategories();
+  const projects = await fetchProjects()
+  const projectsCategoryArray = await fetchProjectCategories()
+  console.log(projects)
+
   return (
     <main className="pt-[60px] lg:pt-[90px] bg-white">
       <Suspense fallback={<Loading />}>
@@ -23,17 +25,17 @@ export default async function ProjectsPage() {
         />
       </Suspense>
     </main>
-  );
+  )
 }
 
 async function fetchProjects() {
-  const res = await getAllProjects();
-  const projects = res?.projects?.nodes;
-  return projects;
+  const res = await getAllProjects()
+  const projects = res?.projects?.nodes
+  return projects
 }
 
 async function fetchProjectCategories() {
-  const res = await getProjectCategories();
-  const projectCategories = res?.projectCategories?.nodes;
-  return projectCategories;
+  const res = await getProjectCategories()
+  const projectCategories = res?.projectCategories?.nodes
+  return projectCategories
 }

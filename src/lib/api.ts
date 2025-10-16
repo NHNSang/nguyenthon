@@ -45,36 +45,93 @@ async function FetchAPI(query = "", { variables }: Record<string, any> = {}) {
 }
 
 
+// giới hạn 20 bài viết
+// export async function getAllProjects(): Promise<Projects> {
+//   const data = await FetchAPI(`
+// query projects {
+//   projects (first: 20,) {
+//     nodes {
+//       id
+//       title
+//       slug
+//       uri
+//       excerpt
+//       date
+//       featuredImage {
+//         node {
+//           sourceUrl
+//         }
+//       }
+//       projectFields {
+//         completedYear
+//         floor
+//         location
+//         projectCategory
+//         sizeOfProject
+//       }
+//     }
+//   }
+// }`)
 
+//   return data;
+// }
+// Tự động load tất cả bài viết (50, 100, 1000...)
 export async function getAllProjects(): Promise<Projects> {
-  const data = await FetchAPI(`
-query projects {
-  projects {
-    nodes {
-      id
-      title
-      slug
-      uri
-      excerpt
-      date
-      featuredImage {
-        node {
-          sourceUrl
+  let allNodes: Projects["projects"]["nodes"] = [];
+  let hasNextPage = true;
+  let after: string | null = null;
+
+  while (hasNextPage) {
+    const query = `
+      query projects($after: String) {
+        projects(first: 20, after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          nodes {
+            id
+            title
+            slug
+            uri
+            excerpt
+            date
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+            projectFields {
+              completedYear
+              floor
+              location
+              projectCategory
+              sizeOfProject
+            }
+          }
         }
       }
-      projectFields {
-        completedYear
-        floor
-        location
-        projectCategory
-        sizeOfProject
-      }
-    }
+    `;
+
+    // 🔹 FetchAPI của bạn có thể đã nhận (query, variables)
+    const response = await FetchAPI(query, { variables: { after } });
+    const { nodes, pageInfo } = response.projects;
+
+    allNodes = [...allNodes, ...nodes];
+    hasNextPage = pageInfo.hasNextPage;
+    after = pageInfo.endCursor;
   }
-}`)
+
+  // 🔸 Giữ nguyên kiểu return cũ
+  const data: Projects = {
+    projects: {
+      nodes: allNodes,
+    },
+  };
 
   return data;
 }
+
 
 
 
