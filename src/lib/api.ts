@@ -3,46 +3,104 @@ import { cache } from "react";
 
 
 const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "";
+// code cũ
+// async function FetchAPI(query = "", { variables }: Record<string, any> = {}) {
+//   const headers: { "Content-Type": string, [key: string]: string } = { "Content-Type": "application/json" };
 
-async function FetchAPI(query = "", { variables }: Record<string, any> = {}) {
-  const headers: { "Content-Type": string, [key: string]: string } = { "Content-Type": "application/json" };
+//   if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
+//     headers["Authorization"] = `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
+//   }
+
+//   const controller = new AbortController();
+//   const timeoutId = setTimeout(() => controller.abort(), 50000); // 30 giây
+//   /**
+//    * Vì không truyền trực tiếp timeout value vào fetch, nên cần tạo một AbortController để có thể hủy yêu cầu fetch. 
+//    * AbortController: Tạo một AbortController để có thể hủy yêu cầu fetch.
+//       Timeout: Sử dụng setTimeout để hủy yêu cầu sau 10 giây.
+//       Signal: Truyền signal từ AbortController vào hàm fetch.
+//       Error Handling: Bắt lỗi nếu yêu cầu bị hủy do hết thời gian chờ hoặc gặp lỗi khác.
+//    */
+
+//   const res = await fetch(
+//     API_URL,
+//     {
+//       headers,
+//       method: "POST",
+//       body: JSON.stringify({
+//         query,
+//         variables
+//       }),
+//       next: { revalidate: 120 },
+//       //thêm thời gian chờ load dữ liệu để tạo các trang tĩnh, tránh trường hợp fail vì fetch dữ liệu về vượt quá thời gian chờ, điều này dẫn đến lỗi và không delop được. Thường gặp khi deploy vercel.
+//       signal: controller.signal
+//     }
+//   );
+//   clearTimeout(timeoutId);
+//   const json = await res.json();
+//   if (json.error) {
+//     console.error(json.error);
+//     throw new Error('Failed to fetch API')
+//   }
+//   return json.data;
+// }
+
+// code mới
+export async function FetchAPI(query = "", { variables }: Record<string, any> = {}) {
+  const headers: { "Content-Type": string; [key: string]: string } = {
+    "Content-Type": "application/json",
+  };
 
   if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
     headers["Authorization"] = `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
   }
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 50000); // 30 giây
-  /**
-   * Vì không truyền trực tiếp timeout value vào fetch, nên cần tạo một AbortController để có thể hủy yêu cầu fetch. 
-   * AbortController: Tạo một AbortController để có thể hủy yêu cầu fetch.
-      Timeout: Sử dụng setTimeout để hủy yêu cầu sau 10 giây.
-      Signal: Truyền signal từ AbortController vào hàm fetch.
-      Error Handling: Bắt lỗi nếu yêu cầu bị hủy do hết thời gian chờ hoặc gặp lỗi khác.
-   */
+  const API_URL = process.env.WORDPRESS_API_URL as string;
 
-  const res = await fetch(
-    API_URL,
-    {
-      headers,
-      method: "POST",
-      body: JSON.stringify({
-        query,
-        variables
-      }),
-      next: { revalidate: 120 },
-      //thêm thời gian chờ load dữ liệu để tạo các trang tĩnh, tránh trường hợp fail vì fetch dữ liệu về vượt quá thời gian chờ, điều này dẫn đến lỗi và không delop được. Thường gặp khi deploy vercel.
-      signal: controller.signal
+  const fetchWithRetry = async (retries = 3): Promise<any> => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 50000); // 50s timeout
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ query, variables }),
+        next: { revalidate: 120 },
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      }
+
+      const json = await res.json();
+
+      if (json.errors) {
+        console.error("GraphQL errors:", json.errors);
+        throw new Error("GraphQL error");
+      }
+
+      return json.data;
+    } catch (error: any) {
+      clearTimeout(timeoutId);
+
+      // 👉 Nếu bị timeout hoặc network error thì retry
+      if (retries > 0 && (error.name === "AbortError" || error.code === "ETIMEDOUT" || error.message.includes("fetch failed"))) {
+        console.warn(`⚠️ FetchAPI retrying... (${3 - retries + 1})`);
+        await new Promise((r) => setTimeout(r, 2000)); // chờ 2s trước khi thử lại
+        return fetchWithRetry(retries - 1);
+      }
+
+      console.error("❌ FetchAPI failed:", error);
+      throw error;
     }
-  );
-  clearTimeout(timeoutId);
-  const json = await res.json();
-  if (json.error) {
-    console.error(json.error);
-    throw new Error('Failed to fetch API')
-  }
-  return json.data;
+  };
+
+  return fetchWithRetry();
 }
+
 
 // *****Lấy tất cả bài viết*****
 // 1) giới hạn 20 bài viết
