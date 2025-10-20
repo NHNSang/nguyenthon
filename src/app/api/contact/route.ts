@@ -151,5 +151,6 @@ export async function POST(req: NextRequest) {
 
 // Cấu hình CORS headers cho API route này nếu cần
 export const config = {
-    runtime: 'edge',
+    // runtime: 'edge',
+    runtime: 'nodejs',
 };
