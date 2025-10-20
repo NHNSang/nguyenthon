@@ -44,8 +44,8 @@ async function FetchAPI(query = "", { variables }: Record<string, any> = {}) {
   return json.data;
 }
 
-
-// giới hạn 20 bài viết
+// *****Lấy tất cả bài viết*****
+// 1) giới hạn 20 bài viết
 // export async function getAllProjects(): Promise<Projects> {
 //   const data = await FetchAPI(`
 // query projects {
@@ -75,131 +75,267 @@ async function FetchAPI(query = "", { variables }: Record<string, any> = {}) {
 
 //   return data;
 // }
-// Tự động load tất cả bài viết (50, 100, 1000...)
+// 2)Tự động load tất cả bài viết (50, 100, 1000...)
+// export async function getAllProjects(): Promise<Projects> {
+//   let allNodes: Projects["projects"]["nodes"] = [];
+//   let hasNextPage = true;
+//   let after: string | null = null;
+
+//   while (hasNextPage) {
+//     const query = `
+//       query projects($after: String) {
+//         projects(first: 20, after: $after) {
+//           pageInfo {
+//             hasNextPage
+//             endCursor
+//           }
+//           nodes {
+//             id
+//             title
+//             slug
+//             uri
+//             excerpt
+//             date
+//             featuredImage {
+//               node {
+//                 sourceUrl
+//               }
+//             }
+//             projectFields {
+//               completedYear
+//               floor
+//               location
+//               projectCategory
+//               sizeOfProject
+//             }
+//           }
+//         }
+//       }
+//     `;
+
+//     // 🔹 FetchAPI của bạn có thể đã nhận (query, variables)
+//     const response = await FetchAPI(query, { variables: { after } });
+//     const { nodes, pageInfo } = response.projects;
+
+//     allNodes = [...allNodes, ...nodes];
+//     hasNextPage = pageInfo.hasNextPage;
+//     after = pageInfo.endCursor;
+//   }
+
+//   // 🔸 Giữ nguyên kiểu return cũ
+//   const data: Projects = {
+//     projects: {
+//       nodes: allNodes,
+//     },
+//   };
+
+//   return data;
+// }
+// 3)Hàm lấy tất cả Project an toàn, tránh lỗi build trên Vercel
 export async function getAllProjects(): Promise<Projects> {
   let allNodes: Projects["projects"]["nodes"] = [];
   let hasNextPage = true;
   let after: string | null = null;
+  let loopCount = 0; // 🔹 Giới hạn số vòng lặp để tránh lỗi vô hạn
 
-  while (hasNextPage) {
-    const query = `
-      query projects($after: String) {
-        projects(first: 20, after: $after) {
-          pageInfo {
-            hasNextPage
-            endCursor
-          }
-          nodes {
-            id
-            title
-            slug
-            uri
-            excerpt
-            date
-            featuredImage {
-              node {
-                sourceUrl
+  try {
+    while (hasNextPage && loopCount < 50) { // tránh lặp vô hạn
+      const query = `
+        query projects($after: String) {
+          projects(first: 20, after: $after) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              id
+              title
+              slug
+              uri
+              excerpt
+              date
+              featuredImage {
+                node {
+                  sourceUrl
+                }
+              }
+              projectFields {
+                completedYear
+                floor
+                location
+                projectCategory
+                sizeOfProject
               }
             }
-            projectFields {
-              completedYear
-              floor
-              location
-              projectCategory
-              sizeOfProject
+          }
+        }
+      `;
+
+      const response = await FetchAPI(query, { variables: { after } });
+
+      // 🔸 Kiểm tra dữ liệu trả về có hợp lệ không
+      if (!response || !response.projects) {
+        console.warn("⚠️ Không nhận được dữ liệu projects từ API:", response);
+        break;
+      }
+
+      const { nodes = [], pageInfo = {} } = response.projects;
+
+      allNodes = [...allNodes, ...nodes];
+      hasNextPage = !!pageInfo.hasNextPage;
+      after = pageInfo.endCursor || null;
+      loopCount++;
+    }
+  } catch (error) {
+    console.error("❌ Lỗi khi fetch projects:", error);
+  }
+
+  // 🔹 Đảm bảo luôn return đúng kiểu dữ liệu, tránh crash khi build
+  return {
+    projects: {
+      nodes: allNodes || [],
+    },
+  };
+}
+
+
+// Lấy chi tiết 1 bài viết
+// 1
+// export async function getSingleProject(uri: string): Promise<SingleProject> {
+//   // Decode URI if encoded and clean up formatting
+//   let cleanUri = uri;
+//   try {
+//     // Handle encoded URI formats
+//     if (cleanUri.includes('%2F')) {
+//       cleanUri = decodeURIComponent(cleanUri);
+//     }
+    
+//     // Ensure the URI has proper format for WordPress API
+//     if (!cleanUri.startsWith('/')) {
+//       cleanUri = '/' + cleanUri;
+//     }
+//     if (!cleanUri.endsWith('/')) {
+//       cleanUri = cleanUri + '/';
+//     }
+    
+//     console.log('Formatted URI for API request:', cleanUri);
+//   } catch (error) {
+//     console.error('Error processing URI:', error);
+//   }
+
+//   const data = await FetchAPI(`
+//   query singleProject($id: ID = "new-espace-citoyen-des-confluents-transforms-former-industrial-site-into-sustainable-urban-renewal-model", $idType: ProjectIdType = URI) {
+//   project(id: $id, idType: $idType) {
+//   id  
+//   title
+//     excerpt
+//     date
+//     content
+//     slug
+//     uri
+//     featuredImage {
+//       node {
+//         sourceUrl
+//         altText
+//       }
+//     }
+//     author {
+//       node {
+//         name
+//         avatar {
+//           url
+//         }
+//       }
+//     }
+//     projectFields {
+//       completedYear
+//       floor
+//       location
+//       projectCategory
+//       sizeOfProject
+//       bedroom
+//       budget
+//     }
+//   }
+// }
+//     `, {
+//     variables: {
+//       id: cleanUri
+//     }
+//   })
+
+//   return data;
+// }
+// 2
+export async function getSingleProject(uri: string): Promise<SingleProject> {
+  let cleanUri = uri;
+
+  try {
+    if (cleanUri.includes("%2F")) cleanUri = decodeURIComponent(cleanUri);
+    if (!cleanUri.startsWith("/")) cleanUri = "/" + cleanUri;
+    if (!cleanUri.endsWith("/")) cleanUri += "/";
+    console.log("🔹 Formatted URI for API request:", cleanUri);
+  } catch (error) {
+    console.error("Error processing URI:", error);
+  }
+
+  const query = `
+    query singleProject($id: ID!, $idType: ProjectIdType!) {
+      project(id: $id, idType: $idType) {
+        id
+        title
+        excerpt
+        date
+        content
+        slug
+        uri
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        author {
+          node {
+            name
+            avatar {
+              url
             }
           }
         }
-      }
-    `;
-
-    // 🔹 FetchAPI của bạn có thể đã nhận (query, variables)
-    const response = await FetchAPI(query, { variables: { after } });
-    const { nodes, pageInfo } = response.projects;
-
-    allNodes = [...allNodes, ...nodes];
-    hasNextPage = pageInfo.hasNextPage;
-    after = pageInfo.endCursor;
-  }
-
-  // 🔸 Giữ nguyên kiểu return cũ
-  const data: Projects = {
-    projects: {
-      nodes: allNodes,
-    },
-  };
-
-  return data;
-}
-
-
-
-
-
-export async function getSingleProject(uri: string): Promise<SingleProject> {
-  // Decode URI if encoded and clean up formatting
-  let cleanUri = uri;
-  try {
-    // Handle encoded URI formats
-    if (cleanUri.includes('%2F')) {
-      cleanUri = decodeURIComponent(cleanUri);
-    }
-    
-    // Ensure the URI has proper format for WordPress API
-    if (!cleanUri.startsWith('/')) {
-      cleanUri = '/' + cleanUri;
-    }
-    if (!cleanUri.endsWith('/')) {
-      cleanUri = cleanUri + '/';
-    }
-    
-    console.log('Formatted URI for API request:', cleanUri);
-  } catch (error) {
-    console.error('Error processing URI:', error);
-  }
-
-  const data = await FetchAPI(`
-  query singleProject($id: ID = "new-espace-citoyen-des-confluents-transforms-former-industrial-site-into-sustainable-urban-renewal-model", $idType: ProjectIdType = URI) {
-  project(id: $id, idType: $idType) {
-  id  
-  title
-    excerpt
-    date
-    content
-    slug
-    uri
-    featuredImage {
-      node {
-        sourceUrl
-        altText
-      }
-    }
-    author {
-      node {
-        name
-        avatar {
-          url
+        projectFields {
+          completedYear
+          floor
+          location
+          projectCategory
+          sizeOfProject
+          bedroom
+          budget
         }
       }
     }
-    projectFields {
-      completedYear
-      floor
-      location
-      projectCategory
-      sizeOfProject
-      bedroom
-      budget
-    }
-  }
-}
-    `, {
-    variables: {
-      id: cleanUri
-    }
-  })
+  `;
 
-  return data;
+  try {
+    const data = await FetchAPI(query, {
+      variables: {
+        id: cleanUri,
+        idType: "URI",
+      },
+    });
+
+    if (!data?.project) {
+      console.warn(`⚠️ Post not found for URI: ${cleanUri}`);
+      throw new Error(`Post not found for URI: ${cleanUri}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("❌ Error loading single project:", error);
+    return {
+      project: null,
+    } as unknown as SingleProject;
+  }
 }
 
 
