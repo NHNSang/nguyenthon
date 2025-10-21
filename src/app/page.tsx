@@ -17,7 +17,7 @@ export default async function Home() {
   const posts = await fetchAllPosts();// lấy dữ liệu tất cả bài viết 
   const components = await fetchComponents();
   const projects = await fetchProjects();
-  console.log("check data components", components);
+  // console.log("check data components", components);
   return (
     <div className="bg-white relative overflow-hidden" >
       <section id='topPage'></section>
