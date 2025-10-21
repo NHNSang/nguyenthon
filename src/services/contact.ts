@@ -89,16 +89,8 @@ export const ContactService = {
             // URL đầy đủ của WordPress GraphQL endpoint
             const graphqlEndpoint = 'https://wp.nguyenthongjp.com/graphql';
 
-            // Log request để debug
-            console.log('Gửi GraphQL request đến:', graphqlEndpoint);
-            console.log('Với mutation:', mutation);
-            console.log('Và variables:', JSON.stringify(variables, null, 2));
-
             // Lấy JWT token
             const token = process.env.WORDPRESS_AUTH_REFRESH_TOKEN || process.env.NEXT_PUBLIC_WORDPRESS_AUTH_TOKEN;
-
-            // Log để debug (chỉ hiển thị phần đầu của token để bảo mật)
-            console.log('Sử dụng JWT token:', token ? `${token.substring(0, 15)}...` : 'Không có token');
 
             // Chuẩn bị headers với JWT token
             const headers = {
@@ -113,13 +105,10 @@ export const ContactService = {
                 variables
             }, { headers });
 
-            console.log('GraphQL Response:', JSON.stringify(response.data, null, 2));
-
             const result = response.data as SubmissionResponse;
 
             // Kiểm tra lỗi GraphQL
             if (result.errors) {
-                console.error('GraphQL errors:', result.errors);
                 throw new Error(result.errors[0]?.message || 'GraphQL error');
             }
 

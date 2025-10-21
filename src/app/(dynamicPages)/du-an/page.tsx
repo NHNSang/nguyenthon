@@ -1,15 +1,13 @@
-import Container from '@/components/custom/container'
-import { Suspense } from 'react'
 import Loading from '@/app/loading'
+import { Suspense } from 'react'
 
-import BreadcrumbComponent from '@/components/custom/breadcrumb/BreadcrumbComponent'
-import { getAllProjects, getProjectCategories } from '@/lib/api'
 import ProjectsGrid from '@/components/custom/projects/ProjectsGrid'
+import { getAllProjects, getProjectCategories } from '@/lib/api'
 
 export default async function ProjectsPage() {
   const projects = await fetchProjects()
   const projectsCategoryArray = await fetchProjectCategories()
-  console.log(projects)
+  // console.log(projects)
 
   return (
     <main className="pt-[60px] lg:pt-[90px] bg-white">
