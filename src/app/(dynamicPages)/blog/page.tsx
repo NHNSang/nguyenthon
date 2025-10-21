@@ -22,10 +22,15 @@ interface SearchParamsProps {
 
 // Function to fetch all posts
 async function fetchAllPosts() {
-  const res = await getAllPosts(100, "");
-  const posts = res?.posts?.edges ?? [];
-  const pageInfo = res?.posts?.pageInfo ?? {};
-  return { posts, pageInfo };
+  try {
+    const res = await getAllPosts(100, "");
+    const posts = res?.posts?.edges ?? [];
+    const pageInfo = res?.posts?.pageInfo ?? {};
+    return { posts, pageInfo };
+  } catch (error) {
+    console.warn('Failed to fetch posts for blog page:', error);
+    return { posts: [], pageInfo: {} };
+  }
 }
 
 // BlogpostPage component
