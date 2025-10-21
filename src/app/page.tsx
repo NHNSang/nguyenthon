@@ -23,7 +23,9 @@ export default async function Home() {
       <section id='topPage'></section>
       <Suspense fallback={<Loading />}>
         <CarouselSlide />
-        <ValuesSection valuesComponent={components?.valuesComponent} />
+        {components?.valuesComponent && (
+          <ValuesSection valuesComponent={components.valuesComponent} />
+        )}
         <OurServices />
         <NumberOfAchievements />
         {/* <OurProcessSection /> */}
@@ -45,19 +47,34 @@ async function fetchLastestPosts() {
 
 // take data from WP for using all components in Homepage
 async function fetchComponents() {
-  const res = await getComponents();
-  const components = res?.nextjsPage.components;
-  return components;
+  try {
+    const res = await getComponents();
+    const components = res?.nextjsPage?.components;
+    return components;
+  } catch (error) {
+    console.warn('Failed to fetch components:', error);
+    return null;
+  }
 }
 
 async function fetchProjects() {
-  const res = await getAllProjects();
-  const projects = res?.projects?.nodes;
-  return projects;
+  try {
+    const res = await getAllProjects();
+    const projects = res?.projects?.nodes;
+    return projects || [];
+  } catch (error) {
+    console.warn('Failed to fetch projects:', error);
+    return [];
+  }
 }
 
 async function fetchAllPosts() {
-  const res = await getAllPosts(6, "");
-  const posts = res?.posts?.edges;
-  return posts;
+  try {
+    const res = await getAllPosts(6, "");
+    const posts = res?.posts?.edges;
+    return posts || [];
+  } catch (error) {
+    console.warn('Failed to fetch posts:', error);
+    return [];
+  }
 }
