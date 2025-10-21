@@ -16,8 +16,8 @@ type SearchParams = {
 // Define props to match Next.js expectations
 interface SearchParamsProps {
   searchParams?:
-    | Promise<{ [key: string]: string | string[] | undefined }>
-    | undefined;
+  | Promise<{ [key: string]: string | string[] | undefined }>
+  | undefined;
 }
 
 // Function to fetch all posts
