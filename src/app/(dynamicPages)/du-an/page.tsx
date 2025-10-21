@@ -27,13 +27,23 @@ export default async function ProjectsPage() {
 }
 
 async function fetchProjects() {
-  const res = await getAllProjects()
-  const projects = res?.projects?.nodes
-  return projects
+  try {
+    const res = await getAllProjects()
+    const projects = res?.projects?.nodes
+    return projects || []
+  } catch (error) {
+    console.warn('Failed to fetch projects:', error);
+    return []
+  }
 }
 
 async function fetchProjectCategories() {
-  const res = await getProjectCategories()
-  const projectCategories = res?.projectCategories?.nodes
-  return projectCategories
+  try {
+    const res = await getProjectCategories()
+    const projectCategories = res?.projectCategories?.nodes
+    return projectCategories || []
+  } catch (error) {
+    console.warn('Failed to fetch project categories:', error);
+    return []
+  }
 }

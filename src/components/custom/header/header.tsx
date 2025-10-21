@@ -16,7 +16,12 @@ const Header = async () => {
 export default Header
 
 async function fetchAllPosts() {
-  const res = await getAllPosts(1, '')
-  const posts = res?.posts?.edges
-  return posts
+  try {
+    const res = await getAllPosts(1, '')
+    const posts = res?.posts?.edges
+    return posts || []
+  } catch (error) {
+    console.warn('Failed to fetch posts for header:', error);
+    return []
+  }
 }
