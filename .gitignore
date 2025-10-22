@@ -28,8 +28,19 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.*
+!.env.example
+!.env.local.example
+
+# Explicitly ignore all environment files
 .env.development
 .env.production
+.env.staging
+.env.local
+
+# Config files with sensitive data
+config/database.yml
+config/secrets.yml
 
 # vercel
 .vercel
