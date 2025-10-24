@@ -31,12 +31,12 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
                 Thống JP
               </p>
               <Link
-                href="https://m.me/nguyenthongjpconstruction"
+                href="https://www.facebook.com/nguyenthongjpconstruction?mibextid=wwXIfr&rdid=ua7VBEiweZR13aUN&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1MY6oUDHJ3%2F%3Fmibextid%3DwwXIfr#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full block bg-primary hover:bg-primary/90 uppercase text-lg text-white text-center py-2"
               >
-                Nhắn tin Facebook
+                FACEBOOK NGUYÊN THỐNG JP
               </Link>
             </div>
           </CardContent>
@@ -82,7 +82,7 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
         <Card className="bg-white border border-primary">
           <CardContent className="p-6   ">
             <h3 className="font-bold text-lg mb-2">
-              Cần hổ trợ tư vấn từ đội ngũ chúng tôi
+              Cần hỗ trợ tư vấn từ đội ngũ chúng tôi
             </h3>
             <p className="text-base text-neutral-500 mb-4">
               Chúng tôi ở đây để giúp bạn thực hiện hóa ý tưởng của mình một

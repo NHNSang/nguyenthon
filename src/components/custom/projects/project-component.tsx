@@ -1,67 +1,54 @@
-"use client";
+'use client'
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import {
-  motion,
-  AnimatePresence,
-  useInView,
-  useAnimation,
-} from "framer-motion";
-import {
-  BuildingIcon,
-  ChevronLeft,
-  ChevronRight,
-  Currency,
-} from "lucide-react";
-import MainBtn from "../buttons/main-btn";
-import { Projects } from "@/types/typeForWordpressData";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { motion, AnimatePresence, useInView, useAnimation } from 'framer-motion'
+import { BuildingIcon, ChevronLeft, ChevronRight, Currency } from 'lucide-react'
+import MainBtn from '../buttons/main-btn'
+import { Projects } from '@/types/typeForWordpressData'
+import { useRouter } from 'next/navigation'
 
 interface OurProjectsComponentProps {
-  projects: Projects["projects"]["nodes"];
+  projects: Projects['projects']['nodes']
 }
 
 const ProjectsComponent: React.FC<OurProjectsComponentProps> = ({
   projects,
 }) => {
-  const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const itemsPerPage = 3;
-  const maxIndex = projects.length - itemsPerPage;
+  const router = useRouter()
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const itemsPerPage = 3
+  const maxIndex = projects.length - itemsPerPage
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.4, once: true });
-  const fadeControls = useAnimation();
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { amount: 0.4, once: true })
+  const fadeControls = useAnimation()
 
   useEffect(() => {
     if (isInView) {
-      fadeControls.start("visible");
+      fadeControls.start('visible')
     }
-  }, [isInView, fadeControls]);
+  }, [isInView, fadeControls])
 
   const fadeInVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1, ease: "easeOut" },
+      transition: { duration: 1, ease: 'easeOut' },
     },
-  };
+  }
 
-  const visibleItems = projects.slice(
-    currentIndex,
-    currentIndex + itemsPerPage
-  );
+  const visibleItems = projects.slice(currentIndex, currentIndex + itemsPerPage)
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => Math.max(0, prev - 1));
-  };
+    setCurrentIndex((prev) => Math.max(0, prev - 1))
+  }
 
   const handleNext = () => {
-    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
-  };
+    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1))
+  }
 
   return (
     <section className="bg-[#FFFAF4] py-10">
@@ -71,7 +58,7 @@ const ProjectsComponent: React.FC<OurProjectsComponentProps> = ({
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
             className="flex-1"
           >
             {/* Nội dung bên trái */}
@@ -101,7 +88,7 @@ const ProjectsComponent: React.FC<OurProjectsComponentProps> = ({
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <div className="relative">
             {/* Navigation Buttons */}
@@ -148,7 +135,10 @@ const ProjectsComponent: React.FC<OurProjectsComponentProps> = ({
                   >
                     <div className="relative h-[70%] w-full">
                       <Image
-                        src={item.featuredImage.node.sourceUrl}
+                        // src={item.featuredImage?.node?.sourceUrl}
+                        src={
+                          item.featuredImage?.node?.sourceUrl || '/fallback.jpg'
+                        }
                         alt={item.title}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -182,7 +172,7 @@ const ProjectsComponent: React.FC<OurProjectsComponentProps> = ({
                     key={index}
                     onClick={() => setCurrentIndex(index)}
                     className={`w-10 h-2 rounded-full transition-all duration-300 ${
-                      currentIndex === index ? "bg-primary w-14" : "bg-gray-300"
+                      currentIndex === index ? 'bg-primary w-14' : 'bg-gray-300'
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
@@ -193,7 +183,7 @@ const ProjectsComponent: React.FC<OurProjectsComponentProps> = ({
         </motion.div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ProjectsComponent;
+export default ProjectsComponent
