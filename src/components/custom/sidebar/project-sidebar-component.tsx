@@ -87,7 +87,7 @@ const ProjectSidebarComponent: React.FC<SidebarComponentProps> = ({
             <p className="text-base text-neutral-500 mb-4">
               Chúng tôi ở đây để giúp bạn thực hiện hóa ý tưởng của mình một
               cách chân thực nhất.Đừng ngần ngại! Gọi hoặc để lại thông tin và
-              chúng tôi sẽ hổ trọ
+              chúng tôi sẽ hỗ trợ
             </p>
             <ContactInfoModal />
           </CardContent>
